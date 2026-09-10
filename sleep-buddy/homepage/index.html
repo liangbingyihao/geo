@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="google" content="notranslate">
+  <title>睡了么 - 一站式睡眠健康平台</title>
+  <meta name="description" content="睡了么是你的一站式睡前锁屏、好友共同早睡健康作息养成平台，守住你的健康睡眠！">
+  <meta name="keywords" content="睡了么,睡眠,早睡,锁屏,健康作息,睡眠管理">
+  <meta name="robots" content="index, follow">
+  <link rel="icon" type="image/webp" href="https://cdn.sleep-buddy.com/home/images/logo.webp">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,500;7..72,700;7..72,900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg-start: #1a0a2e;
+      --bg-end: #0d0b1a;
+      --purple: #7C3AED;
+      --white: #ffffff;
+      --text-muted: rgba(255,255,255,0.7);
+      --padding-x: 4vw;
+      --cdn: 'https://cdn.sleep-buddy.com/home';
+    }
+
+    html {
+      font-family: 'Literata', Georgia, "PingFang SC", "Microsoft YaHei", serif;
+      background: #111014;
+      color: var(--white);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      overflow-x: hidden;
+    }
+
+    /* ========== Section 1: Banner (32vh) ========== */
+    .section-banner {
+      position: relative;
+      height: 600px;
+      overflow: hidden;
+    }
+
+    .section-banner .banner-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+    }
+
+    .banner-content {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      padding: 65px 80px 0 93px;
+      display: flex;
+      align-items: flex-start;
+    }
+
+    .banner-text {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .banner-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .banner-logo img {
+      height: 35px;
+      width: auto;
+    }
+
+    .banner-logo span {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--white);
+      line-height: 1.3;
+    }
+
+    .banner-slogan {
+      max-width: 100%;
+      margin-left: 19px;
+      margin-top: 76px;
+    }
+
+    .banner-slogan p {
+      font-size: 38px;
+      color: rgba(255,255,255,0.9);
+      line-height: 0.8;
+      font-weight: 500;
+      margin-bottom: 28px;
+    }
+
+    .banner-qr {
+      width: 247px;
+      height: 247px;
+      margin-left: 19px;
+      margin-top: 19px;
+      background: rgba(255,255,255,0.08);
+      border: 2px dashed rgba(255,255,255,0.2);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .banner-buttons {
+      position: absolute;
+      right: 38px;
+      bottom: 38px;
+      z-index: 1;
+      display: flex;
+      gap: 12px;
+    }
+
+    .banner-buttons a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .banner-buttons a:hover {
+      opacity: 0.9;
+      transform: scale(1.02);
+    }
+
+    .banner-buttons a img {
+      width: 189px;
+      height: 55px;
+      display: block;
+    }
+
+    .banner-buttons a[data-link="googlePlay"] {
+      display: none;
+    }
+
+    /* ========== Section 2: Features (40vh) ========== */
+    .section-features {
+      padding: 0 var(--padding-x);
+    }
+
+    .features-title-bar {
+      padding: 30px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5vh;
+    }
+
+    .features-title-bar h2 {
+      font-size: clamp(16px, 1.5vw, 22px);
+      font-weight: 600;
+      color: var(--white);
+      letter-spacing: 0.06em;
+    }
+
+    .features-divider {
+      height: 2px;
+      width: 0;
+      background: var(--purple);
+      border-radius: 1px;
+    }
+
+    .features-main {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding: 20px 0 54px;
+    }
+
+    .carousel-wrap {
+      position: relative;
+      width: 72vw;
+      max-width: 1100px;
+    }
+
+    .carousel-track {
+      position: relative;
+      width: 100%;
+    }
+
+    .carousel-slide {
+      width: 100%;
+      height: auto;
+      display: none;
+    }
+
+    .carousel-slide.active {
+      display: block;
+    }
+
+    .carousel-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      z-index: 2;
+      transition: opacity 0.2s;
+      padding: 0;
+      width: 56px;
+      height: 56px;
+    }
+
+    .carousel-arrow:hover {
+      opacity: 0.7;
+    }
+
+    .carousel-arrow img {
+      width: 56px;
+      height: 56px;
+      display: block;
+    }
+
+    .carousel-arrow.prev { left: -28px; }
+    .carousel-arrow.next { right: -28px; }
+
+    .carousel-dots {
+      position: absolute;
+      bottom: -24px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 10px;
+      z-index: 2;
+    }
+
+    .carousel-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+      cursor: pointer;
+      transition: background 0.3s, transform 0.3s;
+    }
+
+    .carousel-dot.active {
+      background: var(--purple);
+      transform: scale(1.3);
+    }
+
+    /* ========== Section 3: Bottom ========== */
+    .section-bottom {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .section-bottom .bottom-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+    }
+
+    .section-bottom::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(13, 11, 26, 0.55);
+      z-index: 1;
+    }
+
+    .bottom-content {
+      position: relative;
+      z-index: 2;
+      padding: 154px 0 154px 112px;
+      max-width: 700px;
+    }
+
+    .bottom-content h2 {
+      display: none;
+    }
+
+    .bottom-buttons {
+      display: none;
+    }
+
+    .bottom-social {
+      margin-bottom: 24px;
+    }
+
+    .bottom-social-title {
+      color: rgba(255,255,255,0.9);
+      margin-bottom: 4px;
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .bottom-social-desc {
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 16px;
+      font-size: 20px;
+      font-weight: 400;
+    }
+
+    .bottom-social-links {
+      display: flex;
+      gap: 20px;
+      justify-content: flex-start;
+    }
+
+    .bottom-social-links a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+
+    .bottom-social-links a:hover {
+      transform: scale(1.1);
+    }
+
+    .bottom-email {
+      color: rgba(255,255,255,0.8);
+      font-size: 20px;
+      font-weight: 400;
+    }
+
+    .bottom-email a {
+      color: var(--white);
+      text-decoration: none;
+    }
+
+    .bottom-email a:hover {
+      text-decoration: underline;
+    }
+
+    /* ========== Footer (独立元素) ========== */
+    .footer {
+      padding: 20px 0;
+      background: #0c0b0f;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 20px;
+      padding-right: 120px;
+      flex-wrap: wrap;
+    }
+
+    .footer-inner span {
+      font-size: 24px;
+      font-weight: 400;
+      color: var(--text-muted);
+      opacity: 0.6;
+    }
+
+    .footer-inner a {
+      font-size: 24px;
+      font-weight: 400;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-inner a:hover {
+      color: var(--white);
+    }
+
+    .footer-inner .divider {
+      color: var(--text-muted);
+      opacity: 0.3;
+    }
+
+    /* ===== Footer Activities (折叠活动入口) ===== */
+    .footer-activities {
+      position: relative;
+    }
+    .footer-activities summary {
+      list-style: none;
+      cursor: pointer;
+      color: var(--text-muted);
+      font-size: 15px;
+      font-weight: 400;
+      opacity: 0.6;
+      transition: color 0.2s;
+    }
+    .footer-activities summary::-webkit-details-marker { display: none; }
+    .footer-activities summary::after { content: ' ▾'; font-size: 10px; }
+    .footer-activities summary:hover { color: var(--white); }
+    .footer-activities .activity-menu {
+      position: absolute;
+      bottom: calc(100% + 8px);
+      right: 0;
+      background: #0c0b0f;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 10px;
+      padding: 10px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      white-space: nowrap;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+      z-index: 20;
+    }
+    .footer-inner .footer-activities a {
+      font-size: 14px;
+      color: var(--text-muted);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .footer-inner .footer-activities a:hover { color: var(--white); }
+
+    /* ========== Language Switch ========== */
+    .lang-switch-btn {
+      position: absolute;
+      top: 65px;
+      right: 80px;
+      z-index: 1;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: var(--white);
+      font-size: 16px;
+      padding: 6px 20px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+
+    .lang-switch-btn:hover {
+      background: rgba(255,255,255,0.2);
+      border-color: rgba(255,255,255,0.4);
+    }
+
+    /* ========== Responsive ========== */
+    @media (max-width: 768px) {
+      .section-banner {
+        height: auto;
+        min-height: 600px;
+      }
+
+      .banner-content {
+        position: relative;
+        padding: 25px 20px 40px 25px;
+        align-items: flex-start;
+      }
+
+      .banner-text {
+        max-width: 100%;
+        align-items: flex-start;
+        text-align: left;
+      }
+
+      .banner-slogan {
+        max-width: 100%;
+        margin-top: 32px;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+      }
+
+      .banner-qr {
+        display: none;
+      }
+
+      .banner-logo img {
+        height: 32px;
+      }
+
+      .banner-logo span {
+        font-size: 14px;
+      }
+
+      .banner-slogan p {
+        font-size: 16px;
+        margin-bottom: 16px;
+        white-space: nowrap;
+      }
+
+      .banner-buttons {
+        position: relative;
+        right: auto;
+        bottom: auto;
+        z-index: 1;
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        padding-bottom: 20px;
+      }
+
+      .banner-buttons a img {
+        width: 140px;
+        height: auto;
+      }
+
+      .section-features {
+        padding: 6vw var(--padding-x);
+      }
+
+      .features-title-bar {
+        padding: 3vw 0;
+      }
+
+      .features-main {
+        padding: 6vw 0;
+      }
+
+      .carousel-wrap {
+        width: 85vw;
+      }
+
+      .carousel-arrow.prev { left: -28px; }
+      .carousel-arrow.next { right: -28px; }
+
+      .section-bottom {
+        text-align: center;
+        height: auto;
+        min-height: 0;
+      }
+
+      .section-bottom .bottom-bg {
+        object-position: center bottom;
+      }
+
+      .bottom-content {
+        position: relative;
+        padding: 80px 20px;
+        max-width: 100%;
+      }
+
+      .bottom-social-title {
+        font-size: 18px;
+      }
+
+      .bottom-social-desc {
+        font-size: 18px;
+      }
+
+      .bottom-social-links {
+        justify-content: center;
+      }
+
+      .bottom-email {
+        font-size: 18px;
+      }
+
+      .footer {
+        padding: 12px 20px;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 6px;
+        padding-right: 20px;
+      }
+
+      .footer-inner span,
+      .footer-inner a {
+        font-size: 15px;
+      }
+
+      .lang-switch-btn {
+        top: 25px;
+        right: 20px;
+        font-size: 12px;
+        padding: 0;
+        background: none;
+        border: none;
+        color: rgba(255,255,255,0.7);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .banner-content {
+        position: relative;
+        padding: 25px 20px 30px 25px;
+      }
+
+      .banner-logo span {
+        font-size: 14px;
+      }
+
+      .banner-slogan p {
+        font-size: 16px;
+        white-space: nowrap;
+      }
+
+      .banner-buttons a img {
+        width: 120px;
+      }
+
+      .bottom-social-title {
+        font-size: 15px;
+      }
+
+      .bottom-social-desc {
+        font-size: 15px;
+      }
+
+      .bottom-email {
+        font-size: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- ====== Section 1: Banner (32vh) ====== -->
+  <section class="section-banner">
+    <picture>
+      <source media="(max-width: 768px)" srcset="https://cdn.sleep-buddy.com/home/images/banner-m.webp?v=2">
+      <img class="banner-bg" src="https://cdn.sleep-buddy.com/home/images/banner.webp" alt="">
+    </picture>
+    <div class="banner-content">
+      <div class="banner-text">
+        <div class="banner-logo">
+          <img src="https://cdn.sleep-buddy.com/home/images/logo.webp" alt="睡了么">
+          <span data-i18n="appName">睡了么</span>
+        </div>
+        <div class="banner-slogan">
+          <p data-i18n="slogan1">你的一站式睡前锁屏、好友共同早睡</p>
+          <p data-i18n="slogan2">健康作息养成平台，守住你的健康睡眠！</p>
+        </div>
+        <div class="banner-qr"><img src="https://cdn.sleep-buddy.com/home/images/qr_download.png" alt="扫码下载" style="width:100%;height:100%;object-fit:contain;border-radius:10px;"></div>
+      </div>
+    </div>
+    <div class="banner-buttons">
+      <a href="https://apps.apple.com/app/id6773677490" data-link="appStore"><img src="https://cdn.sleep-buddy.com/home/images/app-store.webp" alt="App Store"></a>
+      <a href="#" data-link="googlePlay"><img src="https://cdn.sleep-buddy.com/home/images/google-play.webp" alt="Google Play"></a>
+    </div>
+    <button class="lang-switch-btn" id="langSwitchBtn" data-i18n="langSwitch">EN</button>
+  </section>
+
+  <!-- ====== Section 2: Features (40vh) ====== -->
+  <section class="section-features">
+    <div class="features-title-bar">
+      <h2 data-i18n="featuresTitle">靠自己自律早睡很难？</h2>
+      <div class="features-divider" id="dividerTop"></div>
+    </div>
+    <div class="features-main">
+      <div class="carousel-wrap" id="carouselWrap">
+        <div class="carousel-track">
+          <img class="carousel-slide active" data-index="0" src="https://cdn.sleep-buddy.com/home/images/slices/zh_1.webp" alt="功能 1">
+          <img class="carousel-slide" data-index="1" src="https://cdn.sleep-buddy.com/home/images/slices/zh_2.webp" alt="功能 2">
+          <img class="carousel-slide" data-index="2" src="https://cdn.sleep-buddy.com/home/images/slices/zh_3.webp" alt="功能 3">
+        </div>
+<button class="carousel-arrow prev" id="carouselPrev" aria-label="上一张"><img src="https://cdn.sleep-buddy.com/home/images/arrow-prev.webp" alt="Prev"></button>
+          <button class="carousel-arrow next" id="carouselNext" aria-label="下一张"><img src="https://cdn.sleep-buddy.com/home/images/arrow-next.webp" alt="Next"></button>
+        <div class="carousel-dots" id="carouselDots">
+          <span class="carousel-dot active" data-dot="0"></span>
+          <span class="carousel-dot" data-dot="1"></span>
+          <span class="carousel-dot" data-dot="2"></span>
+        </div>
+      </div>
+    </div>
+    <div class="features-title-bar">
+      <h2 data-i18n="ctaTitle">开始你的与好友共同变好之旅</h2>
+      <div class="features-divider" id="dividerBottom"></div>
+    </div>
+  </section>
+
+  <!-- ====== Section 3: Bottom (28vh) ====== -->
+  <section class="section-bottom">
+    <img class="bottom-bg" src="https://cdn.sleep-buddy.com/home/images/bottom.webp" alt="">
+    <div class="bottom-content">
+      <h2 data-i18n="bottomTitle">开始你的健康睡眠之旅</h2>
+      <div class="bottom-buttons">
+        <a href="https://apps.apple.com/app/id6773677490" data-link="appStore"><img src="https://cdn.sleep-buddy.com/home/images/app-store.webp" alt="App Store"></a>
+        <a href="#" data-link="googlePlay"><img src="https://cdn.sleep-buddy.com/home/images/google-play.webp" alt="Google Play"></a>
+      </div>
+      <div class="bottom-social">
+        <p class="bottom-social-title" data-i18n="socialTitle">关注我们</p>
+        <p class="bottom-social-desc" data-i18n="socialDesc">获取每日睡眠灵感</p>
+        <div class="bottom-social-links">
+          <a href="https://www.facebook.com/profile.php?id=61592198367740" data-link="facebook" target="_blank" rel="noopener" aria-label="Facebook">
+            <img src="https://cdn.sleep-buddy.com/home/images/icon-facebook.webp" alt="Facebook" style="width:45px;height:45px;">
+          </a>
+        </div>
+</div>
+        <p class="bottom-email">
+        <span data-i18n="contactEmail">联系我们</span>:
+        <a href="mailto:support@sleep-buddy.com" data-link="email">support@sleep-buddy.com</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- ====== Footer (独立元素) ====== -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <span data-i18n="footerCopyright">© 2026 睡了么</span>
+      <span class="divider">|</span>
+      <a href="/privacy" data-link="privacy" data-i18n="footerPrivacy">隐私政策</a>
+      <span class="divider">|</span>
+      <a href="/terms" data-link="terms" data-i18n="footerTerms">使用条款</a>
+      <span class="divider">|</span>
+      <details class="footer-activities">
+        <summary data-i18n="footerActivitiesToggle">活动</summary>
+        <div class="activity-menu">
+          <a href="/activity/sleep-holy-temple" data-i18n="footerActivity1">身体是圣灵的殿</a>
+          <a href="/activity/sleep-daily-encourage" data-i18n="footerActivity2">节制，不是一个人硬撑</a>
+        </div>
+      </details>
+    </div>
+  </footer>
+
+  <script>
+    (function() {
+      var storedLang = localStorage.getItem('sb-lang');
+      var browserLang = (navigator.language || 'en').startsWith('zh') ? 'zh' : 'en';
+      var currentLang = storedLang || browserLang;
+
+      var i18n = {
+        zh: {
+          appName: '睡了么',
+          slogan1: '你的一站式睡前锁屏、好友共同早睡',
+          slogan2: '健康作息养成平台，守住你的健康睡眠！',
+          qrPlaceholder: '扫码下载',
+          featuresTitle: '靠自己自律早睡很难？',
+          ctaTitle: '开始你的与好友共同变好之旅',
+          bottomTitle: '开始你的健康睡眠之旅',
+          socialTitle: '关注我们',
+          socialDesc: '获取每日睡眠灵感',
+          langSwitch: 'EN',
+          contactEmail: '联系我们',
+          footerCopyright: '© 2026 睡了么',
+          footerPrivacy: '隐私政策',
+          footerTerms: '使用条款',
+          footerActivity1: '身体是圣灵的殿',
+          footerActivity2: '节制，不是一个人硬撑',
+          footerActivitiesToggle: '活动',
+          pageTitle: '睡了么 - 一站式睡眠健康平台',
+          pageDesc: '睡了么是你的一站式睡前锁屏、好友共同早睡健康作息养成平台，守住你的健康睡眠！'
+        },
+        en: {
+          appName: 'SleepBuddy',
+          slogan1: 'Your All-in-One Bedtime Lock Screen',
+          slogan2: 'Build Healthy Sleep Habits with Friends!',
+          qrPlaceholder: 'Scan to Download',
+          featuresTitle: 'Hard to Sleep Early on Your Own?',
+          ctaTitle: 'Start Growing Better with Friends',
+          bottomTitle: 'Start Your Healthy Sleep Journey',
+          socialTitle: 'Stay Connected',
+          socialDesc: 'Daily sleep inspiration',
+          langSwitch: '中文',
+          contactEmail: 'Get in touch',
+          footerCopyright: '© 2026 SleepBuddy',
+          footerPrivacy: 'Privacy Policy',
+          footerTerms: 'Terms of Use',
+          footerActivity1: 'Honor Your Body as God’s Temple',
+          footerActivity2: 'Self‑control Isn’t a Solo Battle',
+          footerActivitiesToggle: 'Events',
+          pageTitle: 'SleepBuddy - Healthy Sleep Platform',
+          pageDesc: 'SleepBuddy is your all-in-one bedtime lock screen and healthy sleep habit building platform. Guard your healthy sleep!'
+        }
+      };
+
+      function switchLang(lang) {
+        currentLang = lang;
+        localStorage.setItem('sb-lang', lang);
+        document.documentElement.lang = lang === 'zh' ? 'zh-Hans' : 'en';
+
+        var t = i18n[lang];
+
+        document.querySelectorAll('[data-i18n]').forEach(function(el) {
+          var key = el.dataset.i18n;
+          if (t[key]) el.textContent = t[key];
+        });
+
+        document.title = t.pageTitle;
+        var metaDesc = document.querySelector('meta[name="description"]');
+        if (metaDesc) metaDesc.content = t.pageDesc;
+
+        var prefix = lang === 'zh' ? 'zh' : 'en';
+        document.querySelectorAll('.carousel-slide').forEach(function(slide) {
+          var idx = parseInt(slide.dataset.index) + 1;
+          slide.src = 'https://cdn.sleep-buddy.com/home/images/slices/' + prefix + '_' + idx + '.webp';
+        });
+      }
+
+      switchLang(currentLang);
+
+      document.getElementById('langSwitchBtn').addEventListener('click', function() {
+        switchLang(currentLang === 'zh' ? 'en' : 'zh');
+      });
+
+      function setDividerWidths() {
+        ['dividerTop', 'dividerBottom'].forEach(function(id) {
+          var bar = document.getElementById(id).closest('.features-title-bar');
+          if (!bar) return;
+          var title = bar.querySelector('h2');
+          var divider = document.getElementById(id);
+          if (title && divider) {
+            divider.style.width = (title.offsetWidth * 1.2) + 'px';
+          }
+        });
+      }
+      setDividerWidths();
+      window.addEventListener('resize', setDividerWidths);
+
+      var slides = document.querySelectorAll('.carousel-slide');
+      var dots = document.querySelectorAll('.carousel-dot');
+      var prevBtn = document.getElementById('carouselPrev');
+      var nextBtn = document.getElementById('carouselNext');
+      var current = 0;
+      var autoPlayTimer;
+
+      function goToSlide(index) {
+        slides[current].classList.remove('active');
+        dots[current].classList.remove('active');
+        current = index;
+        slides[current].classList.add('active');
+        dots[current].classList.add('active');
+      }
+
+      function nextSlide() { goToSlide((current + 1) % slides.length); }
+      function prevSlide() { goToSlide((current - 1 + slides.length) % slides.length); }
+
+      function startAutoPlay() {
+        stopAutoPlay();
+        autoPlayTimer = setInterval(nextSlide, 4000);
+      }
+
+      function stopAutoPlay() {
+        clearInterval(autoPlayTimer);
+      }
+
+      prevBtn.addEventListener('click', function() { prevSlide(); startAutoPlay(); });
+      nextBtn.addEventListener('click', function() { nextSlide(); startAutoPlay(); });
+
+      dots.forEach(function(dot) {
+        dot.addEventListener('click', function() {
+          goToSlide(parseInt(dot.dataset.dot));
+          startAutoPlay();
+        });
+      });
+
+      var carouselWrap = document.getElementById('carouselWrap');
+      carouselWrap.addEventListener('mouseenter', stopAutoPlay);
+      carouselWrap.addEventListener('mouseleave', startAutoPlay);
+
+      var touchStartX = 0;
+      carouselWrap.addEventListener('touchstart', function(e) {
+        touchStartX = e.changedTouches[0].screenX;
+      });
+      carouselWrap.addEventListener('touchend', function(e) {
+        var touchEndX = e.changedTouches[0].screenX;
+        var diff = touchStartX - touchEndX;
+        if (Math.abs(diff) > 50) {
+          if (diff > 0) nextSlide();
+          else prevSlide();
+          startAutoPlay();
+        }
+      });
+
+      startAutoPlay();
+    })();
+  </script>
+</body>
+</html>

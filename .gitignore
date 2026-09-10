@@ -10,7 +10,26 @@ dist-test/
 Thumbs.db
 ~$*.docx
 ~$*.doc
+~$*.xlsx
 
-# 二进制 / 大文件（源文件是 .md，Word 版与压缩包不入库；如需归档请删除下面两行）
+# 二进制 / 大文件（源文件是 .md，Word/压缩包不入库；如需归档删除对应行）
 *.docx
 *.zip
+
+# 大体积字体（源字体较大，如需入库改用 Git LFS 或删除下面两行）
+*.otf
+*.woff2
+
+# 主页常见临时/副本/截图文件
+assets - 副本/
+dst.png
+*.log
+
+# 图片资源（走 CDN，本地仅为工作副本，不入库）
+*.webp
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.svg
+*.ico

@@ -1,0 +1,55 @@
+_http_logger_common: &common_http_log_format
+  # ---- 原有字段（保持不变）----
+  request_body: "$request_body"
+  timestamp: "$time_iso8601"
+  msec: "$msec"
+  client_ip: "$remote_addr"
+  real_ip: "$http_cf_connecting_ip"
+  http_x_forwarded_for: "$http_x_forwarded_for"
+  device_id: "$http_x_device_id"
+  bundle_id: "$http_x_bundle_id"
+  language: "$http_x_language"
+  timezone: "$http_x_timezone"
+  app_version: "$http_x_app_version"
+  utm_source: "$http_x_utm_source"
+  utm_campaign: "$http_x_utm_campaign"
+  method: "$request_method"
+  uri: "$uri"
+  args: "$args"
+  host: "$host"
+  http_version: "$server_protocol"
+  status: "$status"
+  body_bytes_sent: "$body_bytes_sent"
+  request_length: "$request_length"
+  request_time: "$request_time"
+  upstream_addr: "$upstream_addr"
+  upstream_status: "$upstream_status"
+  upstream_response_time: "$upstream_response_time"
+  upstream_connect_time: "$upstream_connect_time"
+  upstream_header_time: "$upstream_header_time"
+  route_name: "$route_name"
+  user_agent: "$http_user_agent"
+  referer: "$http_referer"
+  cf_ray: "$http_cf_ray"
+  cf_country: "$http_cf_ipcountry"
+  request_id: "$request_id"
+  ssl_protocol: "$ssl_protocol"
+  ssl_cipher: "$ssl_cipher"
+  # ---- 新增：Web 端 query 参数拆分（GET 上报的 kv 直接落到独立字段）----
+  event: "$arg_event"
+  page: "$arg_page"
+  locale: "$arg_locale"
+  tz: "$arg_tz"
+  target: "$arg_target"
+  query_referer: "$arg_referrer"
+  query_utm_source: "$arg_utm_source"
+  query_utm_campaign: "$arg_utm_campaign"
+
+plugin_configs:
+  - id: 1
+    plugins:
+      http-logger:
+        uri: http://graceword-api:8081/internal/gateway/log
+        include_req_body: true
+        include_resp_body: true
+        log_format: *common_http_log_format

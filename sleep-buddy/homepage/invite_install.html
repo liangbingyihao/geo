@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>睡了么｜下载 App</title>
+  <meta name="description" content="你的一站式睡前锁屏、好友共同早睡，健康作息养成平台，守住你的健康睡眠！">
+  <meta property="og:title" content="睡了么｜下载 App">
+  <meta property="og:description" content="你的一站式睡前锁屏、好友共同早睡，健康作息养成平台，守住你的健康睡眠！">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://sleep-buddy.com/download">
+  <meta property="og:image" content="https://cdn.sleep-buddy.com/home/images/logo-m.jpg">
+  <meta name="robots" content="noindex">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: #12141b;
+      color: #888;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .banner-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+    }
+    .header {
+      position: fixed;
+      top: 25px;
+      left: 25px;
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .header img { height: 32px; width: auto; }
+    .header span { font-size: 14px; font-weight: 700; color: #fff; }
+    .jump-tip {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 16px;
+      background: rgba(0,0,0,0.3);
+    }
+  </style>
+</head>
+<body>
+  <div style="position: relative; z-index: 1;">正在加载...</div>
+  <script>
+    var ua = navigator.userAgent;
+    var isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+    var isWechat = /MicroMessenger/i.test(ua);
+    var appStoreUrl = "https://apps.apple.com/app/id6773677490";
+    var params = new URLSearchParams(window.location.search);
+    var sessionId = params.get("session_id");
+
+    function renderBrand() {
+      var img = document.createElement("img");
+      img.className = "banner-bg";
+      img.src = "https://cdn.sleep-buddy.com/home/images/banner-m.webp?v=2";
+      document.body.appendChild(img);
+
+      var lang = (navigator.language || "").toLowerCase();
+      var appName = lang.indexOf("zh") === 0 ? "睡了么" : "SleepBuddy";
+      var header = document.createElement("div");
+      header.className = "header";
+      header.innerHTML = '<img src="https://cdn.sleep-buddy.com/home/images/logo.webp" alt="logo"><span>' + appName + '</span>';
+      document.body.appendChild(header);
+    }
+
+    function showJumpTip(text) {
+      var tip = document.createElement("div");
+      tip.className = "jump-tip";
+      tip.textContent = text;
+      document.body.appendChild(tip);
+    }
+
+    if (isIOS && isWechat) {
+      renderBrand();
+      showJumpTip("正在打开 App Store…");
+      setTimeout(function() {
+        var w = window.open(appStoreUrl, "_blank");
+        if (!w) window.location.href = appStoreUrl;
+      }, 300);
+    } else if (isIOS) {
+      renderBrand();
+      showJumpTip("正在打开 App Store…");
+      setTimeout(function() {
+        window.location.replace(appStoreUrl);
+      }, 300);
+    } else if (!sessionId) {
+      window.location.replace(window.location.origin);
+    } else {
+      var xhr = new XMLHttpRequest();
+      var done = false;
+      xhr.open("GET", window.location.origin + "/api/sleep/assets/friend/session/" + sessionId);
+      xhr.timeout = 3000;
+
+      function redirectToRecord() {
+        if (done) return;
+        done = true;
+        window.location.replace(window.location.origin + "/invite/record?session_id=" + encodeURIComponent(sessionId));
+      }
+
+      function redirectToHome() {
+        if (done) return;
+        done = true;
+        window.location.replace(window.location.origin);
+      }
+
+      xhr.onload = function() {
+        if (xhr.status !== 200) { redirectToHome(); return; }
+        try {
+          var resp = JSON.parse(xhr.responseText);
+          if (resp.code === "OK" && resp.data && !resp.data.expired) {
+            redirectToRecord();
+          } else {
+            redirectToHome();
+          }
+        } catch (e) {
+          redirectToHome();
+        }
+      };
+      xhr.onerror = redirectToHome;
+      xhr.ontimeout = redirectToHome;
+      xhr.send();
+    }
+  </script>
+</body>
+</html>

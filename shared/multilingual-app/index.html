@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>恩语 - 每日灵修与圣经互动</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        sage: { 50: '#f6f7f4', 100: '#e2e6d8', 200: '#c5cead', 300: '#a3b07e', 400: '#7f8f57', 500: '#637038', 600: '#4b572b', 700: '#3c4623', 800: '#32391e', 900: '#2b311b' },
+                        gold: { 50: '#fdf9ef', 100: '#f9efce', 200: '#f2dc9a', 300: '#e9c465', 400: '#d4a843', 500: '#c5912e', 600: '#9a6f24', 700: '#6f5020', 800: '#5c421f', 900: '#50381e' },
+                        cream: '#FFFBF2'
+                    },
+                    fontFamily: {
+                        serif: ['Noto Serif SC', 'serif'],
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #FFFBF2; }
+        .font-serif { font-family: 'Noto Serif SC', serif; }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f6f7f4; }
+        ::-webkit-scrollbar-thumb { background: #a3b07e; border-radius: 4px; }
+        /* Fade in animation */
+        .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+        /* Carousel transition */
+        .carousel-slide { transition: opacity 0.6s ease-in-out; position: absolute; inset: 0; opacity: 0; pointer-events: none; }
+        .carousel-slide.active { opacity: 1; pointer-events: auto; }
+        /* FAQ Accordion */
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.4s ease; }
+        .faq-answer.open { max-height: 500px; }
+        /* Feature Card Hover Text */
+        .feature-overlay { opacity: 0; transform: translateY(10px); transition: all 0.3s ease; }
+        .feature-card:hover .feature-overlay { opacity: 1; transform: translateY(0); }
+        .feature-card:hover img { transform: scale(1.05); filter: brightness(0.8); }
+        /* Language Switcher */
+        .lang-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .lang-dropdown-content {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: #fff;
+            min-width: 120px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.1);
+            z-index: 1;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .lang-dropdown:hover .lang-dropdown-content {
+            display: block;
+        }
+        .lang-option {
+            color: #32391e;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.2s;
+        }
+        .lang-option:hover {
+            background-color: #f6f7f4;
+        }
+    </style>
+</head>
+<body class="text-sage-800">
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition duration-300 bg-cream/80 backdrop-blur-md">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-2 text-sage-700 hover:text-sage-900 transition">
+                <i class="fa-solid fa-book-bible text-2xl text-gold-500"></i>
+                <span class="font-serif text-2xl font-bold tracking-tight" data-lang="app_name">恩语</span>
+            </a>
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#feature" class="text-sm font-medium tracking-wide text-sage-600 hover:text-sage-900 transition" data-lang="nav_features">功能</a>
+                <a href="#quiz" class="text-sm font-medium tracking-wide text-sage-600 hover:text-sage-900 transition" data-lang="nav_quiz">圣经人格测试</a>
+                <a href="#contact" class="text-sm font-medium tracking-wide text-sage-600 hover:text-sage-900 transition" data-lang="nav_contact">联系我们</a>
+                <!-- Language Switcher -->
+                <div class="lang-dropdown">
+                    <button class="flex items-center gap-2 text-sm font-medium tracking-wide text-sage-600 hover:text-sage-900 transition">
+                        <i class="fa-solid fa-globe"></i>
+                        <span id="current-lang">中文</span>
+                        <i class="fa-solid fa-chevron-down text-xs"></i>
+                    </button>
+                    <div class="lang-dropdown-content">
+                        <a href="#" class="lang-option" data-lang="zh-CN">中文</a>
+                        <a href="#" class="lang-option" data-lang="zh-TW">繁體中文</a>
+                        <a href="#" class="lang-option" data-lang="en">English</a>
+                    </div>
+                </div>
+            </div>
+            <button id="mobile-menu-btn" class="md:hidden text-sage-700">
+                <i class="fa-solid fa-bars text-xl"></i>
+            </button>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-cream border-t border-sage-100 px-6 pb-4">
+            <a href="#feature" class="block py-3 text-sage-600 hover:text-sage-900" data-lang="nav_features">功能</a>
+            <a href="#quiz" class="block py-3 text-sage-600 hover:text-sage-900" data-lang="nav_quiz">圣经人格测试</a>
+            <a href="#contact" class="block py-3 text-sage-600 hover:text-sage-900" data-lang="nav_contact">联系我们</a>
+            <div class="py-3">
+                <div class="flex items-center gap-2 text-sage-600">
+                    <i class="fa-solid fa-globe"></i>
+                    <span data-lang="language">语言</span>:
+                    <div class="flex gap-2 ml-2">
+                        <button class="lang-btn px-2 py-1 text-xs rounded" data-lang="zh-CN">中文</button>
+                        <button class="lang-btn px-2 py-1 text-xs rounded" data-lang="zh-TW">繁中</button>
+                        <button class="lang-btn px-2 py-1 text-xs rounded" data-lang="en">EN</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- Hero Section -->
+    <section class="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden">
+        <img src="https://images.unsplash.com/photo-1504052434569-70ad5836ab65?q=80&w=1470&auto=format&fit=crop" alt="Bible Study" class="absolute inset-0 w-full h-full object-cover">
+        <div class="absolute inset-0 bg-sage-900/40 backdrop-blur-[2px]"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-cream via-transparent to-transparent"></div>
+        <div class="relative z-10 text-center px-6 mt-16">
+            <h1 class="font-serif text-4xl md:text-6xl lg:text-7xl font-bold text-white drop-shadow-lg mb-6 tracking-tight" data-lang="hero_title">
+                与神对话，聆听恩语
+            </h1>
+            <p class="text-lg md:text-xl text-sage-100 max-w-2xl mx-auto mb-10 font-light drop-shadow-md" data-lang="hero_subtitle">
+                在忙碌的生活中寻找平静，让每日灵修滋养你的精神，照亮你的一天。
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#" class="inline-flex items-center justify-center gap-3 bg-black text-white px-6 py-3 rounded-xl hover:bg-gray-800 transition shadow-lg">
+                    <i class="fa-brands fa-apple text-2xl"></i>
+                    <div class="text-left">
+                        <div class="text-[10px] leading-none" data-lang="download_on">下载</div>
+                        <div class="text-sm font-semibold leading-tight" data-lang="app_store">App Store</div>
+                    </div>
+                </a>
+                <a href="#" class="inline-flex items-center justify-center gap-3 bg-black text-white px-6 py-3 rounded-xl hover:bg-gray-800 transition shadow-lg">
+                    <i class="fa-brands fa-google-play text-xl"></i>
+                    <div class="text-left">
+                        <div class="text-[10px] leading-none" data-lang="get_it_on">获取</div>
+                        <div class="text-sm font-semibold leading-tight" data-lang="google_play">Google Play</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+    <!-- Features Carousel Section -->
+    <section id="feature" class="py-24 bg-cream">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16 fade-in">
+                <span class="text-gold-500 font-medium uppercase tracking-widest text-sm" data-lang="features">功能</span>
+                <h2 class="font-serif text-3xl md:text-4xl font-bold mt-3 tracking-tight text-sage-800" data-lang="core_features">核心功能</h2>
+            </div>
+            <div class="relative fade-in" id="carousel">
+                <!-- Slides -->
+                <div class="relative w-full overflow-hidden rounded-2xl" style="height: 500px;">
+                    <!-- Slide 1 (Text Left, Image Right) -->
+                    <div class="carousel-slide active">
+                        <div class="absolute inset-0 bg-sage-50 flex flex-col md:flex-row items-center">
+                            <div class="md:w-1/2 p-10 md:p-16 flex flex-col justify-center order-2 md:order-1">
+                                <h3 class="font-serif text-3xl font-bold text-sage-800 mb-4" data-lang="daily_devotion">每日灵修与祷告</h3>
+                                <p class="text-sage-600 leading-relaxed text-lg" data-lang="daily_devotion_desc">根据早晚时间接收鼓舞人心的灵修内容，通过个性化祷告加深与神的联系，用微笑开始您的一天，以平和结束。</p>
+                            </div>
+                            <div class="md:w-1/2 h-64 md:h-full order-1 md:order-2">
+                                <img src="https://p3-doubao-search-sign.byteimg.com/tos-cn-i-be4g95zd3a/1959907703109713934~tplv-be4g95zd3a-image.jpeg?lk3s=feb11e32&x-expires=1793069735&x-signature=mtPC4PfdWDU25Vus%2Fq%2B3dC8tLJY%3D" class="w-full h-full object-cover" alt="Daily Devotion">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Slide 2 (Image Left, Text Right) -->
+                    <div class="carousel-slide">
+                        <div class="absolute inset-0 bg-sage-50 flex flex-col md:flex-row items-center">
+                            <div class="md:w-1/2 h-64 md:h-full">
+                                <img src="https://images.unsplash.com/photo-1516321497487-e288fb19713f?q=80&w=1200&auto=format&fit=crop" class="w-full h-full object-cover" alt="Bible Quiz">
+                            </div>
+                            <div class="md:w-1/2 p-10 md:p-16 flex flex-col justify-center">
+                                <h3 class="font-serif text-3xl font-bold text-sage-800 mb-4" data-lang="bible_quiz">互动圣经问答</h3>
+                                <p class="text-sage-600 leading-relaxed text-lg" data-lang="bible_quiz_desc">通过吸引人的问题测试您的知识并加深理解。从创世记到启示录，以有趣且有意义的方式与圣经互动。</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Slide 3 (Text Bottom) -->
+                    <div class="carousel-slide">
+                        <div class="absolute inset-0 flex flex-col">
+                            <div class="h-1/2 md:h-3/5 w-full">
+                                <img src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=1200&auto=format&fit=crop" class="w-full h-full object-cover" alt="Multi Version">
+                            </div>
+                            <div class="h-1/2 md:h-2/5 w-full bg-sage-800 p-8 md:p-12 flex flex-col justify-center items-center text-center">
+                                <h3 class="font-serif text-3xl font-bold text-gold-300 mb-4" data-lang="multi_version">多语种与译本</h3>
+                                <p class="text-sage-200 leading-relaxed text-lg max-w-2xl" data-lang="multi_version_desc">支持NLT、KJV、NIV与和合本等多种译本，内置原文词典，满足从初信者到神学研究的全方位需求。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Controls -->
+                <div class="flex justify-center gap-4 mt-8">
+                    <button onclick="prevSlide()" class="w-10 h-10 rounded-full bg-sage-200 hover:bg-sage-300 flex items-center justify-center text-sage-700 transition"><i class="fa-solid fa-arrow-left"></i></button>
+                    <div class="flex items-center gap-2" id="carousel-dots"></div>
+                    <button onclick="nextSlide()" class="w-10 h-10 rounded-full bg-sage-200 hover:bg-sage-300 flex items-center justify-center text-sage-700 transition"><i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- More Features Grid -->
+    <section class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="font-serif text-3xl md:text-4xl font-bold tracking-tight text-sage-800" data-lang="explore_more">探索更多可能</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 fade-in">
+                <!-- Card 1 -->
+                <div class="feature-card relative rounded-2xl overflow-hidden h-80 cursor-pointer shadow-sm hover:shadow-xl transition-shadow duration-300">
+                    <img src="https://p11-doubao-search-sign.byteimg.com/tos-cn-i-be4g95zd3a/1917407086112407564~tplv-be4g95zd3a-image.jpeg?lk3s=feb11e32&x-expires=1793070087&x-signature=Q%2FZRy%2B4I8V1de1TpDxzIs2qKZBk%3D" class="absolute inset-0 w-full h-full object-cover transition duration-500" alt="Community">
+                    <div class="absolute inset-0 bg-gradient-to-t from-sage-900/80 to-transparent"></div>
+                    <div class="feature-overlay absolute bottom-0 left-0 right-0 p-8 text-white">
+                        <h4 class="font-serif text-2xl font-bold mb-2" data-lang="community">社区与分享</h4>
+                        <p class="text-sage-100 text-sm" data-lang="community_desc">与成千上万的信徒建立联系，一键分享经文卡片，分享信仰并鼓励他人。</p>
+                    </div>
+                </div>
+                <!-- Card 2 -->
+                <div class="feature-card relative rounded-2xl overflow-hidden h-80 cursor-pointer shadow-sm hover:shadow-xl transition-shadow duration-300">
+                    <img src="https://images.unsplash.com/photo-1519682577862-22b62b24e493?q=80&w=800&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover transition duration-500" alt="Audio">
+                    <div class="absolute inset-0 bg-gradient-to-t from-sage-900/80 to-transparent"></div>
+                    <div class="feature-overlay absolute bottom-0 left-0 right-0 p-8 text-white">
+                        <h4 class="font-serif text-2xl font-bold mb-2" data-lang="audio_bible">离线有声圣经</h4>
+                        <p class="text-sage-100 text-sm" data-lang="audio_bible_desc">支持普通话、粤语、英语等多语言朗读，下载后无需网络，随时聆听神的话语。</p>
+                    </div>
+                </div>
+                <!-- Card 3 -->
+                <div class="feature-card relative rounded-2xl overflow-hidden h-80 cursor-pointer shadow-sm hover:shadow-xl transition-shadow duration-300">
+                    <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=800&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover transition duration-500" alt="Plan">
+                    <div class="absolute inset-0 bg-gradient-to-t from-sage-900/80 to-transparent"></div>
+                    <div class="feature-overlay absolute bottom-0 left-0 right-0 p-8 text-white">
+                        <h4 class="font-serif text-2xl font-bold mb-2" data-lang="reading_plan">灵活读经计划</h4>
+                        <p class="text-sage-100 text-sm" data-lang="reading_plan_desc">系统性的五年读经计划或自定义进度，附设进度显示，助您建立稳定的灵修习惯。</p>
+                    </div>
+                </div>
+                <!-- Card 4 -->
+                <div class="feature-card relative rounded-2xl overflow-hidden h-80 cursor-pointer shadow-sm hover:shadow-xl transition-shadow duration-300">
+                    <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?q=80&w=800&auto=format&fit=crop" class="absolute inset-0 w-full h-full object-cover transition duration-500" alt="Notes">
+                    <div class="absolute inset-0 bg-gradient-to-t from-sage-900/80 to-transparent"></div>
+                    <div class="feature-overlay absolute bottom-0 left-0 right-0 p-8 text-white">
+                        <h4 class="font-serif text-2xl font-bold mb-2" data-lang="notes">云端笔记与高亮</h4>
+                        <p class="text-sage-100 text-sm" data-lang="notes_desc">边读经边记录亮光，多设备云端同步，收藏有影响力的灵修内容供反复咀嚼。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- User Reviews -->
+    <section class="py-24 bg-sage-50">
+        <div class="max-w-7xl mx-auto px-6 fade-in">
+            <div class="text-center mb-16">
+                <span class="text-gold-500 font-medium uppercase tracking-widest text-sm" data-lang="testimonials">见证</span>
+                <h2 class="font-serif text-3xl md:text-4xl font-bold mt-3 tracking-tight text-sage-800" data-lang="user_reviews">用户的真实反馈</h2>
+            </div>
+            <div class="space-y-8 max-w-4xl mx-auto">
+                <div class="bg-white p-8 rounded-2xl border border-sage-100 shadow-sm hover:shadow-md transition">
+                    <p class="text-sage-700 text-lg leading-relaxed font-light italic" data-lang="review_1">"这款应用彻底改变了我的晨间习惯。以前醒来第一件事是刷社交媒体，现在我会打开恩语，感受每日的灵粮。早上和傍晚的专属内容设计得太贴心了。"</p>
+                    <div class="mt-4 text-sage-500 font-medium" data-lang="reviewer_1">—— 李姊妹，使用3个月</div>
+                </div>
+                <div class="bg-white p-8 rounded-2xl border border-sage-100 shadow-sm hover:shadow-md transition">
+                    <p class="text-sage-700 text-lg leading-relaxed font-light italic" data-lang="review_2">"圣经问答功能让我对经文有了更深的记忆和理解。我还会把经文卡片分享到朋友圈，很多朋友因为这张卡片也开始读经了。"</p>
+                    <div class="mt-4 text-sage-500 font-medium" data-lang="reviewer_2">—— 张弟兄，使用1年</div>
+                </div>
+                <div class="bg-white p-8 rounded-2xl border border-sage-100 shadow-sm hover:shadow-md transition">
+                    <p class="text-sage-700 text-lg leading-relaxed font-light italic" data-lang="review_3">"作为神学生，原文解析和多译本对照功能对我帮助极大；而我母亲只用它听有声圣经，操作简单。这是一款真正适合所有人的应用。"</p>
+                    <div class="mt-4 text-sage-500 font-medium" data-lang="reviewer_3">—— 陈弟兄，使用6个月</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- BibleTi Quiz -->
+    <section id="quiz" class="py-24 bg-cream">
+        <div class="max-w-7xl mx-auto px-6 text-center fade-in">
+            <span class="text-gold-500 font-medium uppercase tracking-widest text-sm" data-lang="bibleti_quiz">圣经人格测试</span>
+            <h2 class="font-serif text-3xl md:text-4xl font-bold mt-3 tracking-tight text-sage-800 mb-4" data-lang="whats_your_bible_personality">你的圣经人格是什么？</h2>
+            <p class="text-sage-600 max-w-xl mx-auto mb-12" data-lang="quiz_description">通过趣味测试，发现你在圣经中最像哪位人物，探索属于你的属灵特质。</p>
+            <div class="flex flex-wrap justify-center gap-8 md:gap-16 mb-12">
+                <!-- Character 1 -->
+                <div class="flex flex-col items-center group cursor-pointer">
+                    <div class="w-20 h-20 rounded-full bg-sage-200 flex items-center justify-center mb-3 border-2 border-transparent group-hover:border-gold-400 group-hover:bg-gold-50 transition duration-300">
+                        <i class="fa-solid fa-scroll text-3xl text-sage-600 group-hover:text-gold-600 transition"></i>
+                    </div>
+                    <span class="text-sm font-medium text-sage-700 group-hover:text-gold-600" data-lang="moses">摩西</span>
+                    <span class="text-xs text-sage-400" data-lang="leader">领袖</span>
+                </div>
+                <!-- Character 2 -->
+                <div class="flex flex-col items-center group cursor-pointer">
+                    <div class="w-20 h-20 rounded-full bg-sage-200 flex items-center justify-center mb-3 border-2 border-transparent group-hover:border-gold-400 group-hover:bg-gold-50 transition duration-300">
+                        <i class="fa-solid fa-music text-3xl text-sage-600 group-hover:text-gold-600 transition"></i>
+                    </div>
+                    <span class="text-sm font-medium text-sage-700 group-hover:text-gold-600" data-lang="david">大卫</span>
+                    <span class="text-xs text-sage-400" data-lang="poet">诗人</span>
+                </div>
+                <!-- Character 3 -->
+                <div class="flex flex-col items-center group cursor-pointer">
+                    <div class="w-20 h-20 rounded-full bg-sage-200 flex items-center justify-center mb-3 border-2 border-transparent group-hover:border-gold-400 group-hover:bg-gold-50 transition duration-300">
+                        <i class="fa-solid fa-crown text-3xl text-sage-600 group-hover:text-gold-600 transition"></i>
+                    </div>
+                    <span class="text-sm font-medium text-sage-700 group-hover:text-gold-600" data-lang="esther">以斯帖</span>
+                    <span class="text-xs text-sage-400" data-lang="warrior">勇者</span>
+                </div>
+                <!-- Character 4 -->
+                <div class="flex flex-col items-center group cursor-pointer">
+                    <div class="w-20 h-20 rounded-full bg-sage-200 flex items-center justify-center mb-3 border-2 border-transparent group-hover:border-gold-400 group-hover:bg-gold-50 transition duration-300">
+                        <i class="fa-solid fa-book text-3xl text-sage-600 group-hover:text-gold-600 transition"></i>
+                    </div>
+                    <span class="text-sm font-medium text-sage-700 group-hover:text-gold-600" data-lang="paul">保罗</span>
+                    <span class="text-xs text-sage-400" data-lang="scholar">学者</span>
+                </div>
+                <!-- Character 5 -->
+                <div class="flex flex-col items-center group cursor-pointer">
+                    <div class="w-20 h-20 rounded-full bg-sage-200 flex items-center justify-center mb-3 border-2 border-transparent group-hover:border-gold-400 group-hover:bg-gold-50 transition duration-300">
+                        <i class="fa-solid fa-fish text-3xl text-sage-600 group-hover:text-gold-600 transition"></i>
+                    </div>
+                    <span class="text-sm font-medium text-sage-700 group-hover:text-gold-600" data-lang="peter">彼得</span>
+                    <span class="text-xs text-sage-400" data-lang="fisherman">渔夫</span>
+                </div>
+            </div>
+            <a href="#" class="inline-flex items-center gap-2 bg-sage-800 text-white px-8 py-4 rounded-full font-medium hover:bg-sage-700 hover:shadow-lg transition duration-300" data-lang="start_quiz">
+                开始测试 <i class="fa-solid fa-arrow-right"></i>
+            </a>
+        </div>
+    </section>
+    <!-- FAQs -->
+    <section class="py-24 bg-white">
+        <div class="max-w-3xl mx-auto px-6 fade-in">
+            <div class="text-center mb-16">
+                <span class="text-gold-500 font-medium uppercase tracking-widest text-sm" data-lang="faqs">常见问题</span>
+                <h2 class="font-serif text-3xl md:text-4xl font-bold mt-3 tracking-tight text-sage-800" data-lang="frequently_asked_questions">常见问题</h2>
+            </div>
+            <div class="space-y-4" id="faq-container">
+                <div class="faq-item border border-sage-100 rounded-xl bg-sage-50/50 hover:bg-sage-50 transition">
+                    <button class="faq-btn w-full text-left p-6 flex justify-between items-center gap-4" onclick="toggleFaq(this)">
+                        <span class="text-lg font-semibold text-sage-800" data-lang="faq_1_question">恩语应用是免费的吗？</span>
+                        <i class="fa-solid fa-chevron-down text-sage-400 transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-answer px-6 pb-0 text-sage-600 leading-relaxed">
+                        <div class="pb-6" data-lang="faq_1_answer">恩语的基础功能（包括多译本阅读、每日灵修、有声圣经收听）完全免费。部分深度注释、专题文章及高级原文解析功能提供内购订阅，以支持内容创作者与平台持续发展。</div>
+                    </div>
+                </div>
+                <div class="faq-item border border-sage-100 rounded-xl bg-sage-50/50 hover:bg-sage-50 transition">
+                    <button class="faq-btn w-full text-left p-6 flex justify-between items-center gap-4" onclick="toggleFaq(this)">
+                        <span class="text-lg font-semibold text-sage-800" data-lang="faq_2_question">支持哪些圣经译本？</span>
+                        <i class="fa-solid fa-chevron-down text-sage-400 transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-answer px-6 pb-0 text-sage-600 leading-relaxed">
+                        <div class="pb-6" data-lang="faq_2_answer">我们目前支持和合本(CUV)、新标点和合本、和合本修订版(RCUV)、NIV、KJV、NLT等42种译本，并持续新增中。所有内容均已获得正版版权授权。</div>
+                    </div>
+                </div>
+                <div class="faq-item border border-sage-100 rounded-xl bg-sage-50/50 hover:bg-sage-50 transition">
+                    <button class="faq-btn w-full text-left p-6 flex justify-between items-center gap-4" onclick="toggleFaq(this)">
+                        <span class="text-lg font-semibold text-sage-800" data-lang="faq_3_question">如何在不同设备间同步我的笔记和高亮？</span>
+                        <i class="fa-solid fa-chevron-down text-sage-400 transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-answer px-6 pb-0 text-sage-600 leading-relaxed">
+                        <div class="pb-6" data-lang="faq_3_answer">只需在App内免费注册恩语账号，您的灵修笔记、高亮段落和读经进度即可通过云端自动同步。我们也支持将数据备份至Dropbox，确保您的属灵记录安全无忧。</div>
+                    </div>
+                </div>
+                <div class="faq-item border border-sage-100 rounded-xl bg-sage-50/50 hover:bg-sage-50 transition">
+                    <button class="faq-btn w-full text-left p-6 flex justify-between items-center gap-4" onclick="toggleFaq(this)">
+                        <span class="text-lg font-semibold text-sage-800" data-lang="faq_4_question">没有网络可以使用恩语吗？</span>
+                        <i class="fa-solid fa-chevron-down text-sage-400 transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-answer px-6 pb-0 text-sage-600 leading-relaxed">
+                        <div class="pb-6" data-lang="faq_4_answer">可以。您可以在连接WiFi时预先下载圣经经文和有声圣经音频，之后即使在地铁、飞机等无网络环境下，依然可以顺畅阅读、聆听和做笔记。</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Footer -->
+    <footer id="contact" class="bg-sage-900 text-sage-200 pt-24 pb-8">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-16 mb-16">
+            <!-- Left: Download -->
+            <div>
+                <h3 class="font-serif text-3xl font-bold text-white mb-6" data-lang="spiritual_companion">随时随地的灵修伴侣</h3>
+                <p class="text-sage-300 mb-8 leading-relaxed" data-lang="download_description">下载恩语，让神的话语成为你每一天的指引与力量。</p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <a href="#" class="inline-flex items-center justify-center gap-3 bg-white text-sage-900 px-5 py-3 rounded-xl hover:bg-sage-100 transition font-medium">
+                        <i class="fa-brands fa-apple text-2xl"></i>
+                        <div class="text-left">
+                            <div class="text-[10px] leading-none opacity-70" data-lang="download_on">下载</div>
+                            <div class="text-sm font-semibold leading-tight" data-lang="app_store">App Store</div>
+                        </div>
+                    </a>
+                    <a href="#" class="inline-flex items-center justify-center gap-3 bg-white text-sage-900 px-5 py-3 rounded-xl hover:bg-sage-100 transition font-medium">
+                        <i class="fa-brands fa-google-play text-xl"></i>
+                        <div class="text-left">
+                            <div class="text-[10px] leading-none opacity-70" data-lang="get_it_on">获取</div>
+                            <div class="text-sm font-semibold leading-tight" data-lang="google_play">Google Play</div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <!-- Right: Contact Us -->
+            <div>
+                <h3 class="font-serif text-3xl font-bold text-white mb-6" data-lang="contact_us">联系我们</h3>
+                <p class="text-xl text-sage-100 mb-2 font-light" data-lang="we_look_forward">我们期待听到您的声音</p>
+                <p class="text-sage-400 mb-8 text-sm">support@graceword.app</p>
+                <div class="flex gap-6">
+                    <a href="#" class="text-sage-300 hover:text-gold-400 transition text-2xl"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#" class="text-sage-300 hover:text-gold-400 transition text-2xl"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="#" class="text-sage-300 hover:text-gold-400 transition text-2xl"><i class="fa-brands fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <!-- Copyright -->
+        <div class="max-w-7xl mx-auto px-6 pt-8 border-t border-sage-800 flex flex-col md:flex-row justify-between items-center text-sm text-sage-500 gap-4">
+            <span data-lang="copyright">© 2026 Grace Word</span>
+            <div class="flex gap-6">
+                <a href="#" class="hover:text-sage-300 transition" data-lang="privacy_policy">隐私政策</a>
+                <a href="#" class="hover:text-sage-300 transition" data-lang="terms_of_use">使用条款</a>
+            </div>
+        </div>
+    </footer>
+    <script>
+        // Language Packs
+        const translations = {
+            'zh-CN': {
+                app_name: '恩语',
+                nav_features: '功能',
+                nav_quiz: '圣经人格测试',
+                nav_contact: '联系我们',
+                language: '语言',
+                hero_title: '与神对话，聆听恩语',
+                hero_subtitle: '在忙碌的生活中寻找平静，让每日灵修滋养你的精神，照亮你的一天。',
+                download_on: '下载',
+                app_store: 'App Store',
+                get_it_on: '获取',
+                google_play: 'Google Play',
+                features: '功能',
+                core_features: '核心功能',
+                daily_devotion: '每日灵修与祷告',
+                daily_devotion_desc: '根据早晚时间接收鼓舞人心的灵修内容，通过个性化祷告加深与神的联系，用微笑开始您的一天，以平和结束。',
+                bible_quiz: '互动圣经问答',
+                bible_quiz_desc: '通过吸引人的问题测试您的知识并加深理解。从创世记到启示录，以有趣且有意义的方式与圣经互动。',
+                multi_version: '多语种与译本',
+                multi_version_desc: '支持NLT、KJV、NIV与和合本等多种译本，内置原文词典，满足从初信者到神学研究的全方位需求。',
+                explore_more: '探索更多可能',
+                community: '社区与分享',
+                community_desc: '与成千上万的信徒建立联系，一键分享经文卡片，分享信仰并鼓励他人。',
+                audio_bible: '离线有声圣经',
+                audio_bible_desc: '支持普通话、粤语、英语等多语言朗读，下载后无需网络，随时聆听神的话语。',
+                reading_plan: '灵活读经计划',
+                reading_plan_desc: '系统性的五年读经计划或自定义进度，附设进度显示，助您建立稳定的灵修习惯。',
+                notes: '云端笔记与高亮',
+                notes_desc: '边读经边记录亮光，多设备云端同步，收藏有影响力的灵修内容供反复咀嚼。',
+                testimonials: '见证',
+                user_reviews: '用户的真实反馈',
+                review_1: '"这款应用彻底改变了我的晨间习惯。以前醒来第一件事是刷社交媒体，现在我会打开恩语，感受每日的灵粮。早上和傍晚的专属内容设计得太贴心了。"',
+                reviewer_1: '—— 李姊妹，使用3个月',
+                review_2: '"圣经问答功能让我对经文有了更深的记忆和理解。我还会把经文卡片分享到朋友圈，很多朋友因为这张卡片也开始读经了。"',
+                reviewer_2: '—— 张弟兄，使用1年',
+                review_3: '"作为神学生，原文解析和多译本对照功能对我帮助极大；而我母亲只用它听有声圣经，操作简单。这是一款真正适合所有人的应用。"',
+                reviewer_3: '—— 陈弟兄，使用6个月',
+                bibleti_quiz: '圣经人格测试',
+                whats_your_bible_personality: '你的圣经人格是什么？',
+                quiz_description: '通过趣味测试，发现你在圣经中最像哪位人物，探索属于你的属灵特质。',
+                moses: '摩西',
+                leader: '领袖',
+                david: '大卫',
+                poet: '诗人',
+                esther: '以斯帖',
+                warrior: '勇者',
+                paul: '保罗',
+                scholar: '学者',
+                peter: '彼得',
+                fisherman: '渔夫',
+                start_quiz: '开始测试',
+                faqs: '常见问题',
+                frequently_asked_questions: '常见问题',
+                faq_1_question: '恩语应用是免费的吗？',
+                faq_1_answer: '恩语的基础功能（包括多译本阅读、每日灵修、有声圣经收听）完全免费。部分深度注释、专题文章及高级原文解析功能提供内购订阅，以支持内容创作者与平台持续发展。',
+                faq_2_question: '支持哪些圣经译本？',
+                faq_2_answer: '我们目前支持和合本(CUV)、新标点和合本、和合本修订版(RCUV)、NIV、KJV、NLT等42种译本，并持续新增中。所有内容均已获得正版版权授权。',
+                faq_3_question: '如何在不同设备间同步我的笔记和高亮？',
+                faq_3_answer: '只需在App内免费注册恩语账号，您的灵修笔记、高亮段落和读经进度即可通过云端自动同步。我们也支持将数据备份至Dropbox，确保您的属灵记录安全无忧。',
+                faq_4_question: '没有网络可以使用恩语吗？',
+                faq_4_answer: '可以。您可以在连接WiFi时预先下载圣经经文和有声圣经音频，之后即使在地铁、飞机等无网络环境下，依然可以顺畅阅读、聆听和做笔记。',
+                spiritual_companion: '随时随地的灵修伴侣',
+                download_description: '下载恩语，让神的话语成为你每一天的指引与力量。',
+                contact_us: '联系我们',
+                we_look_forward: '我们期待听到您的声音',
+                copyright: '© 2026 Grace Word',
+                privacy_policy: '隐私政策',
+                terms_of_use: '使用条款'
+            },
+            'zh-TW': {
+                app_name: '恩語',
+                nav_features: '功能',
+                nav_quiz: '聖經人格測試',
+                nav_contact: '聯繫我們',
+                language: '語言',
+                hero_title: '與神對話，聆聽恩語',
+                hero_subtitle: '在忙碌的生活中尋找平靜，讓每日靈修滋養你的精神，照亮你的一天。',
+                download_on: '下載',
+                app_store: 'App Store',
+                get_it_on: '獲取',
+                google_play: 'Google Play',
+                features: '功能',
+                core_features: '核心功能',
+                daily_devotion: '每日靈修與禱告',
+                daily_devotion_desc: '根據早晚時間接收鼓舞人心的靈修內容，通過個性化禱告加深與神的聯繫，用微笑開始您的一天，以平和結束。',
+                bible_quiz: '互動聖經問答',
+                bible_quiz_desc: '通過吸引人的問題測試您的知識並加深理解。從創世記到啟示錄，以有趣且有意義的方式與聖經互動。',
+                multi_version: '多語種與譯本',
+                multi_version_desc: '支持NLT、KJV、NIV與和合本等多種譯本，內置原文詞典，滿足從初信者到神學研究的全方位需求。',
+                explore_more: '探索更多可能',
+                community: '社區與分享',
+                community_desc: '與成千上萬的信徒建立聯繫，一鍵分享經文卡片，分享信仰並鼓勵他人。',
+                audio_bible: '離線有聲聖經',
+                audio_bible_desc: '支持普通話、粵語、英語等多語言朗讀，下載後無需網絡，隨時聆聽神的話語。',
+                reading_plan: '靈活讀經計劃',
+                reading_plan_desc: '系統性的五年讀經計劃或自定義進度，附設進度顯示，助您建立穩定的靈修習慣。',
+                notes: '雲端筆記與高亮',
+                notes_desc: '邊讀經邊記錄亮光，多設備雲端同步，收藏有影響力的靈修內容供反覆咀嚼。',
+                testimonials: '見證',
+                user_reviews: '用戶的真實反饋',
+                review_1: '"這款應用徹底改變了我的晨間習慣。以前醒來第一件事是刷社交媒體，現在我會打開恩語，感受每日的靈糧。早上和傍晚的專屬內容設計得太貼心了。"',
+                reviewer_1: '—— 李姊妹，使用3個月',
+                review_2: '"聖經問答功能讓我對經文有了更深的記憶和理解。我還會把經文卡片分享到朋友圈，很多朋友因為這張卡片也開始讀經了。"',
+                reviewer_2: '—— 張弟兄，使用1年',
+                review_3: '"作為神學生，原文解析和多譯本對照功能對我幫助極大；而我母親只用它聽有聲聖經，操作簡單。這是一款真正適合所有人的應用。"',
+                reviewer_3: '—— 陳弟兄，使用6個月',
+                bibleti_quiz: '聖經人格測試',
+                whats_your_bible_personality: '你的聖經人格是什麼？',
+                quiz_description: '通過趣味測試，發現你在聖經中最像哪位人物，探索屬於你的屬靈特質。',
+                moses: '摩西',
+                leader: '領袖',
+                david: '大衛',
+                poet: '詩人',
+                esther: '以斯帖',
+                warrior: '勇者',
+                paul: '保羅',
+                scholar: '學者',
+                peter: '彼得',
+                fisherman: '漁夫',
+                start_quiz: '開始測試',
+                faqs: '常見問題',
+                frequently_asked_questions: '常見問題',
+                faq_1_question: '恩語應用是免費的嗎？',
+                faq_1_answer: '恩語的基礎功能（包括多譯本閱讀、每日靈修、有聲聖經收聽）完全免費。部分深度註釋、專題文章及高級原文解析功能提供內購訂閱，以支持內容創作者與平台持續發展。',
+                faq_2_question: '支持哪些聖經譯本？',
+                faq_2_answer: '我們目前支持和合本(CUV)、新標點和合本、和合本修訂版(RCUV)、NIV、KJV、NLT等42種譯本，並持續新增中。所有內容均已獲得正版版權授權。',
+                faq_3_question: '如何在不同設備間同步我的筆記和高亮？',
+                faq_3_answer: '只需在App內免費註冊恩語賬號，您的靈修筆記、高亮段落和讀經進度即可通過雲端自動同步。我們也支持將數據備份至Dropbox，確保您的屬靈記錄安全無憂。',
+                faq_4_question: '沒有網絡可以使用恩語嗎？',
+                faq_4_answer: '可以。您可以在連接WiFi時預先下載聖經經文和有聲聖經音頻，之後即使在地鐵、飛機等無網絡環境下，依然可以順暢閱讀、聆聽和做筆記。',
+                spiritual_companion: '隨時隨地的靈修伴侶',
+                download_description: '下載恩語，讓神的話語成為你每一天的指引與力量。',
+                contact_us: '聯繫我們',
+                we_look_forward: '我們期待聽到您的聲音',
+                copyright: '© 2026 Grace Word',
+                privacy_policy: '隱私政策',
+                terms_of_use: '使用條款'
+            },
+            'en': {
+                app_name: 'Grace Word',
+                nav_features: 'Features',
+                nav_quiz: 'BibleTi Quiz',
+                nav_contact: 'Contact Us',
+                language: 'Language',
+                hero_title: 'Converse with God, Hear His Grace',
+                hero_subtitle: 'Find peace in your busy life, let daily devotion nourish your spirit and illuminate your day.',
+                download_on: 'Download on the',
+                app_store: 'App Store',
+                get_it_on: 'GET IT ON',
+                google_play: 'Google Play',
+                features: 'Features',
+                core_features: 'Core Features',
+                daily_devotion: 'Daily Devotion & Prayer',
+                daily_devotion_desc: 'Receive inspiring devotional content tailored for morning and evening, deepen your connection with God through personalized prayers, starting your day with a smile and ending in peace.',
+                bible_quiz: 'Interactive Bible Quiz',
+                bible_quiz_desc: 'Test your knowledge and deepen understanding through engaging questions. Interact with the Bible in a fun and meaningful way from Genesis to Revelation.',
+                multi_version: 'Multi-language & Versions',
+                multi_version_desc: 'Support for NLT, KJV, NIV, Chinese Union Version and more, with built-in original language dictionaries to meet needs from new believers to theological researchers.',
+                explore_more: 'Explore More Possibilities',
+                community: 'Community & Sharing',
+                community_desc: 'Connect with thousands of believers, share scripture cards with one click, spread faith and encourage others.',
+                audio_bible: 'Offline Audio Bible',
+                audio_bible_desc: 'Support for Mandarin, Cantonese, English and other languages, download and listen to God\'s word anytime without internet connection.',
+                reading_plan: 'Flexible Reading Plans',
+                reading_plan_desc: 'Systematic five-year reading plan or custom progress, with progress tracking to help you build a stable devotional habit.',
+                notes: 'Cloud Notes & Highlights',
+                notes_desc: 'Record insights while reading, sync across multiple devices via cloud, collect impactful devotional content for repeated reflection.',
+                testimonials: 'Testimonials',
+                user_reviews: 'Real User Feedback',
+                review_1: '"This app has completely transformed my morning routine. I used to check social media first thing when I woke up, now I open Grace Word and receive daily spiritual nourishment. The tailored content for morning and evening is so thoughtful."',
+                reviewer_1: '—— Sister Li, using for 3 months',
+                review_2: '"The Bible quiz feature has helped me memorize and understand scriptures more deeply. I also share scripture cards on my social media, and many friends have started reading the Bible because of these cards."',
+                reviewer_2: '—— Brother Zhang, using for 1 year',
+                review_3: '"As a seminary student, the original text analysis and multi-version comparison features are extremely helpful; while my mother only uses it to listen to the audio Bible, which is simple to operate. This is truly an app for everyone."',
+                reviewer_3: '—— Brother Chen, using for 6 months',
+                bibleti_quiz: 'BibleTi Quiz',
+                whats_your_bible_personality: 'What\'s Your Bible Personality?',
+                quiz_description: 'Through a fun test, discover which Bible character you resemble most and explore your spiritual traits.',
+                moses: 'Moses',
+                leader: 'Leader',
+                david: 'David',
+                poet: 'Poet',
+                esther: 'Esther',
+                warrior: 'Warrior',
+                paul: 'Paul',
+                scholar: 'Scholar',
+                peter: 'Peter',
+                fisherman: 'Fisherman',
+                start_quiz: 'Start Quiz',
+                faqs: 'FAQs',
+                frequently_asked_questions: 'Frequently Asked Questions',
+                faq_1_question: 'Is the Grace Word app free?',
+                faq_1_answer: 'The basic features of Grace Word (including multi-version reading, daily devotionals, and audio Bible) are completely free. Some in-depth commentaries, special articles, and advanced original text analysis features are available through in-app purchases to support content creators and the platform\'s continued development.',
+                faq_2_question: 'Which Bible versions are supported?',
+                faq_2_answer: 'We currently support 42 versions including Chinese Union Version (CUV), New Punctuation CUV, Revised CUV, NIV, KJV, NLT, and more, with continuous additions. All content has obtained proper copyright authorization.',
+                faq_3_question: 'How do I sync my notes and highlights across different devices?',
+                faq_3_answer: 'Simply register for a free Grace Word account within the app, and your devotional notes, highlighted passages, and reading progress will automatically sync through the cloud. We also support backing up data to Dropbox to ensure your spiritual records are safe and secure.',
+                faq_4_question: 'Can I use Grace Word without internet?',
+                faq_4_answer: 'Yes. You can pre-download Bible texts and audio Bible when connected to WiFi, and then read, listen, and take notes smoothly even in subway, airplane, or other environments without internet connection.',
+                spiritual_companion: 'Your Anytime, Anywhere Spiritual Companion',
+                download_description: 'Download Grace Word and let God\'s word be your guide and strength every day.',
+                contact_us: 'Contact Us',
+                we_look_forward: 'We look forward to hearing from you',
+                copyright: '© 2026 Grace Word',
+                privacy_policy: 'Privacy Policy',
+                terms_of_use: 'Terms of Use'
+            }
+        };
+
+        // Language Switching Function
+        function switchLanguage(lang) {
+            // Update HTML lang attribute
+            document.documentElement.lang = lang;
+            
+            // Update current language display
+            const langNames = {
+                'zh-CN': '中文',
+                'zh-TW': '繁體中文',
+                'en': 'English'
+            };
+            document.getElementById('current-lang').textContent = langNames[lang];
+            
+            // Update all elements with data-lang attribute
+            document.querySelectorAll('[data-lang]').forEach(el => {
+                const key = el.getAttribute('data-lang');
+                if (translations[lang] && translations[lang][key]) {
+                    el.textContent = translations[lang][key];
+                }
+            });
+            
+            // Update page title
+            if (translations[lang] && translations[lang]['app_name']) {
+                document.title = `${translations[lang]['app_name']} - 每日灵修与圣经互动`;
+                if (lang === 'en') {
+                    document.title = `${translations[lang]['app_name']} - Daily Devotion & Bible Interaction`;
+                }
+            }
+        }
+
+        // Add event listeners to language switchers
+        document.querySelectorAll('.lang-option, .lang-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const lang = e.target.getAttribute('data-lang');
+                switchLanguage(lang);
+                
+                // Close mobile menu if it's open
+                if (!mobileMenu.classList.contains('hidden')) {
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        });
+
+        // Mobile Menu Toggle
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+        
+        // Close mobile menu when clicking on navigation links
+        document.querySelectorAll('#mobile-menu a, #mobile-menu .lang-btn').forEach(link => {
+            link.addEventListener('click', () => {
+                if (!mobileMenu.classList.contains('hidden')) {
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        });
+
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.add('shadow-md');
+            } else {
+                nav.classList.remove('shadow-md');
+            }
+        });
+
+        // Carousel Logic
+        const slides = document.querySelectorAll('.carousel-slide');
+        const dotsContainer = document.getElementById('carousel-dots');
+        let currentSlide = 0;
+
+        // Create dots
+        slides.forEach((_, i) => {
+            const dot = document.createElement('button');
+            dot.classList.add('w-3', 'h-3', 'rounded-full', 'bg-sage-300', 'hover:bg-sage-400', 'transition');
+            if (i === 0) dot.classList.replace('bg-sage-300', 'bg-gold-500');
+            dot.onclick = () => goToSlide(i);
+            dotsContainer.appendChild(dot);
+        });
+
+        function updateDots() {
+            const dots = dotsContainer.querySelectorAll('button');
+            dots.forEach((dot, i) => {
+                if (i === currentSlide) {
+                    dot.classList.replace('bg-sage-300', 'bg-gold-500');
+                } else {
+                    dot.classList.replace('bg-gold-500', 'bg-sage-300');
+                }
+            });
+        }
+
+        function goToSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + slides.length) % slides.length;
+            slides[currentSlide].classList.add('active');
+            updateDots();
+        }
+
+        function nextSlide() { goToSlide(currentSlide + 1); }
+        function prevSlide() { goToSlide(currentSlide - 1); }
+
+        // Auto-play carousel
+        setInterval(nextSlide, 6000);
+
+        // FAQ Accordion
+        function toggleFaq(btn) {
+            const answer = btn.nextElementSibling;
+            const icon = btn.querySelector('i');
+            const isOpen = answer.classList.contains('open');
+
+            // Close all
+            document.querySelectorAll('.faq-answer').forEach(a => a.classList.remove('open'));
+            document.querySelectorAll('.faq-btn i').forEach(i => i.style.transform = 'rotate(0deg)');
+
+            // Open clicked if it was closed
+            if (!isOpen) {
+                answer.classList.add('open');
+                icon.style.transform = 'rotate(180deg)';
+            }
+        }
+
+        // Fade-in on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+        // Initialize with default language
+        switchLanguage('zh-CN');
+    </script>
+</body>
+</html>
