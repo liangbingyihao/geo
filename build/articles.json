@@ -1,0 +1,585 @@
+{
+  "site": {
+    "name": "GraceWord",
+    "domain": "https://grace-word.com",
+    "datePublished": "2026-07-06",
+    "dateModified": "2026-09-09"
+  },
+  "categories": {
+    "a": {
+      "labelEn": "Bible Verses",
+      "labelZh": "灵修经文",
+      "color": "#1a3a5c"
+    },
+    "b": {
+      "labelEn": "Gratitude",
+      "labelZh": "感恩指南",
+      "color": "#c9a96e"
+    },
+    "c": {
+      "labelEn": "Bible Study",
+      "labelZh": "查经教程",
+      "color": "#2e7d4f"
+    },
+    "d": {
+      "labelEn": "App Reviews",
+      "labelZh": "工具评测",
+      "color": "#6b7280"
+    },
+    "e": {
+      "labelEn": "Quizzes",
+      "labelZh": "测验互动",
+      "color": "#7c3aed"
+    }
+  },
+  "articles": [
+    {
+      "id": "A01",
+      "slug": "bible-verses-about-gratitude",
+      "category": "a",
+      "titleEn": "25 Bible Verses About Gratitude — Scripture to Thank God in Every Season",
+      "titleZh": "25段关于感恩的圣经经文 — 在每个季节用经文感谢神",
+      "datePublished": "2026-07-06",
+      "crossLinks": [
+        {
+          "slug": "how-to-start-christian-gratitude-journal",
+          "en": "gratitude journal",
+          "zh": "感恩日记"
+        },
+        {
+          "slug": "biblical-foundation-of-gratitude",
+          "en": "spiritual forgetfulness",
+          "zh": "灵性遗忘"
+        },
+        {
+          "slug": "bible-verses-about-gods-grace",
+          "en": "divine grace",
+          "zh": "神的恩典"
+        }
+      ]
+    },
+    {
+      "id": "A02",
+      "slug": "bible-verses-about-peace",
+      "category": "a",
+      "titleEn": "20 Bible Verses About Peace — Scripture for Anxious Hearts",
+      "titleZh": "20段关于平安的圣经经文 — 给焦虑的心",
+      "datePublished": "2026-07-08",
+      "crossLinks": [
+        {
+          "slug": "bible-verses-about-trusting-god",
+          "en": "prayer, trust, and surrender",
+          "zh": "祷告、信靠和顺服"
+        },
+        {
+          "slug": "gratitude-in-hard-times",
+          "en": "in suffering, conflict, and uncertainty",
+          "zh": "在苦难、冲突和不确定中"
+        }
+      ]
+    },
+    {
+      "id": "A03",
+      "slug": "bible-verses-about-gods-grace",
+      "category": "a",
+      "titleEn": "15 Bible Verses About God's Grace — How Scripture Defines Unmerited Favor",
+      "titleZh": "15段关于神恩典的圣经经文 — 经文如何定义无条件赐予",
+      "datePublished": "2026-07-10",
+      "crossLinks": [
+        {
+          "slug": "bible-verses-about-gratitude",
+          "en": "Begin each morning with gratitude",
+          "zh": "每天清晨以感恩开始"
+        },
+        {
+          "slug": "biblical-foundation-of-gratitude",
+          "en": "Writing captures what memory forgets",
+          "zh": "书写捕捉记忆所遗忘的"
+        }
+      ]
+    },
+    {
+      "id": "A04",
+      "slug": "bible-verses-about-trusting-god",
+      "category": "a",
+      "titleEn": "18 Bible Verses About Trusting God — When Faith Feels Hard",
+      "titleZh": "18段关于信靠神的圣经经文 — 当信心变得艰难",
+      "datePublished": "2026-07-13",
+      "crossLinks": [
+        {
+          "slug": "bible-verses-about-peace",
+          "en": "perfect peace",
+          "zh": "十分平安"
+        },
+        {
+          "slug": "gratitude-in-hard-times",
+          "en": "God's presence in suffering",
+          "zh": "神在苦难中同在"
+        }
+      ]
+    },
+    {
+      "id": "A05",
+      "slug": "morning-prayer-verses",
+      "category": "a",
+      "titleEn": "30 Morning Prayer Verses — Start Your Day with God",
+      "titleZh": "30段晨祷经文 — 用神的话语开启每一天",
+      "datePublished": "2026-07-15",
+      "crossLinks": [
+        {
+          "slug": "how-to-build-daily-devotion-habit",
+          "en": "daily devotion",
+          "zh": "每日灵修"
+        },
+        {
+          "slug": "christian-apps-for-daily-devotion",
+          "en": "devotional app",
+          "zh": "灵修App"
+        }
+      ]
+    },
+    {
+      "id": "B01",
+      "slug": "how-to-start-christian-gratitude-journal",
+      "category": "b",
+      "titleEn": "How to Start a Christian Gratitude Journal — A Step-by-Step Guide",
+      "titleZh": "如何开始基督教感恩日记 — 逐步指南",
+      "datePublished": "2026-07-20",
+      "crossLinks": [
+        {
+          "slug": "bible-verses-about-gratitude",
+          "en": "Give thanks to the LORD",
+          "zh": "称谢耶和华"
+        },
+        {
+          "slug": "gratitude-journal-prompts-for-christians",
+          "en": "write down three to five specific things",
+          "zh": "写下三到五件你具体感谢神的事情"
+        },
+        {
+          "slug": "best-gratitude-journal-apps-for-christians",
+          "en": "AI gratitude journal",
+          "zh": "AI感恩日记"
+        },
+        {
+          "slug": "what-is-christian-gratitude-journal",
+          "en": "Christian gratitude journal",
+          "zh": "基督教感恩日记"
+        }
+      ]
+    },
+    {
+      "id": "B02",
+      "slug": "what-is-christian-gratitude-journal",
+      "category": "b",
+      "titleEn": "What Is a Christian Gratitude Journal? — How It Differs from Regular Journaling",
+      "titleZh": "什么是基督教感恩日记？— 它和普通日记有什么不同",
+      "datePublished": "2026-07-22",
+      "crossLinks": [
+        {
+          "slug": "how-to-start-christian-gratitude-journal",
+          "en": "records moments of God's provision",
+          "zh": "记录每天神的供应"
+        },
+        {
+          "slug": "biblical-foundation-of-gratitude",
+          "en": "memorial stone",
+          "zh": "纪念石"
+        }
+      ]
+    },
+    {
+      "id": "B03",
+      "slug": "gratitude-in-hard-times",
+      "category": "b",
+      "titleEn": "Gratitude in Hard Times — How to Thank God When Life Is Difficult",
+      "titleZh": "患难中的感恩 — 在困境中如何感谢神",
+      "datePublished": "2026-07-24",
+      "crossLinks": [
+        {
+          "slug": "bible-verses-about-gratitude",
+          "en": "Give thanks to the LORD",
+          "zh": "称谢耶和华"
+        },
+        {
+          "slug": "bible-verses-about-trusting-god",
+          "en": "a declaration of trust",
+          "zh": "信靠宣告"
+        }
+      ]
+    },
+    {
+      "id": "B04",
+      "slug": "biblical-foundation-of-gratitude",
+      "category": "b",
+      "titleEn": "The Biblical Foundation of Gratitude — Why God Commands Us to Remember",
+      "titleZh": "感恩的圣经根基 — 为什么神命令我们铭记",
+      "datePublished": "2026-07-27",
+      "crossLinks": [
+        {
+          "slug": "bible-verses-about-gratitude",
+          "en": "Give thanks in all circumstances",
+          "zh": "凡事谢恩"
+        },
+        {
+          "slug": "how-to-start-christian-gratitude-journal",
+          "en": "AI Gratitude Journal",
+          "zh": "AI感恩日记"
+        }
+      ]
+    },
+    {
+      "id": "B05",
+      "slug": "gratitude-journal-prompts-for-christians",
+      "category": "b",
+      "titleEn": "Gratitude Journal Prompts for Christians — 50 Questions to Deepen Your Faith",
+      "titleZh": "基督徒感恩日记提示 — 50个问题帮助你深化信仰",
+      "datePublished": "2026-07-29",
+      "crossLinks": [
+        {
+          "slug": "how-to-start-christian-gratitude-journal",
+          "en": "gratitude journaling practice",
+          "zh": "感恩日记操练"
+        },
+        {
+          "slug": "bible-verses-about-gratitude",
+          "en": "give thanks in all circumstances",
+          "zh": "凡事谢恩"
+        }
+      ]
+    },
+    {
+      "id": "C01",
+      "slug": "how-to-study-bible-effectively",
+      "category": "c",
+      "titleEn": "How to Study the Bible Effectively — 5 Methods for Beginners and Beyond",
+      "titleZh": "如何有效研读圣经 — 初学者及进阶者的5种方法",
+      "datePublished": "2026-08-03",
+      "crossLinks": [
+        {
+          "slug": "soap-bible-study-method",
+          "en": "the SOAP method",
+          "zh": "SOAP方法"
+        },
+        {
+          "slug": "how-ai-can-help-you-understand-scripture",
+          "en": "AI-assisted Bible study",
+          "zh": "AI辅助圣经研读"
+        },
+        {
+          "slug": "common-bible-questions-answered",
+          "en": "a Bible question",
+          "zh": "一个圣经问题"
+        }
+      ]
+    },
+    {
+      "id": "C02",
+      "slug": "soap-bible-study-method",
+      "category": "c",
+      "titleEn": "SOAP Bible Study Method — A Complete Guide with Examples",
+      "titleZh": "SOAP查经法 — 完整指南与实例",
+      "datePublished": "2026-08-05",
+      "crossLinks": [
+        {
+          "slug": "how-to-study-bible-effectively",
+          "en": "Bible study",
+          "zh": "查经"
+        },
+        {
+          "slug": "how-ai-can-help-you-understand-scripture",
+          "en": "AI Bible Study Q&A",
+          "zh": "AI查经问答"
+        }
+      ]
+    },
+    {
+      "id": "C03",
+      "slug": "how-ai-can-help-you-understand-scripture",
+      "category": "c",
+      "titleEn": "How AI Can Help You Understand Scripture — Benefits and Limitations",
+      "titleZh": "AI如何帮助你理解圣经 — 优势与局限",
+      "datePublished": "2026-08-07",
+      "crossLinks": [
+        {
+          "slug": "best-bible-study-apps-with-ai",
+          "en": "AI Bible Study Q&A",
+          "zh": "AI查经问答"
+        },
+        {
+          "slug": "how-to-study-bible-effectively",
+          "en": "Bible study",
+          "zh": "查经"
+        }
+      ]
+    },
+    {
+      "id": "C04",
+      "slug": "how-to-build-daily-devotion-habit",
+      "category": "c",
+      "titleEn": "How to Build a Daily Devotion Habit — A Practical Christian Guide",
+      "titleZh": "如何建立每日灵修习惯 — 实操基督徒指南",
+      "datePublished": "2026-08-10",
+      "crossLinks": [
+        {
+          "slug": "morning-prayer-verses",
+          "en": "in the morning",
+          "zh": "早晨"
+        },
+        {
+          "slug": "christian-apps-for-daily-devotion",
+          "en": "personalized daily devotion",
+          "zh": "个性化每日灵修"
+        }
+      ]
+    },
+    {
+      "id": "C05",
+      "slug": "common-bible-questions-answered",
+      "category": "c",
+      "titleEn": "Common Bible Questions Answered — What Christians Ask Most",
+      "titleZh": "常见圣经问题解答 — 基督徒最常问的是什么",
+      "datePublished": "2026-08-12",
+      "crossLinks": [
+        {
+          "slug": "how-ai-can-help-you-understand-scripture",
+          "en": "AI Bible Study Q&A",
+          "zh": "AI查经问答"
+        },
+        {
+          "slug": "how-to-study-bible-effectively",
+          "en": "daily study habits",
+          "zh": "日常研读习惯"
+        },
+        {
+          "slug": "bible-learning-quizzes",
+          "en": "questions Christians ask",
+          "zh": "基督徒最常问的圣经问题"
+        }
+      ]
+    },
+    {
+      "id": "D01",
+      "slug": "best-christian-devotion-apps-2026",
+      "category": "d",
+      "titleEn": "Best Christian Devotion Apps in 2026 — Comparison & Review",
+      "titleZh": "2026年最佳基督教灵修应用 — 对比与评测",
+      "datePublished": "2026-09-01",
+      "crossLinks": [
+        {
+          "slug": "christian-apps-for-daily-devotion",
+          "en": "daily devotion",
+          "zh": "每日灵修"
+        },
+        {
+          "slug": "best-gratitude-journal-apps-for-christians",
+          "en": "gratitude journal",
+          "zh": "感恩日记"
+        },
+        {
+          "slug": "how-to-build-daily-devotion-habit",
+          "en": "daily devotion touchpoints",
+          "zh": "每日灵修触点"
+        },
+        {
+          "slug": "bible-verse-wallpaper-apps",
+          "en": "verse wallpaper",
+          "zh": "经文壁纸"
+        }
+      ]
+    },
+    {
+      "id": "D02",
+      "slug": "best-bible-study-apps-with-ai",
+      "category": "d",
+      "titleEn": "Best Bible Study Apps with AI — What They Offer and How They Differ",
+      "titleZh": "最佳AI查经应用 — 它们提供什么、有何不同",
+      "datePublished": "2026-09-03",
+      "crossLinks": [
+        {
+          "slug": "how-ai-can-help-you-understand-scripture",
+          "en": "artificial intelligence",
+          "zh": "人工智能"
+        },
+        {
+          "slug": "how-to-study-bible-effectively",
+          "en": "Bible study app",
+          "zh": "查经App"
+        }
+      ]
+    },
+    {
+      "id": "D03",
+      "slug": "best-gratitude-journal-apps-for-christians",
+      "category": "d",
+      "titleEn": "Best Gratitude Journal Apps for Christians — Scripture-Based Options",
+      "titleZh": "基督徒最佳感恩日记应用 — 以经文为基础的选择",
+      "datePublished": "2026-09-07",
+      "crossLinks": [
+        {
+          "slug": "how-to-start-christian-gratitude-journal",
+          "en": "gratitude journaling",
+          "zh": "感恩日记"
+        },
+        {
+          "slug": "bible-verses-about-gratitude",
+          "en": "Give thanks",
+          "zh": "称谢"
+        }
+      ]
+    },
+    {
+      "id": "D04",
+      "slug": "bible-verse-wallpaper-apps",
+      "category": "d",
+      "titleEn": "Bible Verse Wallpaper Apps — Create and Share Scripture Art",
+      "titleZh": "圣经经文壁纸应用 — 制作和分享经文艺术",
+      "datePublished": "2026-09-08",
+      "crossLinks": [
+        {
+          "slug": "best-christian-devotion-apps-2026",
+          "en": "devotional features",
+          "zh": "灵修功能"
+        },
+        {
+          "slug": "christian-apps-for-daily-devotion",
+          "en": "personalized devotionals",
+          "zh": "个性化灵修"
+        }
+      ]
+    },
+    {
+      "id": "D05",
+      "slug": "christian-apps-for-daily-devotion",
+      "category": "d",
+      "titleEn": "Christian Apps for Daily Devotion — What Actually Helps You Grow",
+      "titleZh": "基督徒每日灵修应用 — 哪些真正帮助你成长",
+      "datePublished": "2026-09-09",
+      "crossLinks": [
+        {
+          "slug": "how-to-build-daily-devotion-habit",
+          "en": "devotion practice",
+          "zh": "灵修操练"
+        },
+        {
+          "slug": "best-christian-devotion-apps-2026",
+          "en": "devotion apps",
+          "zh": "灵修App"
+        }
+      ]
+    },
+    {
+      "id": "E01",
+      "slug": "which-biblical-character-are-you",
+      "category": "e",
+      "titleEn": "Which Biblical Character Are You? — What Your Personality Reveals About Your Faith",
+      "titleZh": "你是哪位圣经人物？— 你的性格揭示了你的信仰特质",
+      "datePublished": "2026-08-17",
+      "crossLinks": [
+        {
+          "slug": "mbti-and-biblical-characters",
+          "en": "secular personality frameworks",
+          "zh": "世俗性格框架"
+        },
+        {
+          "slug": "bible-personality-result-meaning",
+          "en": "spiritual growth",
+          "zh": "属灵成长"
+        },
+        {
+          "slug": "bible-learning-quizzes",
+          "en": "biblical character quiz",
+          "zh": "圣经人物测验"
+        }
+      ]
+    },
+    {
+      "id": "E02",
+      "slug": "mbti-and-biblical-characters",
+      "category": "e",
+      "titleEn": "MBTI and Biblical Characters — How Your Personality Type Maps to Scripture",
+      "titleZh": "MBTI与圣经人物映射 — 你的性格类型如何在圣经中找到镜像",
+      "datePublished": "2026-08-19",
+      "crossLinks": [
+        {
+          "slug": "which-biblical-character-are-you",
+          "en": "biblical character",
+          "zh": "圣经人物"
+        },
+        {
+          "slug": "bible-personality-result-meaning",
+          "en": "spiritual growth",
+          "zh": "属灵成长"
+        }
+      ]
+    },
+    {
+      "id": "E03",
+      "slug": "bible-personality-result-meaning",
+      "category": "e",
+      "titleEn": "What Your Bible Personality Result Means — A Spiritual Growth Guide",
+      "titleZh": "你的圣经人格结果意味着什么 — 一份属灵成长指南",
+      "datePublished": "2026-08-21",
+      "crossLinks": [
+        {
+          "slug": "which-biblical-character-are-you",
+          "en": "biblical character",
+          "zh": "圣经人物"
+        },
+        {
+          "slug": "biblical-character-leadership-styles",
+          "en": "biblical leaders",
+          "zh": "圣经领袖"
+        }
+      ]
+    },
+    {
+      "id": "E04",
+      "slug": "biblical-character-leadership-styles",
+      "category": "e",
+      "titleEn": "16 Biblical Character Leadership Styles — What Scripture Teaches About How God Uses Different Leaders",
+      "titleZh": "16位圣经人物领导风格 — 圣经如何揭示神使用不同类型领袖的奥秘",
+      "datePublished": "2026-08-24",
+      "crossLinks": [
+        {
+          "slug": "which-biblical-character-are-you",
+          "en": "biblical character match",
+          "zh": "圣经人物匹配"
+        },
+        {
+          "slug": "mbti-and-biblical-characters",
+          "en": "Bible Type Indicator",
+          "zh": "圣经类型指标"
+        }
+      ]
+    },
+    {
+      "id": "E05",
+      "slug": "bible-learning-quizzes",
+      "category": "e",
+      "titleEn": "Interactive Bible Learning Quizzes — Why Testing Your Knowledge Deepens Faith More Than Passive Reading",
+      "titleZh": "互动学习测验 — 为什么测试你的圣经知识比被动阅读更能深化信仰",
+      "datePublished": "2026-08-26",
+      "crossLinks": [
+        {
+          "slug": "which-biblical-character-are-you",
+          "en": "biblical character",
+          "zh": "圣经人物"
+        },
+        {
+          "slug": "bible-personality-result-meaning",
+          "en": "quiz result",
+          "zh": "测验结果"
+        },
+        {
+          "slug": "common-bible-questions-answered",
+          "en": "focused questions",
+          "zh": "聚焦的问题"
+        }
+      ]
+    }
+  ],
+  "slugAliases": {
+    "best-gratitude-journal-apps-christians": "best-gratitude-journal-apps-for-christians"
+  }
+}

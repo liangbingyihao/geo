@@ -1,0 +1,16 @@
+# 依赖
+node_modules/
+
+# 构建产物（可重新生成，不入库）
+dist/
+dist-test/
+
+# 系统 / 临时文件
+.DS_Store
+Thumbs.db
+~$*.docx
+~$*.doc
+
+# 二进制 / 大文件（源文件是 .md，Word 版与压缩包不入库；如需归档请删除下面两行）
+*.docx
+*.zip

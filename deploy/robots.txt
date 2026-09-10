@@ -1,0 +1,61 @@
+# ============================================================
+# 1. 允许传统搜索引擎与 AI 实时搜索/引用爬虫
+# ============================================================
+User-agent: *
+Content-Signal: search=yes,ai-train=no,use=reference
+Allow: /
+
+# 显式允许 OpenAI 实时搜索与引用爬虫（ChatGPT 检索/引用）
+User-agent: OAI-SearchBot
+Allow: /
+
+# 显式允许 Anthropic 实时搜索与用户触发爬虫（Claude 检索/引用）
+User-agent: Claude-SearchBot
+Allow: /
+User-agent: claude-user
+Allow: /
+
+# 显式允许 Perplexity 检索与引用
+User-agent: PerplexityBot
+Allow: /
+User-agent: Perplexity-User
+Allow: /
+
+# Common Crawl 放行（用于检索/搜索/RAG 数据集发现）
+User-agent: CCBot
+Allow: /
+
+# ============================================================
+# 2. 禁止 AI 模型训练爬虫（防训练，保护原创内容）
+# ============================================================
+# OpenAI 模型训练
+User-agent: GPTBot
+Disallow: /
+
+# 谷歌 Gemini 训练/知识库注入（不影响 Google 搜索与 AI Overviews）
+User-agent: Google-Extended
+Disallow: /
+
+# Anthropic 模型训练
+User-agent: ClaudeBot
+Disallow: /
+
+# 苹果 AI 模型训练
+User-agent: Applebot-Extended
+Disallow: /
+
+# 字节跳动爬虫
+User-agent: Bytespider
+Disallow: /
+
+# Meta AI 训练
+User-agent: meta-externalagent
+Disallow: /
+
+# 其他不需要的爬虫
+User-agent: Amazonbot
+Disallow: /
+User-agent: CloudflareBrowserRenderingCrawler
+Disallow: /
+
+Sitemap: https://grace-word.com/blog/sitemap.xml
