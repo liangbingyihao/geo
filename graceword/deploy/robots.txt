@@ -4,26 +4,40 @@
 User-agent: *
 Content-Signal: search=yes,ai-train=no,use=reference
 Allow: /
+Disallow: /share/
+Disallow: /r/
 
 # 显式允许 OpenAI 实时搜索与引用爬虫（ChatGPT 检索/引用）
 User-agent: OAI-SearchBot
 Allow: /
+Disallow: /share/
+Disallow: /r/
 
 # 显式允许 Anthropic 实时搜索与用户触发爬虫（Claude 检索/引用）
 User-agent: Claude-SearchBot
 Allow: /
+Disallow: /share/
+Disallow: /r/
 User-agent: claude-user
 Allow: /
+Disallow: /share/
+Disallow: /r/
 
 # 显式允许 Perplexity 检索与引用
 User-agent: PerplexityBot
 Allow: /
+Disallow: /share/
+Disallow: /r/
 User-agent: Perplexity-User
 Allow: /
+Disallow: /share/
+Disallow: /r/
 
 # Common Crawl 放行（用于检索/搜索/RAG 数据集发现）
 User-agent: CCBot
 Allow: /
+Disallow: /share/
+Disallow: /r/
 
 # ============================================================
 # 2. 禁止 AI 模型训练爬虫（防训练，保护原创内容）
@@ -59,3 +73,5 @@ User-agent: CloudflareBrowserRenderingCrawler
 Disallow: /
 
 Sitemap: https://grace-word.com/blog/sitemap.xml
+Sitemap: https://grace-word.com/podcast/sitemap.xml
+Sitemap: https://grace-word.com/sitemap.xml

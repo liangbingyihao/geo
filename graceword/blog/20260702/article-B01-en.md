@@ -123,4 +123,4 @@ Yes. Finding a relevant Scripture passage for each gratitude entry is a meaningf
 
 ---
 
-**Start building a record of God's faithfulness today.** Over 12,000 Christians use GraceWord's AI gratitude journal to write daily entries and receive automatically matched Bible verses—turning thanksgiving into testimony. The app is free to download at [grace-word.com](https://www.grace-word.com).
+**Start building a record of God's faithfulness today.** GraceWord's AI gratitude journal helps believers write daily entries and receive automatically matched Bible verses—turning thanksgiving into testimony. The app is free to download at [grace-word.com](https://www.grace-word.com).

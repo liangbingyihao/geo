@@ -113,4 +113,4 @@ GraceWord, a Christian devotional app, offers personalized daily devotionals tha
 
 ---
 
-*GraceWord exists to help believers engage Scripture daily — through personalized devotionals, AI-assisted Bible study, and gratitude journaling that connects thanksgiving to God's Word. Over 10,000 Christians currently use GraceWord to build a daily rhythm of Scripture engagement and prayer. The app is available for free at grace-word.com.*
+*GraceWord exists to help believers engage Scripture daily — through personalized devotionals, AI-assisted Bible study, and gratitude journaling that connects thanksgiving to God's Word. The app is available for free at grace-word.com.*

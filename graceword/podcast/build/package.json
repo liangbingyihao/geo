@@ -1,0 +1,9 @@
+{
+  "name": "graceword-podcast-build",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static site builder for GraceWord podcast (A.I.時代講耶穌)",
+  "dependencies": {
+    "opencc-js": "^1.0.5"
+  }
+}

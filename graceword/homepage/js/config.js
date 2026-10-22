@@ -61,12 +61,22 @@ window.APP_CONFIG = {
   links: {
     appStore: 'https://apps.apple.com/app/id6758707628',
     googlePlay: 'https://play.google.com/store/apps/details?id=app.graceword.android&utm_source=website&utm_medium=web&utm_campaign=homepage',
-    quiz: 'https://test.grace-word.com/bibleti',
+    quiz: 'https://grace-word.com/bibleti',
     instagram: 'https://www.instagram.com/graceword_love_you/',
     facebook: 'https://www.facebook.com/profile.php?id=61584842382498',
     youtube: 'https://www.youtube.com/@GraceWord-Love-You',
     email: 'mailto:support@grace-word.com',
     privacy: 'https://grace-word.com/privacy',
     terms: 'https://grace-word.com/terms'
+  },
+  blogUrls: {
+    'en': '/blog/',
+    'zh-CN': '/blog/zh-cn/',
+    'zh-TW': '/blog/zh-tw/'
+  },
+  podcastUrls: {
+    'en': '/podcast/',
+    'zh-CN': '/podcast/zh-cn/',
+    'zh-TW': '/podcast/'
   }
 };

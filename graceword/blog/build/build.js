@@ -5,6 +5,7 @@ const path = require('path');
 const crypto = require('crypto');
 const { marked } = require('marked');
 const OpenCC = require('opencc-js');
+const shared = require('../../site/header-footer.js');
 
 const ROOT = path.resolve(__dirname, '..');
 const SRC = path.join(ROOT, '20260702');
@@ -25,16 +26,6 @@ const CDN = 'https://cdn.grace-word.com';
 const LOGO_URL = CDN + '/home/logo.webp';
 // Universal download entry (root-relative so it works on any host, incl. test)
 const DOWNLOAD_URL = '/action/download';
-const SOCIAL = {
-  instagram: 'https://www.instagram.com/graceword_love_you/',
-  facebook: 'https://www.facebook.com/profile.php?id=61584842382498',
-  youtube: 'https://www.youtube.com/@GraceWord-Love-You',
-};
-const SOCIAL_ICONS = {
-  instagram: CDN + '/home/icon-instagram.webp',
-  facebook: CDN + '/home/icon-facebook.webp',
-  youtube: CDN + '/home/icon-youtube.webp',
-};
 const GA_ID = 'G-7CEHJHLWK1';
 const FONTS = 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Literata:opsz,wght@7..72,400;7..72,500;7..72,700;7..72,900&display=swap';
 const VERSION = site.version || '20260702';
@@ -50,8 +41,10 @@ function assetUrl(file) {
   return `${CDN}/blog/${file}?v=${hash}`;
 }
 
-const CSS_URL = assetUrl('style.css');
-const JS_URL = assetUrl('main.js');
+const REST_CSS = fs.readFileSync(path.join(ASSETS, 'style.css'), 'utf8');
+const COMBINED_CSS = shared.HEADER_CSS + '\n' + REST_CSS;
+const CSS_URL = '/blog/style.css';
+const JS_URL = '/blog/main.js';
 
 /* ---------------------------------------------------------------- languages */
 
@@ -73,8 +66,9 @@ const UI = {
   en: {
     appName: 'GraceWord',
     home: 'Home',
-    blog: 'Blog',
-    heroTitle: 'Blog',
+    blog: 'Articles',
+    podcast: 'Podcast',
+    heroTitle: 'Articles',
     heroSubtitle: 'Scripture, devotion, and practical faith — resources to deepen your daily walk with God.',
     searchPlaceholder: 'Search articles...',
     catAll: 'All',
@@ -82,15 +76,16 @@ const UI = {
     published: 'Published',
     related: 'Related Articles',
     stickyTagline: 'Scripture · Worship · Devotion',
-    stickyBtn: 'Get the App →',
+    stickyBtn: 'Download GraceWord Free →',
     followTitle: 'Stay Connected',
     followDesc: 'Follow us for daily inspiration',
   },
   'zh-CN': {
     appName: '恩语',
     home: '首页',
-    blog: '博客',
-    heroTitle: '博客',
+    blog: '文章',
+    podcast: '播客',
+    heroTitle: '文章',
     heroSubtitle: '经文、灵修与实用信仰——帮助你深化与神同行之路的资源。',
     searchPlaceholder: '搜索文章...',
     catAll: '全部',
@@ -98,7 +93,7 @@ const UI = {
     published: '发布于',
     related: '相关文章',
     stickyTagline: '经文 · 敬拜 · 灵修',
-    stickyBtn: '下载恩语 →',
+    stickyBtn: '免费下载恩语 →',
     followTitle: '保持联系',
     followDesc: '关注我们获取每日灵感',
   },
@@ -154,8 +149,26 @@ function preprocessEmphasis(md) {
     .join('\n');
 }
 
+// Auto-link bare domain mentions (grace-word.com / www.grace-word.com, and
+// optional /blog/{slug} paths) that were written as plain text in the source.
+// Proper markdown links are left untouched; rewriteLinks later converts these
+// into relative / language-aware links.
+function autoLinkDomain(md) {
+  return md.split('\n').map((line) => {
+    if (line.indexOf('grace-word.com') === -1) return line;
+    if (/\[[^\]]*\]\([^)]*grace-word\.com[^)]*\)/.test(line)) return line;
+    line = line.replace(
+      /(?<![\w.-])((?:www\.)?grace-word\.com)(\/blog\/[a-z0-9-]+)?/g,
+      (m, domain, path) => path
+        ? `[${m}](https://grace-word.com${path})`
+        : `[${m}](https://grace-word.com/)`
+    );
+    return line;
+  }).join('\n');
+}
+
 function renderMarkdown(md) {
-  return marked.parse(preprocessEmphasis(md));
+  return marked.parse(preprocessEmphasis(autoLinkDomain(md)));
 }
 
 // Inject in-body cross-links: wrap the FIRST occurrence of each anchor phrase
@@ -216,14 +229,15 @@ function extractDescription(md) {
 
 function extractFaq(md) {
   const lines = md.split('\n');
-  let i = lines.findIndex((l) => /^##\s+(Frequently Asked Questions|常见问题解答|常見問題解答)/i.test(l.trim()));
+  let i = lines.findIndex((l) => /^##\s+.*(frequently asked questions|faq|常见问题|常見問題|常见问答|常見問答)/i.test(l.trim()));
   if (i < 0) return [];
 
   const questionOf = (line) => {
     const s = line.trim();
-    if (/^###\s+/.test(s)) return cleanInline(s.replace(/^###\s+/, ''));
+    const stripNum = (t) => t.replace(/^(问题|問題)\s*\d+\s*[：:]\s*/, '').replace(/^\d+\.\s*/, '');
+    if (/^###\s+/.test(s)) return cleanInline(stripNum(s.replace(/^###\s+/, '')));
     if (/^\*\*.*\*\*$/.test(s)) {
-      return cleanInline(s.replace(/^\*\*/, '').replace(/\*\*$/, '').replace(/^\d+\.\s*/, ''));
+      return cleanInline(stripNum(s.replace(/^\*\*/, '').replace(/\*\*$/, '')));
     }
     return null;
   };
@@ -261,6 +275,10 @@ function slugToPath(slug, lang) {
 function blogListPath(lang) {
   const dir = LANGS[lang].dir;
   return dir ? `/blog/${dir}/` : `/blog/`;
+}
+
+function podcastPath(lang) {
+  return lang === 'zh-CN' ? '/podcast/zh-cn/' : '/podcast/';
 }
 
 function langUrls(slug) {
@@ -373,6 +391,19 @@ function buildJsonLdBlock(article, lang, faq) {
     ],
   });
 
+  if (article.howTo) {
+    blocks.push({
+      '@context': 'https://schema.org',
+      '@type': 'HowTo',
+      name: article.howTo.name,
+      step: article.howTo.steps.map((s) => ({
+        '@type': 'HowToStep',
+        name: s.name,
+        text: s.text,
+      })),
+    });
+  }
+
   if (article.category === 'd') blocks.push(SOFTWARE_APP);
   if (article.category === 'e') blocks.push(QUIZ);
 
@@ -382,64 +413,12 @@ function buildJsonLdBlock(article, lang, faq) {
 /* ---------------------------------------------------------------- layout */
 
 function navHtml(lang, active, urls) {
-  const blogActive = active === 'blog' ? ' class="active"' : '';
-  const options = LANG_KEYS.map((k) => {
-    const optActive = k === lang ? ' active' : '';
-    return `      <a class="lang-option${optActive}" href="${urls[k]}" hreflang="${LANGS[k].hreflang}">${LANGS[k].label}</a>`;
-  }).join('\n');
-  return `
-<header class="header">
-  <div class="header-inner">
-    <a href="/" class="header-logo" aria-label="GraceWord Home">
-      <img src="${LOGO_URL}" alt="GraceWord">
-      <span>${t(lang, 'appName')}</span>
-    </a>
-    <button class="menu-toggle" id="hamburger" aria-label="Toggle menu" aria-expanded="false">&#9776;</button>
-    <nav class="header-nav" id="mobileMenu">
-      <a href="/" role="menuitem">${t(lang, 'home')}</a>
-      <a href="${blogListPath(lang)}" role="menuitem"${blogActive}>${t(lang, 'blog')}</a>
-      <div class="lang-switch" id="langSwitch">
-        <button class="lang-select-trigger" type="button" aria-haspopup="true" aria-expanded="false">
-          <svg class="globe-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-          <span class="lang-current">${LANGS[lang].label}</span>
-          <svg class="chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-        </button>
-        <div class="lang-dropdown" role="menu">
-${options}
-        </div>
-      </div>
-    </nav>
-  </div>
-</header>`;
+  const langs = LANG_KEYS.map((k) => ({ code: k, label: LANGS[k].label, hreflang: LANGS[k].hreflang }));
+  return shared.header({ lang, active, langHref: (code) => urls[code], langs });
 }
 
 function footerHtml(lang) {
-  return `
-<footer class="footer" role="contentinfo">
-  <div class="footer-inner">
-    <span>© 2026 ${t(lang, 'appName')}</span>
-    <span class="divider">|</span>
-      <a href="/privacy">Privacy Policy</a>
-      <span class="divider">|</span>
-      <a href="/terms">Terms of Use</a>
-  </div>
-</footer>`;
-}
-
-function socialHtml(lang) {
-  return `
-<section class="cta-section" id="cta" aria-label="Follow GraceWord on social media">
-  <div class="cta-inner">
-    <h2>${t(lang, 'followTitle')}</h2>
-    <p class="cta-subtitle">${t(lang, 'followDesc')}</p>
-    <div class="cta-social-links">
-      <a href="${SOCIAL.instagram}" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram"><img src="${SOCIAL_ICONS.instagram}" alt="Instagram" loading="lazy"></a>
-      <a href="${SOCIAL.facebook}" target="_blank" rel="noopener" aria-label="Facebook" title="Facebook"><img src="${SOCIAL_ICONS.facebook}" alt="Facebook" loading="lazy"></a>
-      <a href="${SOCIAL.youtube}" target="_blank" rel="noopener" aria-label="YouTube" title="YouTube"><img src="${SOCIAL_ICONS.youtube}" alt="YouTube" loading="lazy"></a>
-    </div>
-    <p class="cta-email"><a href="mailto:support@grace-word.com">support@grace-word.com</a></p>
-  </div>
-</section>`;
+  return shared.footer({ lang });
 }
 
 function headHtml({ lang, title, description, canonical, isArticle, hreflang, jsonLd }) {
@@ -591,7 +570,6 @@ ${navHtml(lang, 'blog', urls)}
 
 ${relatedHtml}
 
-${socialHtml(lang)}
 ${footerHtml(lang)}
 
 <div class="sticky-bar" id="stickyBar">
@@ -628,7 +606,7 @@ function categoryNav(lang) {
 function buildBlogList() {
   for (const lang of LANG_KEYS) {
     const title = lang === 'en'
-      ? 'GraceWord Blog — Scripture, Devotion & Faith Resources'
+      ? 'GraceWord Articles — Scripture, Devotion & Faith Resources'
       : `GraceWord ${t(lang, 'blog')} — ${lang === 'zh-CN' ? '经文、灵修与信仰资源' : '經文、靈修與信仰資源'}`;
     const desc = lang === 'en'
       ? 'Explore articles on Bible verses, gratitude journaling, Bible study methods, Christian app reviews, and biblical personality quizzes.'
@@ -702,7 +680,6 @@ ${navHtml(lang, 'blog', urls)}
   </div>
 </section>
 
-${socialHtml(lang)}
 ${footerHtml(lang)}
 
 <div class="sticky-bar" id="stickyBar">
@@ -776,11 +753,11 @@ Sitemap: ${DOMAIN}/blog/sitemap.xml
 /* ---------------------------------------------------------------- copy assets */
 
 function copyAssets() {
-  const outAssets = path.join(DIST, 'assets');
-  fs.mkdirSync(outAssets, { recursive: true });
-  for (const f of fs.readdirSync(ASSETS)) {
-    fs.copyFileSync(path.join(ASSETS, f), path.join(outAssets, f));
-  }
+  const out = path.join(DIST, 'blog');
+  fs.mkdirSync(out, { recursive: true });
+  fs.writeFileSync(path.join(out, 'style.css'), COMBINED_CSS);
+  const contentJs = fs.readFileSync(path.join(ASSETS, 'main.js'), 'utf8');
+  fs.writeFileSync(path.join(out, 'main.js'), shared.HEADER_JS + '\n' + contentJs);
 }
 
 /* ---------------------------------------------------------------- run */

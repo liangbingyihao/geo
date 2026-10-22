@@ -8,11 +8,12 @@
 geo/
 ├── graceword/
 │   ├── homepage/          # GraceWord 落地页（手写 HTML + CDN 资产）
-│   └── blog/              # GraceWord 博客（markdown → build.js 静态生成）
-│       ├── build/         # 构建脚本 + articles.json + assets
-│       ├── 20260702/      # 源文章（en/zh .md）
-│       ├── deploy/        # nginx 配置 + robots.txt
-│       └── dist/ dist-test/  # 构建产物（git 忽略）
+│   ├── blog/              # GraceWord 博客（markdown → build.js 静态生成）
+│   │   ├── build/         # 构建脚本 + articles.json + assets
+│   │   ├── 20260702/      # 源文章（en/zh .md）
+│   │   └── dist/ dist-test/  # 构建产物（git 忽略）
+│   ├── podcast/           # GraceWord 播客（podcast.json → build.js 静态生成）
+│   └── deploy/            # nginx 配置 + robots.txt（站点级）
 ├── sleep-buddy/
 │   ├── homepage/          # Sleep-Buddy 落地页 + 活动页（activity/、invite_*.html）
 │   └── blog/              # 未来 Sleep-Buddy 博客（现为 sleepbuddy-blog.zip）
@@ -22,8 +23,9 @@ geo/
 │   ├── materials/         # 官网素材
 │   ├── build/             # 占位：未来多站点通用构建
 │   └── seo/               # 占位：共享 robots/sitemap/schema 约定
+├── GEO-WRITING-RULES.md   # 写作规范（GraceWord / Sleep-Buddy 共用）
 ├── TODO.md                # 待办清单
-└── DEPLOY.md              #（在 graceword/blog/ 下）部署文档
+└── DEPLOY.md              # 站点 / 博客 / 播客 / bibleti 统一部署说明
 ```
 
 ## 博客构建（graceword/blog）
@@ -43,12 +45,16 @@ SITE_URL=https://test.grace-word.com NOINDEX=1 OUT_DIR=dist-test node build.js
 - 文章元数据（标题/日期/内链 crossLinks 等）在 `build/articles.json`
 - 站内链接均为根相对路径，测试/生产通用
 
+## 部署
+
+站点、博客、播客、BibleTI 的构建与部署命令（含安全规则、验证脚本）见根目录 [`DEPLOY.md`](DEPLOY.md)。
+
 ## SEO/GEO 约定
 
 - 三语言：en / zh-CN / zh-TW（hreflang 用 `en`/`zh-CN`/`zh-TW`，`<html lang>` 用 `en`/`zh-Hans`/`zh-Hant`）
 - 每篇含 JSON-LD：`BlogPosting` + `FAQPage` + `BreadcrumbList`（D 类加 `SoftwareApplication`，E 类加 `Quiz`）
 - 正文内链：`crossLinks` 精确短语 + 语言感知相对链接
-- robots.txt 策略：允许搜索/引用，禁止 AI 训练（详见 `graceword/blog/deploy/robots.txt`）
+- robots.txt 策略：允许搜索/引用，禁止 AI 训练（详见 `graceword/deploy/robots.txt`）
 
 ## 相关项目
 

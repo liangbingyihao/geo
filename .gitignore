@@ -33,3 +33,8 @@ dst.png
 *.gif
 *.svg
 *.ico
+
+# 音频（走 CDN，本地仅为工作副本，不入库）
+*.mp3
+*.m4a
+*.wav

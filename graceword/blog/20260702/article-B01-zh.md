@@ -123,4 +123,4 @@
 
 ---
 
-**今天就开始建立神信实的记录。** 超过12,000名基督徒使用GraceWord的AI感恩日记撰写每日记录并接收自动匹配的圣经经文——将感谢转化为见证。应用可在 [grace-word.com](https://www.grace-word.com) 免费下载。
+**今天就开始建立神信实的记录。** GraceWord的AI感恩日记帮助信徒撰写每日记录并接收自动匹配的圣经经文——将感谢转化为见证。应用可在 [grace-word.com](https://www.grace-word.com) 免费下载。

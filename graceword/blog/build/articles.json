@@ -166,7 +166,32 @@
           "en": "Christian gratitude journal",
           "zh": "基督教感恩日记"
         }
-      ]
+      ],
+      "howTo": {
+        "name": "How to Start a Christian Gratitude Journal",
+        "steps": [
+          {
+            "name": "Choose Your Journal Format",
+            "text": "Decide between a physical notebook or a digital platform, and designate it exclusively for gratitude entries."
+          },
+          {
+            "name": "Set a Consistent Daily Time",
+            "text": "Anchor your gratitude practice to an existing habit and commit to one time for at least 30 days."
+          },
+          {
+            "name": "Write Three to Five Specific Gratitude Entries",
+            "text": "Each day, write three to five specific things you are thankful for, being concrete rather than generic."
+          },
+          {
+            "name": "Pair Each Entry with a Matching Bible Verse",
+            "text": "After each entry, find a Scripture passage that connects to it, redirecting gratitude toward God."
+          },
+          {
+            "name": "Review Your Journal Weekly and Monthly",
+            "text": "Re-read past entries weekly and monthly to reveal patterns of God's provision."
+          }
+        ]
+      }
     },
     {
       "id": "B02",
@@ -291,7 +316,28 @@
           "en": "AI Bible Study Q&A",
           "zh": "AI查经问答"
         }
-      ]
+      ],
+      "howTo": {
+        "name": "SOAP Bible Study Method",
+        "steps": [
+          {
+            "name": "Scripture",
+            "text": "Read the passage and write it out word for word, slowing down to notice every word."
+          },
+          {
+            "name": "Observation",
+            "text": "Determine what the passage actually says before interpretation: identify speakers, setting, repeated words, and commands."
+          },
+          {
+            "name": "Application",
+            "text": "Decide what God is saying to you today and commit to one concrete action."
+          },
+          {
+            "name": "Prayer",
+            "text": "Respond to God in prayer, submitting your application to His power."
+          }
+        ]
+      }
     },
     {
       "id": "C03",
@@ -331,7 +377,32 @@
           "en": "personalized daily devotion",
           "zh": "个性化每日灵修"
         }
-      ]
+      ],
+      "howTo": {
+        "name": "How to Build a Daily Devotion Habit",
+        "steps": [
+          {
+            "name": "Anchor Your Devotion to an Existing Habit",
+            "text": "Attach devotion to something you already do daily, using habit stacking as your trigger."
+          },
+          {
+            "name": "Set a Minimum Commitment — Then Honor It",
+            "text": "Define a small, almost-too-easy minimum (five minutes, one psalm) and count it as done."
+          },
+          {
+            "name": "Choose a Method That Fits Your Season",
+            "text": "Pick a devotional method (topical, chapter-by-chapter, app-based) that matches your current season."
+          },
+          {
+            "name": "Create Accountability — Even Simple Accountability",
+            "text": "Find visibility: a partner, group, or tracking tool that knows whether you showed up."
+          },
+          {
+            "name": "Use Structured Tools That Reduce Decision Fatigue",
+            "text": "Eliminate the daily 'what to read' decision with a plan or app that delivers content automatically."
+          }
+        ]
+      }
     },
     {
       "id": "C05",

@@ -1,0 +1,8 @@
+{
+  "lastVerified": "2026-10-20",
+  "regions": [
+    { "cc": "US", "currency": "USD", "symbol": "$", "monthly": 4.99, "yearly": 39.99 },
+    { "cc": "HK", "currency": "HKD", "symbol": "HK$", "monthly": 38, "yearly": 288 },
+    { "cc": "TW", "currency": "TWD", "symbol": "NT$", "monthly": 150, "yearly": 1290 }
+  ]
+}

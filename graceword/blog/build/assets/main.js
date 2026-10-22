@@ -1,41 +1,22 @@
 (function () {
   'use strict';
 
-  // Hamburger menu toggle
-  var hamburger = document.getElementById('hamburger');
-  var mobileMenu = document.getElementById('mobileMenu');
-  if (hamburger && mobileMenu) {
-    hamburger.addEventListener('click', function () {
-      var open = mobileMenu.classList.toggle('mobile-open');
-      hamburger.setAttribute('aria-expanded', open);
-    });
-  }
+  // Header menu toggle + language dropdown are handled by the shared HEADER_JS
+  // (prepended at build time by build.js), matching the site/podcast header.
 
-  // Header shadow on scroll
-  var header = document.querySelector('.header');
-  if (header) {
-    window.addEventListener('scroll', function () {
-      if (window.scrollY > 10) header.classList.add('scrolled');
-      else header.classList.remove('scrolled');
-    });
+  // Sync the homepage language (single-page, localStorage-based) with the
+  // blog's current language before navigating to the site root.
+  function blogLangToGw(htmlLang) {
+    if (htmlLang === 'zh-Hans') return 'zh-CN';
+    if (htmlLang === 'zh-Hant') return 'zh-TW';
+    return 'en';
   }
-
-  // Language dropdown toggle
-  var langSwitch = document.getElementById('langSwitch');
-  if (langSwitch) {
-    var trigger = langSwitch.querySelector('.lang-select-trigger');
-    trigger.addEventListener('click', function (e) {
-      e.stopPropagation();
-      var open = langSwitch.classList.toggle('open');
-      trigger.setAttribute('aria-expanded', open);
+  var gwLang = blogLangToGw(document.documentElement.lang);
+  document.querySelectorAll('a[href="/"]').forEach(function (a) {
+    a.addEventListener('click', function () {
+      localStorage.setItem('gw-lang', gwLang);
     });
-    document.addEventListener('click', function (e) {
-      if (!langSwitch.contains(e.target)) {
-        langSwitch.classList.remove('open');
-        trigger.setAttribute('aria-expanded', 'false');
-      }
-    });
-  }
+  });
 
   // Category filter on blog listing
   var catButtons = document.querySelectorAll('.cat-btn[data-cat]');
@@ -73,7 +54,7 @@
   // Sticky bottom CTA (article pages only)
   var sticky = document.getElementById('stickyBar');
   if (sticky) {
-    var ctaSection = document.getElementById('cta');
+    var ctaSection = document.querySelector('.site-footer');
     var observer = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         sticky.classList.toggle('visible', !entry.isIntersecting);

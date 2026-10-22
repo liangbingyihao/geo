@@ -73,6 +73,22 @@ function setLang(lang) {
   }
   applyTranslation();
   updateBanners(lang);
+  updateBlogLink(lang);
+  updatePodcastLink(lang);
+}
+
+function updateBlogLink(lang) {
+  const urls = window.APP_CONFIG && window.APP_CONFIG.blogUrls;
+  document.querySelectorAll('.blog-link').forEach((el) => {
+    if (urls && urls[lang]) el.setAttribute('href', urls[lang]);
+  });
+}
+
+function updatePodcastLink(lang) {
+  const urls = window.APP_CONFIG && window.APP_CONFIG.podcastUrls;
+  document.querySelectorAll('.podcast-link').forEach((el) => {
+    if (urls && urls[lang]) el.setAttribute('href', urls[lang]);
+  });
 }
 
 function updateBanners(lang) {
@@ -238,12 +254,6 @@ document.addEventListener('DOMContentLoaded', () => {
   if (quizContainer && quizPrev && quizNext) {
     addTouchSwipe(quizContainer, () => quizNext.click(), () => quizPrev.click());
   }
-
-  // Quiz take button
-  document.querySelector('.quiz-take-btn')?.addEventListener('click', () => {
-    const url = resolveLink('quiz');
-    if (url) window.open(url, '_blank');
-  });
 
   // Scroll reveal
   const revealObserver = new IntersectionObserver((entries) => {

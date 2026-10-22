@@ -1,0 +1,3937 @@
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <title>Bible TI</title>
+  <meta name="description" content="20題，3分鐘，發現你最像哪位聖經人物。" />
+  <meta property="og:title" content="BibleTI — 你最像哪位聖經人物？" />
+  <meta property="og:description" content="20題，發現你最像哪位聖經人物。" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Serif+TC:wght@400;600;700&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-7CEHJHLWK1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-7CEHJHLWK1');
+    </script>
+  <style>
+    /* ─── Reset & Base ─── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    :root {
+      --bg:        #FDF9F7;
+      --card:      #FFFFFF;
+      --primary:   #8C1A1A;
+      --gold:      #8B1B1B;
+      --gold-lt:   #FDF9F7;
+      --text:      #2A1A0E;
+      --text-2:    #333333;
+      --border:    #E6D9C8;
+      --shadow:    0 4px 24px rgba(44,24,8,.08);
+      --radius:    16px;
+      --radius-sm: 10px;
+      --font-body: 'Lora', 'Noto Serif TC', 'Noto Serif SC', 'Songti TC', 'Songti SC', serif;
+    }
+    :root:lang(zh-Hans) {
+      --font-body: 'Lora', 'Noto Serif SC', 'Noto Serif TC', 'Songti SC', 'Songti TC', serif;
+    }
+    :root:lang(en) {
+      --font-body: 'Lora', serif;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100dvh;
+      overflow-x: hidden;
+      font-synthesis: none;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ─── Layout ─── */
+    #app {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100dvh;
+    }
+
+    .screen {
+      width: 100%;
+      max-width: 520px;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      padding: 0 20px 40px;
+    }
+
+    /* ─── Language Bar ─── */
+    .lang-bar {
+      display: flex;
+      justify-content: flex-end;
+      gap: 6px;
+      padding: 16px 0 0;
+    }
+
+    .lang-btn {
+      font-family: var(--font-body);
+      font-size: 14px;
+      padding: 5px 12px;
+      border-radius: 20px;
+      border: 1.5px solid var(--border);
+      background: transparent;
+      color: var(--text-2);
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .lang-btn.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+    .lang-btn:hover:not(.active) {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    /* ─── Landing Screen ─── */
+    .landing-wrap {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      padding-top: 0;
+    }
+
+    .landing-title {
+      font-size: clamp(22px, 6vw, 28px);
+      font-weight: 700;
+      color: var(--primary);
+      line-height: 1.4;
+      letter-spacing: .02em;
+      text-align: center;
+      margin-top: 32px;
+    }
+
+    /* Character Preview Carousel */
+    .char-preview {
+      border-radius: var(--radius);
+      padding: 20px 20px 10px 20px;
+      margin: 16px 0 24px;
+      box-shadow: 0px 5px 10px 1px rgba(229,76,63,0.12);
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 1065 / 609;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .avatar-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+    .char-preview-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .char-preview-top,
+    .char-preview-dots {
+      position: relative;
+      z-index: 1;
+    }
+    .char-preview-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+    }
+    .char-preview-name {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    .char-preview-tag {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      background: #851F25;
+      color: #FFFFFF;
+      font-size: 12px;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+    .char-preview-dots {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 12px;
+    }
+    .char-preview[onclick] {
+      cursor: pointer;
+    }
+    .char-preview-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--border);
+      cursor: pointer;
+      transition: background .2s;
+    }
+    .char-preview-dot.active { background: var(--text-2); }
+
+    .landing-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+    .landing-badge::before, .landing-badge::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--gold-lt);
+    }
+
+    .landing-logo {
+      font-size: clamp(36px, 10vw, 48px);
+      font-weight: 700;
+      color: var(--text-2);
+      letter-spacing: -.02em;
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+    .landing-logo span {
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .landing-sub {
+      font-size: 14px;
+      color: var(--text-2);
+      line-height: 20px;
+      margin-bottom: 28px;
+    }
+
+    .landing-dims {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+    .dim-pill {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      font-size: 12px;
+      color: var(--text-2);
+      line-height: 1.4;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .dim-pill strong {
+      display: block;
+      color: var(--primary);
+      font-size: 14px;
+      margin-bottom: 2px;
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 16px;
+      background: var(--primary);
+      color: #fff;
+      font-family: var(--font-body);
+      font-size: 16px;
+      font-weight: 600;
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: all .2s;
+      letter-spacing: .02em;
+    }
+    .btn-primary:hover { background: #6A1F1F; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(123,40,40,.25); }
+    .btn-primary:active { transform: translateY(0); }
+
+    .landing-meta {
+      text-align: center;
+      font-size: 14px;
+      color: var(--text-2);
+      margin-top: 16px;
+      opacity: .75;
+    }
+
+    /* ─── Quiz Screen ─── */
+    .quiz-header {
+      padding: 20px 0 16px;
+    }
+
+    .progress-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .progress-count {
+      font-size: 12px;
+      color: var(--text-2);
+      letter-spacing: .05em;
+    }
+    .progress-dim {
+      font-size: 11px;
+      color: var(--gold);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .progress-track {
+      height: 4px;
+      background: var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--gold));
+      border-radius: 4px;
+      transition: width .4s ease;
+    }
+
+    .question-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .question-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 28px 24px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      animation: slideIn .3s ease;
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .q-num {
+      font-size: 11px;
+      color: var(--gold);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .q-text {
+      font-size: clamp(15px, 4vw, 17px);
+      line-height: 1.65;
+      color: var(--text);
+    }
+
+    .answers-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .ans-btn {
+      width: 100%;
+      background: var(--card);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      text-align: left;
+      font-family: var(--font-body);
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--text);
+      cursor: pointer;
+      transition: all .2s;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      box-shadow: 0 2px 8px rgba(44,24,8,.04);
+    }
+    .ans-btn:hover {
+      border-color: var(--primary);
+      background: #FFF8F5;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(123,40,40,.10);
+    }
+    .ans-btn:active { transform: translateY(0); }
+    .ans-btn.chosen {
+      border-color: var(--primary);
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .ans-label {
+      flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--gold-lt);
+      color: var(--gold);
+      font-size: 11px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1px;
+      transition: all .2s;
+    }
+    .ans-btn.chosen .ans-label {
+      background: rgba(255,255,255,.2);
+      color: #fff;
+    }
+
+    .quiz-back {
+      background: none;
+      border: none;
+      color: var(--text-2);
+      font-family: var(--font-body);
+      font-size: 13px;
+      cursor: pointer;
+      padding: 8px 0;
+      opacity: .7;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .quiz-back:hover { opacity: 1; }
+
+    /* ─── Result Screen ─── */
+    .result-wrap {
+      padding-top: 24px;
+      animation: fadeUp .5s ease;
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .result-header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .result-avatar {
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      font-weight: 700;
+      color: #fff;
+      margin: 0 auto 16px;
+      box-shadow: 0 8px 24px rgba(0,0,0,.15);
+    }
+    .result-avatar-wrap {
+      width: 100%;
+      border-radius: var(--radius);
+      margin: 0 auto 16px;
+      overflow: hidden;
+      aspect-ratio: 1065 / 609;
+    }
+    .result-avatar-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .result-type-code {
+      font-size: 14px;
+      letter-spacing: .2em;
+      color: var(--text-2);
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .result-char-name {
+      font-size: clamp(36px, 8vw, 34px);
+      font-weight: 700;
+      color: var(--text-2);
+      line-height: 1.2;
+      margin-bottom: 4px;
+    }
+
+    .result-char-en {
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--text-2);
+      font-style: italic;
+    }
+
+    .result-title {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 11px 32px;
+      border-radius: 35px;
+      /* background: var(--gold-lt); */
+      background: rgb(243 229 228);
+      color: var(--gold);
+      font-size: 25px;
+      font-weight: 700;
+    }
+
+    .result-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      margin-bottom: 14px;
+    }
+
+    .result-verse {
+      font-style: italic;
+      font-size: 14px;
+      line-height: 1.75;
+      color: var(--text-2);
+      border-left: 3px solid var(--gold);
+      padding-left: 14px;
+      margin-bottom: 6px;
+      cursor: pointer;
+    }
+
+    .result-verse-ref {
+      font-size: 12px;
+      color: var(--gold);
+      padding-left: 17px;
+      letter-spacing: .04em;
+      cursor: pointer;
+    }
+    .verse-ref-text {
+      text-decoration: underline dotted;
+      text-underline-offset: 3px;
+    }
+
+    .result-desc {
+      font-size: 14px;
+      line-height: 1.8;
+      color: var(--text);
+      margin-top: 18px;
+    }
+
+    .result-section-title {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 10px;
+      margin-top: 20px;
+    }
+
+    .story-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      margin-bottom: 14px;
+    }
+    .story-section { margin-bottom: 16px; }
+    .story-section:last-child { margin-bottom: 0; }
+    .story-section-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--gold);
+      margin-bottom: 6px;
+    }
+    .story-section-body {
+      font-size: 14px;
+      line-height: 1.8;
+      color: var(--text);
+      white-space: pre-line;
+    }
+
+    .strengths-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .strength-tag {
+      padding: 5px 12px;
+      border-radius: 17px;
+      color: var(--gold);
+      font-size: 12px;
+      font-weight: 400;
+      background: rgba(140,26,26,0.06);
+      border: 1px solid rgba(133,31,37,0.17);
+    }
+
+    .growth-text {
+      font-size: 14px;
+      line-height: 1.75;
+      color: var(--text-2);
+    }
+
+    .advice-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      margin-bottom: 14px;
+    }
+    .advice-sub { margin-bottom: 18px; margin-top: 16px; }
+    .advice-sub:first-of-type { margin-top: 0; }
+    .advice-sub:last-child { margin-bottom: 0; }
+    .advice-sub-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+    .advice-list {
+      margin: 0;
+      padding-left: 20px;
+    }
+    .advice-list li {
+      font-size: 14px;
+      line-height: 1.75;
+      color: var(--text-2);
+      margin-bottom: 4px;
+    }
+    .advice-list li:last-child { margin-bottom: 0; }
+    .advice-headline {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .advice-line {
+      font-size: 14px;
+      line-height: 1.75;
+      color: var(--text-2);
+      margin: 0 0 6px 0;
+    }
+    .advice-line:last-child { margin-bottom: 0; }
+    .advice-verse {
+      font-size: 14px;
+      line-height: 1.75;
+      color: var(--text);
+      font-style: italic;
+      cursor: pointer;
+    }
+    .advice-verse-ref {
+      font-size: 12px;
+      color: var(--gold);
+      margin-top: 4px;
+      cursor: pointer;
+    }
+    .advice-verse-cta {
+      font-size: 12px;
+      margin-top: 8px;
+    }
+
+    /* ─── Dimension Analysis Pane ─── */
+    .dim-analysis {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      margin-bottom: 14px;
+    }
+    .dim-analysis-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+    .dim-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    .dim-row:last-child { margin-bottom: 0; }
+    .dim-label-left,
+    .dim-label-right {
+      width: 56px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+    .dim-label-left .dim-pct,
+    .dim-label-right .dim-pct {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    .dim-label-left .dim-name,
+    .dim-label-right .dim-name {
+      font-size: 11px;
+      color: var(--primary);
+    }
+    .dim-bar-track {
+      flex: 1;
+      height: 6px;
+      background: var(--border);
+      border-radius: 3px;
+      position: relative;
+      overflow: hidden;
+    }
+    .dim-bar-fill-left,
+    .dim-bar-fill-right {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      transition: width .5s ease;
+    }
+    .dim-bar-fill-left {
+      right: 50%;
+    }
+    .dim-bar-fill-right {
+      left: 50%;
+    }
+    .dim-row[data-dim="0"] .dim-bar-fill-left,
+    .dim-row[data-dim="0"] .dim-bar-fill-right { background: #19C648; }
+    .dim-row[data-dim="1"] .dim-bar-fill-left,
+    .dim-row[data-dim="1"] .dim-bar-fill-right { background: #EBDB14; }
+    .dim-row[data-dim="2"] .dim-bar-fill-left,
+    .dim-row[data-dim="2"] .dim-bar-fill-right { background: #FF1931; }
+    .dim-row[data-dim="3"] .dim-bar-fill-left,
+    .dim-row[data-dim="3"] .dim-bar-fill-right { background: #663DEF; }
+
+
+    /* ─── Locked Card Overlay ─── */
+    .result-card-locked {
+      position: relative;
+    }
+    .result-card-locked .result-card,
+    .result-card-locked .advice-body {
+      filter: blur(6px);
+      -webkit-filter: blur(6px);
+      pointer-events: none;
+      user-select: none;
+    }
+    .result-card-locked .advice-card .dim-analysis-title {
+      position: relative;
+      z-index: 3;
+    }
+    .lock-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      z-index: 2;
+    }
+    .lock-overlay img {
+      width: 48px;
+      opacity: .7;
+    }
+    .lock-overlay-cta {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--primary);
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .lock-overlay-cta:hover {
+      text-decoration: underline;
+    }
+
+    /* ─── Action Buttons ─── */
+    .actions-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .btn-share {
+      width: 100%;
+      padding: 14px;
+      background: var(--gold-lt);
+      color: var(--gold);
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 600;
+      border: 1.5px solid var(--gold);
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .btn-share:hover { background: var(--gold); color: #fff; }
+
+    .btn-app {
+      width: 100%;
+      padding: 14px;
+      background: var(--primary);
+      color: #fff;
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 600;
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: all .2s;
+      text-decoration: none;
+      display: block;
+      text-align: center;
+    }
+    .btn-app:hover { background: #6A1F1F; transform: translateY(-1px); }
+
+    .btn-retry {
+      width: 100%;
+      padding: 13px;
+      background: transparent;
+      color: var(--text-2);
+      font-family: var(--font-body);
+      font-size: 14px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .btn-retry:hover { border-color: var(--text-2); color: var(--text); }
+
+
+    .copied-toast {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: #2A1A0E;
+      color: #fff;
+      font-size: 13px;
+      padding: 10px 20px;
+      border-radius: 20px;
+      opacity: 0;
+      transition: all .3s;
+      pointer-events: none;
+      z-index: 999;
+      white-space: nowrap;
+    }
+    .copied-toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ─── Divider ─── */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 8px 0;
+    }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 380px) {
+      .landing-dims { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div id="app"></div>
+<div class="copied-toast" id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════════
+// TRACKING
+// ═══════════════════════════════════════════════
+
+function trackEvent(event, data = {}) {
+  fetch("/web/bibleti", {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ event, ...data, ts: Date.now() })
+  }).catch(() => {});
+  if (typeof gtag !== 'undefined') {
+    gtag('event', event, data);
+  }
+}
+
+// ═══════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════
+const state = {
+  lang: 'tw',       // 'tw' | 'cn' | 'en'
+  screen: 'landing',// 'landing' | 'quiz' | 'result' | 'detail'
+  current: 0,       // question index 0–19
+  answers: [],      // 'A' | 'B' per question
+  type: null,       // 4-letter type code
+  detailType: null,  // type code for detail screen
+  prevScreen: null,  // screen to return to from detail
+  shared: false,     // true when opened via share link
+};
+
+// ═══════════════════════════════════════════════
+// UI STRINGS
+// ═══════════════════════════════════════════════
+const UI = {
+  tw: {
+    badge: '測一測，看看你的屬靈氣質？',
+    sub: '20個問題，發現你最像哪位聖經人物。\n信仰路上，你是哪一種屬靈氣質？',
+    dim1: ['信靠 vs 追問', '你如何面對不確定？'],
+    dim2: ['行動 vs 默觀', '你的信仰如何表達？'],
+    dim3: ['群體 vs 獨處', '你在哪裡最有活力？'],
+    dim4: ['恩典 vs 公義', '什麼最觸動你的心？'],
+    start: '開始測試',
+    meta: '20題 · 約3分鐘 · 免費',
+    q_prefix: '第',
+    q_suffix: '題',
+    dim_result_title: '人格維度分析',
+    back: '← 上一題',
+    your_type: '你的類型',
+    section_verse: '代表經文',
+    section_strengths: '你的強項',
+    section_growth: '成長提醒',
+    section_advice: '專屬成長建議',
+    section_story: '人物故事',
+    share: '分享我的結果',
+    share_title: '我做了一個好有趣的 BibleTI，沒想到我的屬靈氣質最像這位聖經人物！',
+    share_text: '邀請你也來看看，你也測一下你的？',
+    share_copied: '連結已複製！分享給朋友 📖',
+    app_cta: '了解更多聖經人物特質 >',
+    retry: '重新測試',
+    return: '返回',
+    my_test: '我也要測試',
+    unlock: '點擊免費解鎖更多人物特質 >',
+    unlock_advice: '點擊免費解鎖專屬成長建議 >',
+    read_advice: '查看「專屬成長報告」',
+    F: '信靠型',
+    Q: '追問型',
+    A: '行動型',
+    C: '默觀型',
+    P: '群體型',
+    I: '獨處型',
+    G: '恩典型',
+    J: '公義型',
+  },
+  cn: {
+    badge: '测一测，看看你的属灵气质？',
+    sub: '20个问题，发现你最像哪位圣经人物。\n信仰路上，你是哪一种属灵气质？',
+    dim1: ['信靠 vs 追问', '你如何面对不确定？'],
+    dim2: ['行动 vs 默观', '你的信仰如何表达？'],
+    dim3: ['群体 vs 独处', '你在哪里最有活力？'],
+    dim4: ['恩典 vs 公义', '什么最触动你的心？'],
+    start: '开始测试',
+    meta: '20题 · 约3分钟 · 免费',
+    q_prefix: '第',
+    q_suffix: '题',
+    dim_result_title: '人格维度分析',
+    back: '← 上一题',
+    your_type: '你的类型',
+    section_verse: '代表经文',
+    section_strengths: '你的强项',
+    section_growth: '成长提醒',
+    section_advice: '专属成长建议',
+    section_story: '人物故事',
+    share: '分享我的结果',
+    share_title: '我做了一个好有趣的 BibleTI，没想到我的属灵气质最像这位圣经人物！',
+    share_text: '邀请你来看看，你也测一下你的？',
+    share_copied: '链接已复制！分享给朋友 📖',
+    app_cta: '了解更多圣经人物特质 >',
+    retry: '重新测试',
+    return: '返回',
+    my_test: '我也要测试',
+    unlock: '点击免费解锁更多人物特质 >',
+    unlock_advice: '点击免费解锁专属成长建议 >',
+    read_advice: '查看“专属成长报告”',
+    F: '信靠型',
+    Q: '追问型',
+    A: '行动型',
+    C: '默观型',
+    P: '群体型',
+    I: '独处型',
+    G: '恩典型',
+    J: '公义型',
+  },
+  en: {
+    badge: 'Take this quiz to find out what your spiritual temperament is!',
+    sub: '20 questions to discover which Bible figure\nyou resemble most.',
+    dim1: ['Trust vs. Question', 'How do you face uncertainty?'],
+    dim2: ['Action vs. Contemplation', 'How does your faith express itself?'],
+    dim3: ['Community vs. Solitude', 'Where do you come alive?'],
+    dim4: ['Grace vs. Justice', 'What moves your heart most?'],
+    start: 'Take the Quiz →',
+    meta: '20 questions · ~3 minutes · Free',
+    q_prefix: 'Q',
+    q_suffix: '',
+    dim_result_title: 'Personality Dimension Analysis',
+    back: '← Previous',
+    your_type: 'Your Type',
+    section_verse: 'Key Verse',
+    section_strengths: 'Your Strengths',
+    section_growth: 'Growth Edge',
+    section_advice: 'Personalized Growth Recommendations',
+    section_story: 'Character Story',
+    share: 'Share My Result',
+    share_title: 'I made such a fun Bible personality quiz! I never thought my spiritual temperament is most like this Bible character！',
+    share_text: 'I invite you to check it out—want to take the quiz too?',
+    share_copied: 'Link copied! Share it with friends 📖',
+    app_cta: 'Explore more Bible character >',
+    retry: 'Retake the Quiz',
+    return: 'Back',
+    my_test: 'Take the Quiz',
+    unlock: 'Tap to unlock more character traits >',
+    unlock_advice: 'Tap to unlock >',
+    read_advice: 'View your Personal Growth Report',
+    F: 'Trust',
+    Q: 'Question',
+    A: 'Action',
+    C: 'Contemplate',
+    P: 'Community',
+    I: 'Solitude',
+    G: 'Grace',
+    J: 'Justice',
+  },
+};
+// ═══════════════════════════════════════════════
+// QUESTIONS  (dim: 0=FQ  1=AC  2=PI  3=GJ)
+// ═══════════════════════════════════════════════
+const QUESTIONS = [
+  // ── DIM 0: F vs Q ──
+  {
+    dim: 0, mapA: 'F', mapB: 'Q',
+    tw: { q: '面對人生重大決定，我通常……',
+          a: '即使沒有完整答案，也願意信靠上帝往前踏出',
+          b: '需要尋求更多理解與答案，才能安心前行' },
+    cn: { q: '面对人生重大决定，我通常……',
+          a: '即使没有完整答案，也愿意信靠上帝往前踏出',
+          b: '需要寻求更多理解与答案，才能安心前行' },
+    en: { q: 'Facing a major life decision, I usually…',
+          a: 'Step forward trusting God, even without all the answers',
+          b: 'Seek deeper understanding and need clarity before I can move' },
+  },
+  {
+    dim: 0, mapA: 'F', mapB: 'Q',
+    tw: { q: '遭遇痛苦時，我的第一反應是……',
+          a: '相信上帝在這一切中有祂的美意',
+          b: '向上帝發出「為什麼？」的呼喊與掙扎' },
+    cn: { q: '遭遇痛苦时，我的第一反应是……',
+          a: '相信上帝在这一切中有祂的美意',
+          b: '向上帝发出「为什么？」的呼喊与挣扎' },
+    en: { q: 'When something painful happens, my first instinct is…',
+          a: 'To trust that God has a purpose in this',
+          b: 'To wrestle with God and cry out "Why?"' },
+  },
+  {
+    dim: 0, mapA: 'F', mapB: 'Q',
+    tw: { q: '讀聖經時，最吸引我的是……',
+          a: '順服與應許應驗的故事',
+          b: '詩篇或約伯記中誠實的哀歌與疑問' },
+    cn: { q: '读圣经时，最吸引我的是……',
+          a: '顺服与应许应验的故事',
+          b: '诗篇或约伯记中诚实的哀歌与疑问' },
+    en: { q: 'Reading the Bible, I am most drawn to…',
+          a: 'Stories of obedience and promises fulfilled',
+          b: 'Honest laments and questions in Psalms or Job' },
+  },
+  {
+    dim: 0, mapA: 'F', mapB: 'Q',
+    tw: { q: '我的禱告生活更像……',
+          a: '在不確定中交托與信靠',
+          b: '掙扎、追問、渴望明白上帝的心意' },
+    cn: { q: '我的祷告生活更像……',
+          a: '在不确定中交托与信靠',
+          b: '挣扎、追问、渴望明白上帝的心意' },
+    en: { q: 'My prayer life most resembles…',
+          a: 'Surrendering and trusting, even in uncertainty',
+          b: 'Wrestling, questioning, and seeking to understand God' },
+  },
+  {
+    dim: 0, mapA: 'F', mapB: 'Q',
+    tw: { q: '朋友處於危機時，我傾向說……',
+          a: '「信靠上帝，祂掌管這一切」',
+          b: '「我們一起來尋找答案、理清思路」' },
+    cn: { q: '朋友处于危机时，我倾向说……',
+          a: '「信靠上帝，祂掌管这一切」',
+          b: '「我们一起来寻找答案、理清思路」' },
+    en: { q: 'When a friend is in crisis, I naturally say…',
+          a: '"Trust God — He holds all of this"',
+          b: '"Let\'s think this through and find answers together"' },
+  },
+  // ── DIM 1: A vs C ──
+  {
+    dim: 1, mapA: 'A', mapB: 'C',
+    tw: { q: '禮拜結束後，最讓我有活力的是……',
+          a: '大家一起完成了某件事、某個服事',
+          b: '一段安靜個人的默想與反思時刻' },
+    cn: { q: '礼拜结束后，最让我有活力的是……',
+          a: '大家一起完成了某件事、某个服事',
+          b: '一段安静个人的默想与反思时刻' },
+    en: { q: 'After a church service, I feel most energized by…',
+          a: 'Something we organized or accomplished together',
+          b: 'A quiet personal moment of reflection and stillness' },
+  },
+  {
+    dim: 1, mapA: 'A', mapB: 'C',
+    tw: { q: '我的信仰最常表達在……',
+          a: '實際行動、服事與幫助他人',
+          b: '禱告、靈修日記、個人敬拜' },
+    cn: { q: '我的信仰最常表达在……',
+          a: '实际行动、服事与帮助他人',
+          b: '祷告、灵修日记、个人敬拜' },
+    en: { q: 'My faith most often shows up in…',
+          a: 'Practical deeds, service, and helping others',
+          b: 'Prayer, journaling, and personal worship' },
+  },
+  {
+    dim: 1, mapA: 'A', mapB: 'C',
+    tw: { q: '讀一段聖經後，我首先問的是……',
+          a: '「我今天可以怎樣實踐這段話？」',
+          b: '「這段話揭示了上帝什麼樣的心？」' },
+    cn: { q: '读一段圣经后，我首先问的是……',
+          a: '「我今天可以怎样实践这段话？」',
+          b: '「这段话揭示了上帝什么样的心？」' },
+    en: { q: 'After reading a Bible passage, I first ask…',
+          a: '"How can I apply this to my life today?"',
+          b: '"What does this reveal about God\'s heart and nature?"' },
+  },
+  {
+    dim: 1, mapA: 'A', mapB: 'C',
+    tw: { q: '一個自由的週六早晨，我更願意……',
+          a: '參加教會的義工或服事活動',
+          b: '獨自安靜地靈修、禱告或讀書' },
+    cn: { q: '一个自由的周六早晨，我更愿意……',
+          a: '参加教会的义工或服事活动',
+          b: '独自安静地灵修、祷告或读书' },
+    en: { q: 'On a free Saturday morning, I would rather…',
+          a: 'Join a volunteer or service activity at church',
+          b: 'Spend it alone in quiet devotion, prayer, or reading' },
+  },
+  {
+    dim: 1, mapA: 'A', mapB: 'C',
+    tw: { q: '我更善於通過什麼方式處理情緒……',
+          a: '做點什麼——幫助人、創作、行動',
+          b: '安靜下來——寫日記、禱告、等候' },
+    cn: { q: '我更善于通过什么方式处理情绪……',
+          a: '做点什么——帮助人、创作、行动',
+          b: '安静下来——写日记、祷告、等候' },
+    en: { q: 'I process my emotions better by…',
+          a: 'Doing something — helping, creating, or moving',
+          b: 'Being still — journaling, praying, or waiting on God' },
+  },
+  // ── DIM 2: P vs I ──
+  {
+    dim: 2, mapA: 'P', mapB: 'I',
+    tw: { q: '我感到靈裡最活躍的時候是……',
+          a: '和他人一起敬拜或查經的時候',
+          b: '獨自禱告、在自然中、或默然等候' },
+    cn: { q: '我感到灵里最活跃的时候是……',
+          a: '和他人一起敬拜或查经的时候',
+          b: '独自祷告、在自然中、或默然等候' },
+    en: { q: 'I feel most spiritually alive when…',
+          a: 'Worshipping or studying the Bible with others',
+          b: 'Alone in prayer, in nature, or in silent stillness' },
+  },
+  {
+    dim: 2, mapA: 'P', mapB: 'I',
+    tw: { q: '在教會聚會中，我自然地……',
+          a: '廣泛與不同的人建立連結',
+          b: '專注於和一兩個人深入交流' },
+    cn: { q: '在教会聚会中，我自然地……',
+          a: '广泛与不同的人建立连结',
+          b: '专注于和一两个人深入交流' },
+    en: { q: 'At a church gathering, I naturally…',
+          a: 'Move around connecting with many different people',
+          b: 'Settle in for one deep and meaningful conversation' },
+  },
+  {
+    dim: 2, mapA: 'P', mapB: 'I',
+    tw: { q: '我更喜歡通過什麼方式在信仰上成長……',
+          a: '在小組或群體的環境中',
+          b: '個人獨立學習和靜默反思' },
+    cn: { q: '我更喜欢通过什么方式在信仰上成长……',
+          a: '在小组或群体的环境中',
+          b: '个人独立学习和静默反思' },
+    en: { q: 'I prefer to grow in my faith…',
+          a: 'Within a small group or community setting',
+          b: 'Through independent study and personal reflection' },
+  },
+  {
+    dim: 2, mapA: 'P', mapB: 'I',
+    tw: { q: '當我獲得屬靈洞見時，我……',
+          a: '立刻想分享給周圍的人',
+          b: '先讓它在內心慢慢沉澱' },
+    cn: { q: '当我获得属灵洞见时，我……',
+          a: '立刻想分享给周围的人',
+          b: '先让它在内心慢慢沉淀' },
+    en: { q: 'When I receive a spiritual insight, I…',
+          a: 'Want to share it with others right away',
+          b: 'Let it sit and deepen quietly inside me first' },
+  },
+  {
+    dim: 2, mapA: 'P', mapB: 'I',
+    tw: { q: '經歷疲憊的季節後，我如何恢復……',
+          a: '和教會親近的朋友在一起',
+          b: '一個人完全安靜獨處' },
+    cn: { q: '经历疲惫的季节后，我如何恢复……',
+          a: '和教会亲近的朋友在一起',
+          b: '一个人完全安静独处' },
+    en: { q: 'After an exhausting season, I recharge by…',
+          a: 'Being with close friends from church',
+          b: 'Having complete solitude and quiet' },
+  },
+  // ── DIM 3: G vs J ──
+  {
+    dim: 3, mapA: 'G', mapB: 'J',
+    tw: { q: '聖經中最觸動我的是上帝的……',
+          a: '無條件的愛與赦免',
+          b: '公義與對一切罪惡的憎恨' },
+    cn: { q: '圣经中最触动我的是上帝的……',
+          a: '无条件的爱与赦免',
+          b: '公义与对一切罪恶的憎恨' },
+    en: { q: 'In the Bible, I am most moved by God\'s…',
+          a: 'Unconditional love and forgiveness',
+          b: 'Righteousness and hatred of all evil' },
+  },
+  {
+    dim: 3, mapA: 'G', mapB: 'J',
+    tw: { q: '當有人傷害他人時，我的關注點是……',
+          a: '如何恢復關係、給予饒恕',
+          b: '如何維護公正、堅持真理' },
+    cn: { q: '当有人伤害他人时，我的关注点是……',
+          a: '如何恢复关系、给予宽恕',
+          b: '如何维护公正、坚持真理' },
+    en: { q: 'When someone wrongs another person, I focus on…',
+          a: 'Restoring the relationship and extending forgiveness',
+          b: 'Making sure justice and truth are upheld' },
+  },
+  {
+    dim: 3, mapA: 'G', mapB: 'J',
+    tw: { q: '最驅動我去服事的使命是……',
+          a: '向破碎、迷失的人傳遞恩典和愛',
+          b: '說出真話、對抗不公義' },
+    cn: { q: '最驱动我去服事的使命是……',
+          a: '向破碎、迷失的人传递恩典和爱',
+          b: '说出真话、对抗不公义' },
+    en: { q: 'The mission that drives me most is…',
+          a: 'Showing grace and love to the broken and lost',
+          b: 'Speaking truth and standing against injustice' },
+  },
+  {
+    dim: 3, mapA: 'G', mapB: 'J',
+    tw: { q: '最讓我心動的聖經故事是……',
+          a: '救贖、第二次機會與恩典的故事',
+          b: '勇氣、信念與堅守真理的故事' },
+    cn: { q: '最让我心动的圣经故事是……',
+          a: '救赎、第二次机会与恩典的故事',
+          b: '勇气、信念与坚守真理的故事' },
+    en: { q: 'My heart is most stirred by stories of…',
+          a: 'Redemption, second chances, and amazing grace',
+          b: 'Courage, conviction, and standing for what is right' },
+  },
+  {
+    dim: 3, mapA: 'G', mapB: 'J',
+    tw: { q: '陪伴他人同行時，我更強調……',
+          a: '「上帝愛你本來的樣子——領受恩典」',
+          b: '「有更好的道路——讓我們一起走向它」' },
+    cn: { q: '陪伴他人同行时，我更强调……',
+          a: '「上帝爱你本来的样子——领受恩典」',
+          b: '「有更好的道路——让我们一起走向它」' },
+    en: { q: 'When walking alongside someone in faith, I emphasize…',
+          a: '"God loves you as you are — receive His grace"',
+          b: '"There\'s a better way — let\'s walk toward it together"' },
+  },
+];
+
+// ═══════════════════════════════════════════════
+// TYPE DEFINITIONS  (16 types)
+// ═══════════════════════════════════════════════
+const TYPES = {
+  FAPG: {
+    char_tw: '以諾', char_cn: '以诺', char_en: 'Enoch', avatar: 'https://assets.grace-word.com/app/bibleti/avatars/FAPG.webp',
+    title_tw: '與神同行的信心者', title_cn: '与神同行的信心者', title_en: 'Faithful Walker',
+    color: '#B8892A', initial: 'E',
+    verseBook: 1, verseChapter: 5,
+    verse_tw: '以諾與神同行，神將他取去，他就不在世了。',
+    verse_ref_tw: '創世記 5:24',
+    verse_cn: '以诺与神同行，神将他取去，他就不在世了。',
+    verse_ref_cn: '创世记 5:24',
+    verse_en: '"Enoch walked faithfully with God; then he was no more, because God took him away."',
+    verse_ref_en: 'Genesis 5:24',
+    desc_tw: '你有一種在完全明白之前就能行動的信心。像以諾，他一生沒有轟轟烈烈的事蹟，卻日復一日與神同行，不看環境、不問未來，只用單純的心跟隨，最後被神親自接走，不留遺憾。你願意離開熟悉的舒適圈，踏入未知——因為你信靠那位呼召你的上帝。你的溫暖與堅定，像一盞穩亮的燈，為身邊每一個人帶來力量與盼望。',
+    desc_cn: '你有一种在完全明白之前就能行动的信心。像以诺，他一生没有轰轰烈烈的事迹，却日复一日与神同行，不看环境、不问未来，只用单纯的心跟随，最后被神亲自接走，不留遗憾。你也愿意离开熟悉的舒适圈，踏入未知——因为你信靠那位呼召你的上帝。你的温暖与坚定，像一盏稳亮的灯，为身边每一个人带来力量与盼望。',
+    desc_en: 'You carry a faith that moves before you fully understand. Like Enoch, he lived a quiet life without great fame, yet walked with God day by day, trusting without full sight, until God took him home. You leave the familiar to step into the unknown because you trust the One who calls you. Your warmth and steadiness bring hope and strength to everyone around you.',
+    strengths_tw: ['憑信心跟隨', '離開熟悉', '信靠引領', '溫暖慷慨'],
+    strengths_cn: ['凭信心跟随', '离开熟悉', '信靠引领', '温暖慷慨'],
+    strengths_en: ['Follow by faith', 'Leave the familiar', 'Trust in guidance', 'Warm and generous'],
+    growth_tw: '留意那些需要更多時間理解才能跟進的人——不是每個人都能以你的速度走入未知。',
+    growth_cn: '留意那些需要更多时间理解才能跟进的人——不是每个人都能以你的速度走入未知。',
+    growth_en: 'Be patient with those who need more understanding before they can follow. Not everyone moves into the unknown at your pace.',
+    story_tw: [
+      {t:'🎞️ 當時背景',b:'以諾生活在創世記早期，人類道德全面敗壞，暴力橫行、人心充滿背叛。當時的文化推崇強者、暴力與自我中心，大多數人都隨波逐流，甚至以惡為榮。'},
+      {t:'🙏 人物抉擇',b:'以諾沒有同流合污，依然不隨眾作惡，不被世俗同化。他沒有驚天動地的事工，也無眾人矚目的神蹟，只是日復一日在家庭、工作與生活中，保持對神的敬畏，以謙卑、順服的心與神對齊。'},
+      {t:'💡 今日應用',b:'在不被看見的小事上保持忠心，就是對神最真誠的敬拜。'},
+    ],
+    story_cn: [
+      {t:'🎞️ 当时背景',b:'以诺生活在创世记早期，人类道德全面败坏，暴力横行、人心充满背叛。当时的文化推崇强者、暴力与自我中心，大多数人都随波逐流，甚至以恶为荣。'},
+      {t:'🙏 人物抉择',b:'以诺没有同流合污，依然不随众作恶，不被世俗同化。他没有惊天动地的事工，也无众人瞩目的神迹，只是日复一日在家庭、工作与生活中，保持对神的敬畏，以谦卑、顺服的心与神对齐。'},
+      {t:'💡 今日应用',b:'在不被看见的小事上保持忠心，就是对神最真诚的敬拜。'},
+    ],
+    story_en: [
+      {t:'🎫 Context',b:'Enoch lived in the early days of Genesis, when humanity was morally corrupt, violence was rampant, and hearts were full of rebellion.\nThe culture of the time exalted the strong, violence, and self-centeredness. Most people went with the flow, even glorifying evil.'},
+      {t:'🙏 His Choice',b:'Enoch refused to join the crowd or be assimilated by the world.He did no spectacular public works or miraculous signs. Instead, he walked with God daily in his family, work, and life—living with reverence, humility, and obedience aligned to God.'},
+      {t:'💡 Today\'s Application',b:'Faithfulness in unseen small things is the truest worship of God.'},
+    ],
+    advice_tw: {
+      strengthsTitle: '你如以諾一樣擁有以下屬靈優勢：',
+      strengths: [
+        '你天生擁有專注、敬虔、不隨波逐流的生命氣質。',
+        '你能在黑暗世代保持內心純淨。',
+        '你不追求熱鬧，只追求與神對齊。',
+        '你在平凡生活中依然能忠心持守信仰。',
+        '你溫柔堅定，有從安靜裡生出的力量。',
+      ],
+      growthTitle: '你的生命成長方向：',
+      growth: [
+        '你容易因環境壓抑而默默妥協。',
+        '你習慣隱藏情緒，不擅長向神傾訴。',
+        '你容易忽略與神深度相交，只維持信仰形式。',
+        '你在長期孤單中容易慢慢失去火熱。',
+      ],
+      learnTitle: '你現在最需要學習的是：',
+      learnHeadline: '在日常裡持續與神相交：',
+      learnBody: [
+        '以諾型的人，最擅長安靜，卻也容易安靜到「遠離神」。',
+        '真正的敬虔，不是默默忍耐，而是天天與神對齊。',
+        '把你的感受、疲憊、等候都告訴神，讓每一天的生活，都成為與神同行的見證。',
+      ],
+      verseLabel: '探索經文：',
+      verseText: '以諾與神同行，神將他取去，他就不在世了。',
+      verseChapter: 5, verseRef: '創世記 5:24',
+      verseCta: '點擊經文出處讀經📕',
+    },
+    advice_cn: {
+      strengthsTitle: '你如以诺一样拥有以下属灵优势：',
+      strengths: [
+        '你天生拥有专注、敬虔、不随波逐流的生命气质。',
+        '你能在黑暗世代保持内心纯净。',
+        '你不追求热闹，只追求与神对齐。',
+        '你在平凡生活中依然能忠心持守信仰。',
+        '你温柔坚定，有从安静里生出的力量。',
+      ],
+      growthTitle: '你的生命成长方向：',
+      growth: [
+        '你容易因环境压抑而默默妥协。',
+        '你习惯隐藏情绪，不擅长向神倾诉。',
+        '你容易忽略与神深度相交，只维持信仰形式。',
+        '你在长期孤单中容易慢慢失去火热。',
+      ],
+      learnTitle: '你现在最需要学习的是：',
+      learnHeadline: '在日常里持续与神相交 ：',
+      learnBody: [
+        '以诺型的人，最擅长安静，却也容易安静到 “远离神”。',
+        '真正的敬虔，不是默默忍耐，而是天天与神对齐。',
+        '把你的感受、疲惫、等候都告诉神，让每一天的生活，都成为与神同行的见证。',
+      ],
+      verseLabel: '探索经文：',
+      verseText: '以诺与神同行，神将他取去，他就不在世了。',
+      verseChapter: 5, verseRef: '创世记 5:24',
+      verseCta: '点击经文出处读经📕',
+    },
+    advice_en: {
+      strengthsTitle: 'Your spiritual strengths like Enoch:',
+      strengths: [
+        'You are naturally focused, godly, and unwilling to follow the world.',
+        'You keep a pure heart even in a corrupt generation.',
+        'You do not chase worldly excitement, but only seek alignment with God.',
+        'You remain faithfully committed in ordinary daily life.',
+        'You are gentle yet firm, with strength born from quiet communion.',
+      ],
+      growthTitle: 'Areas you need to grow:',
+      growth: [
+        'You tend to compromise silently when pressured by your surroundings.',
+        'You often hide your emotions and struggle to pour out your heart to God.',
+        'You may settle for religious routine instead of deep fellowship with Him.',
+        'Loneliness can slowly cause you to lose spiritual passion over time.',
+      ],
+      learnTitle: 'What you most need to learn now:',
+      learnHeadline: 'Abide in daily communion with God 🌫',
+      learnBody: [
+        'Enoch-type people are good at being quiet, yet may drift away from God in stillness.',
+        'True godliness is not silent endurance, but daily alignment with the Lord.',
+        'Share your feelings, weariness and waiting with God, and let every day be a testimony of walking with Him.',
+      ],
+      verseLabel: 'Related Verse:',
+      verseText: 'Enoch walked faithfully with God; then he was no more, because God took him away.',
+      verseChapter: 5, verseRef: 'Genesis 5:24',
+      verseCta: 'Tap the scripture reference to read 📕',
+    },
+  },
+  FAPJ: {
+    char_tw: '沙倫', char_cn: '沙龙', char_en: 'Shallum', avatar: 'https://assets.grace-word.com/app/bibleti/avatars/FAPJ.webp',
+    title_tw: '忠心的重建者', title_cn: '忠心的重建者', title_en: 'Faithful Rebuilder',
+    color: '#4A6741', initial: 'S',
+    verseBook: 14, verseChapter: 34,
+    verse_tw: '就是交給木匠、石匠，買鑿成的石頭和架木與棟梁，修猶大王所毀壞的殿。',
+    verse_ref_tw: '歷代志下 34:11',
+    verse_cn: '就是交给木匠、石匠，买凿成的石头和架木与栋梁，修犹大王所毁坏的殿。',
+    verse_ref_cn: '历代志下 34:11',
+    verse_en: 'Even to the artificers and builders gave they it, to buy hewn stone, and timber for couplings, and to floor the houses which the kings of Judah had destroyed.',
+    verse_ref_en: '2 Chronicles 34:11',
+    desc_tw: '你因看見破敗與荒涼而心痛，因心中的異象懇切禱告，然後默默捲起袖子去建造。如同沙倫，他只是一個不起眼的管理者，卻在眾人忽略的時候，主動修理神的殿、修補破口，用雙手把混亂恢復成秩序。你把夢想變成實際的行動，把孤單變成群體，你的信仰從不空洞，你的愛永遠用行動來證明。',
+    desc_cn: '你因看见破败与荒凉而心痛，因心中的异象恳切祷告，然后默默撸起袖子去建造。如同沙龙，他只是一个不起眼的管理者，却在众人忽略的时候，主动修理神的殿、修补破口，用双手把混乱恢复成秩序。你把梦想变成实际的行动，把孤单变成群体，你的信仰从不空洞，你的爱永远用行动来证明。',
+    desc_en: 'You grieve over brokenness, pray with vision, and roll up your sleeves to rebuild. Like Shallum, a quiet leader who repaired the house of God when no one else noticed, you turn chaos into order and vision into action. Your faith is practical, and your love is proven by what you build.',
+    strengths_tw: ['爲破損憂傷', '以行動建造', '凝聚群體', '務實信仰'],
+    strengths_cn: ['为破损忧伤', '以行动建造', '凝聚群体', '务实信仰'],
+    strengths_en: ['Grieve over brokenness', 'Build through action', 'Unite the community', 'Practical faith'],
+    growth_tw: '對那些看不見異象、跟不上節奏的人保持耐心——不是每個人都能以你的速度建造。',
+    growth_cn: '对那些看不见异象、跟不上节奏的人保持耐心——不是每个人都能以你的速度建造。',
+    growth_en: 'Be patient with those who can\'t see the vision as clearly. Not everyone builds at your pace.',
+    story_tw: [
+      {t:'🎞️ 當時背景',b:'沙龍時代，猶大國信仰敗壞，百姓離棄神，聖殿被長期忽視、牆垣破損，成了被遺忘的角落。當時的宗教領袖與貴族都只顧自己的利益，沒有人願意為神的家操心，聖殿的荒涼象徵著整個國家信仰的衰敗。'},
+      {t:'🙏 沙龍抉擇',b:'他只是一個不起眼的管理者，沒有高位、沒有名氣，卻因看見神的家受損而心痛。他沒有等待別人的吩咐，也沒有因為自己位微言輕而退縮，而是默默捲起袖子，主動修補破損的牆垣，修理神的殿。用微小的行動，表達對神的看重與忠誠。'},
+      {t:'👍 今日應用',b:'不要總覺得自己「不夠重要」，無法為神的家做什麼。從身邊的小事做起，為教會的需要獻上禱告、付出行動，就是在為神建造。'},
+    ],
+    story_cn: [
+      {t:'🎞️ 当时背景',b:'沙龙时代，犹大国信仰败坏，百姓离弃神，圣殿被长期忽视、墙垣破损，成了被遗忘的角落。当时的宗教领袖与贵族都只顾自己的利益，没有人愿意为神的家操心，圣殿的荒凉象征着整个国家信仰的衰败。'},
+      {t:'🙏 沙龙抉择',b:'他只是一个不起眼的管理者，没有高位、没有名气，却因看见神的家受损而心痛。他没有等待别人的吩咐，也没有因为自己位微言轻而退缩，而是默默撸起袖子，主动修补破损的墙垣，修理神的殿。用微小的行动，表达对神的看重与忠诚。'},
+      {t:'👍 今日应用',b:'不要总觉得自己 "不够重要"，无法为神的家做什么。从身边的小事做起，为教会的需要献上祷告、付出行动，就是在为神建造。'},
+    ],
+    story_en: [
+      {t:'🎫 Context',b:'In the days of Shallum, Judah had turned away from God. The people abandoned Him, and the temple was neglected, falling into disrepair and becoming a forgotten corner. Religious leaders and nobles cared only for their own interests; no one was willing to care for God\'s house. The temple\'s ruin was a symbol of the nation\'s decaying faith.'},
+      {t:'🙏 Shallum\'s Choice',b:'He was just an ordinary manager, with no high position or fame. Yet his heart ached to see God\'s house ruined. He did not wait for others to take action, nor shrink because of his low status. Instead, he rolled up his sleeves and repaired the broken walls and damaged temple, expressing reverence and loyalty to God with small acts.'},
+      {t:'💡 Today\'s Application',b:'Don\'t think you are "not important enough" to do anything for God. Start with small things. Pray and act for the needs of the church—that is serving God.'},
+    ],
+    advice_tw: {
+      strengthsTitle: '你如沙倫一樣擁有以下屬靈優勢：',
+      strengths: [
+        '你天生擁有看見破口、願意行動、忠心付出的生命氣質。',
+        '你看見神的家被忽略就會心痛。',
+        '你不推卸責任，願意默默動手修補。',
+        '你務實可靠，用行動證明信仰。',
+        '你在小事上忠心，願意為神付出。',
+      ],
+      growthTitle: '你的生命成長方向：',
+      growth: [
+        '你容易因付出不被看見而灰心。',
+        '你習慣獨自承擔，不懂得依靠神的力量。',
+        '你容易只做不說，缺少在靈裡支取能力。',
+        '你會因環境冷淡而降低對神的熱情。',
+      ],
+      learnTitle: '你現在最需要學習的是：',
+      learnHeadline: '在付出前先來到神面前 🛠️',
+      learnBody: [
+        '沙倫型的人，一看見破口就想動手解決。',
+        '但真正的建造，不是靠自己辛苦，而是先被神充滿。',
+        '停下來禱告，讓神加力量，你的雙手才會有屬靈的能力。',
+      ],
+      verseLabel: '對應經文：',
+      verseText: '沙倫管理猶大的房屋，修理耶和華殿的牆。',
+      verseChapter: 34, verseRef: '歷代志下 34:11',
+      verseCta: '點擊經文出處讀經📕',
+    },
+    advice_cn: {
+      strengthsTitle: '你如沙龙一样拥有以下属灵优势：',
+      strengths: [
+        '你天生拥有看见破口、愿意行动、忠心付出的生命气质。',
+        '你看见神的家被忽略就会心痛。',
+        '你不推卸责任，愿意默默动手修补。',
+        '你务实可靠，用行动证明信仰。',
+        '你在小事上忠心，愿意为神付出。',
+      ],
+      growthTitle: '你的生命成长方向：',
+      growth: [
+        '你容易因付出不被看见而灰心。',
+        '你习惯独自承担，不懂得依靠神的力量。',
+        '你容易只做不说，缺少在灵里支取能力。',
+        '你会因环境冷淡而降低对神的热情。',
+      ],
+      learnTitle: '你现在最需要学习的是：',
+      learnHeadline: '在付出前先来到神面前 🛠️',
+      learnBody: [
+        '沙龙型的人，一看见破口就想动手解决。',
+        '但真正的建造，不是靠自己辛苦，而是先被神充满。',
+        '停下来祷告，让神加力量，你的双手才会有属灵的能力。',
+      ],
+      verseLabel: '对应经文：',
+      verseText: '沙龙管理犹大的房屋，修理耶和华殿的墙。',
+      verseChapter: 34, verseRef: '历代志下 34:11',
+      verseCta: '点击经文出处读经📕',
+    },
+    advice_en: {
+      strengthsTitle: 'Your spiritual strengths like Shallum:',
+      strengths: [
+        'You naturally notice spiritual gaps, take action, and serve faithfully.',
+        'Your heart grieves when God’s house is neglected.',
+        'You do not avoid responsibility and willingly repair what is broken quietly.',
+        'You are practical and dependable, proving your faith through deeds.',
+        'You are faithful in small things and willing to give for God.',
+      ],
+      growthTitle: 'Areas you need to grow:',
+      growth: [
+        'You easily grow discouraged when your service goes unnoticed.',
+        'You tend to carry burdens alone instead of relying on God’s strength.',
+        'You may only serve in action without drawing spiritual strength from prayer.',
+        'Spiritual coldness around you can weaken your passion for God.',
+      ],
+      learnTitle: 'What you most need to learn now:',
+      learnHeadline: 'Come before God before serving 🛠️',
+      learnBody: [
+        'Shallum-type people rush to fix problems as soon as they see gaps.',
+        'Yet true spiritual building does not depend on human effort, but on being filled first by God.',
+        'Slow down to pray, receive strength from Him, and your service will carry spiritual power.',
+      ],
+      verseLabel: 'Related Verse:',
+      verseText: 'Shallum repaired the walls of the Lord’s temple.',
+      verseChapter: 34, verseRef: '2 Chronicles 34:11',
+      verseCta: 'Tap the scripture reference to read 📕',
+    },
+  },
+  FAIG: {
+    char_tw: '摩西', char_cn: '摩西', char_en: 'Moses', avatar: 'https://assets.grace-word.com/app/bibleti/avatars/FAIG.webp',
+    title_tw: '謙遜的帶領者', title_cn: '谦逊的带领者', title_en: 'Humble Leader',
+    color: '#8A6A3A', initial: 'M',
+    verseBook: 2, verseChapter: 3,
+    verse_tw: '摩西對神說：「我是甚麼人，竟能去見法老，將以色列人從埃及領出來呢？」',
+    verse_ref_tw: '出埃及記 3:11',
+    verse_cn: '摩西对神说：“我是什么人，竟能去见法老，将以色列人从埃及领出来呢？”"',
+    verse_ref_cn: '出埃及记 3:11',
+    verse_en: 'And Moses said unto God, Who am I, that I should go unto Pharaoh, and that I should bring forth the children of Israel out of Egypt?',
+    verse_ref_en: 'Exodus 3:11',
+    desc_tw: '你深信上帝，卻常常懷疑自己不夠資格、不夠優秀。像摩西，他曾自卑、逃避、不敢承擔，卻在神的帶領中一步步走出膽怯。你的遲疑不是軟弱，而是謙遜。當神最終推動你站出來時，你所流露的恩典與憐憫，會連你自己都感到驚喜。',
+    desc_cn: '你深信上帝，却常常怀疑自己不够资格、不够优秀。像摩西，他曾自卑、逃避、不敢承担，却在神的带领中一步步走出胆怯。你的迟疑不是软弱，而是谦卑。当神最终推动你站出来时，你所流露的恩典与怜悯，会连你自己都感到惊喜。',
+    desc_en: 'You trust God deeply while often wondering if you are good enough. Like Moses, who felt unqualified and ran from his calling, you grow into leadership through God’s grace. Your hesitation is humility, not weakness—and when you lead, you lead with compassion.',
+    strengths_tw: ['深信神卻自我懷疑', '謙卑帶領', '滿有恩典憐憫'],
+    strengths_cn: ['深信神却自我怀疑', '谦卑带领', '满有恩典怜悯'],
+    strengths_en: ['Deep faith in God but self-doubt', 'Humble leadership', 'Full of grace and mercy'],
+    growth_tw: '不要在上帝說話之前就先否定自己。你的自我懷疑，不等於上帝的「不」。',
+    growth_cn: '不要在上帝说话之前就先否定自己。你的自我怀疑，不等于上帝的「不」。',
+    growth_en: 'Don\'t disqualify yourself before God does. Your self-doubt is not the same as God\'s "no."',
+    story_tw: [
+      {t:'🎞️ 當時背景',b:'摩西成長在埃及王宮，受過高等教育，擁有一切榮耀與資源；卻因一時血氣殺了埃及人，被迫逃亡曠野，經歷四十年的牧羊生涯，從意氣風發的王子，變成默默無聞的牧人。當時的以色列人在埃及為奴，被欺壓、被轄制，看不到出路。'},
+      {t:'🙏 人物抉擇',b:'摩西沒有選擇在曠野安穩度日，也沒有繼續靠自己的血氣行事。他在荊棘火焰中遇見神，放下自己的能力與驕傲，順服神的呼召，帶領以色列人出埃及。即使面對法老的逼迫、百姓的埋怨，他依然選擇順服神的帶領，一步一步走向神的應許之地。'},
+      {t:'✨ 信仰本質',b:'真正的領袖，不是靠自己的才能與地位，而是被神的同在與謙卑塑造。神常常先讓我們在曠野「被破碎」，才敢把祂的百姓交在我們手裡。'},
+      {t:'👍 今日應用',b:'放下「靠自己解決問題」的驕傲，順服神的修剪與帶領。即使在看似毫無出路的曠野，依然相信神的時間與計畫，祂會在你以為「不可能」的地方，成就祂的旨意。'},
+    ],
+    story_cn: [
+      {t:'🎞️ 当时背景',b:'摩西成长在埃及王宫，受过高等教育，拥有一切荣耀与资源；却因一时血气杀了埃及人，被迫逃亡旷野，经历四十年的牧羊生涯，从意气风发的王子，变成默默无闻的牧人。当时的以色列人在埃及为奴，被欺压、被辖制，看不到出路。'},
+      {t:'🙏 人物抉择',b:'摩西没有选择在旷野安稳度日，也没有继续靠自己的血气行事。他在荆棘火焰中遇见神，放下自己的能力与骄傲，顺服神的呼召，带领以色列人出埃及。即使面对法老的逼迫、百姓的埋怨，他依然选择顺服神的带领，一步一步走向神的应许之地。'},
+      {t:'✨ 信仰本质',b:'真正的领袖，不是靠自己的才能与地位，而是被神的同在与谦卑塑造。神常常先让我们在旷野「被破碎」，才敢把祂的百姓交在我们手里。'},
+      {t:'👍 今日应用',b:'放下「靠自己解决问题」的骄傲，顺服神的修剪与带领。即使在看似毫无出路的旷野，依然相信神的时间与计划，祂会在你以为「不可能」的地方，成就祂的旨意。'},
+    ],
+    story_en: [
+      {t:'🎫 Context',b:'Moses grew up in Pharaoh\'s palace, receiving the highest education and having honor and resources. But in a moment of anger, he killed an Egyptian and fled into the wilderness, where he herded sheep for forty years. He went from a proud prince to an unknown shepherd. The Israelites were oppressed and enslaved in Egypt, with no way out.'},
+      {t:'🙏 His Choice',b:'Moses chose not to settle down comfortably in the wilderness, nor continue to act out of his own anger. When he met God in the burning bush, he laid down his own strength and pride, obeyed God\'s call, and led the Israelites out of Egypt. Even facing Pharaoh\'s threats and the people\'s complaints, he kept following God step by step toward the Promised Land.'},
+      {t:'✨ The Essence of Faith',b:'True leadership does not come from one\'s own talent or status, but from being shaped by God\'s presence and humility. God often breaks us in the "wilderness" before entrusting His people to us.'},
+      {t:'💡 Today\'s Application',b:'Lay down the pride of "solving problems on my own" and submit to God\'s pruning and leading. Even in a seemingly hopeless wilderness, trust God\'s timing and plan—He will accomplish His purpose where you think it is impossible.'},
+    ],
+    advice_tw: {
+      strengthsTitle: '你如摩西一樣擁有以下屬靈優勢：',
+      strengths: [
+        '你天生擁有憐憫、謙卑、願意承擔使命的生命氣質。',
+        '你深知自己不配，卻依然願意被神使用。',
+        '你對人有恩典與憐憫，能理解軟弱。',
+        '你在困境中依然願意帶領別人。',
+        '你被神破碎過，所以能倚靠神。',
+      ],
+      growthTitle: '你的生命成長方向：',
+      growth: [
+        '你容易自我懷疑，覺得自己不夠好。',
+        '你習慣逃避壓力，不敢面對挑戰。',
+        '你容易被情緒影響，失去信心。',
+        '你會因過去的失敗而不敢向前。',
+      ],
+      learnTitle: '你現在最需要學習的是：',
+      learnHeadline: '在軟弱中被神重新堅固 🔥',
+      learnBody: [
+        '摩西型的人，常常覺得自己不行。',
+        '但神用的，正是承認自己不行的人。',
+        '把你的自卑、膽怯、壓力都交給神，祂會親自帶領你。',
+      ],
+      verseLabel: '經文：',
+      verseText: '我是甚麼人，竟能去見法老，將以色列人從埃及領出來呢？',
+      verseChapter: 3, verseRef: '出埃及記 3:11',
+      verseCta: '點擊經文出處讀經📕',
+    },
+    advice_cn: {
+      strengthsTitle: '你如摩西一样拥有以下属灵优势：',
+      strengths: [
+        '你天生拥有怜悯、谦卑、愿意承担使命的生命气质。',
+        '你深知自己不配，却依然愿意被神使用。',
+        '你对人有恩典与怜悯，能理解软弱。',
+        '你在困境中依然愿意带领别人。',
+        '你被神破碎过，所以能倚靠神。',
+      ],
+      growthTitle: '你的生命成长方向：',
+      growth: [
+        '你容易自我怀疑，觉得自己不够好。',
+        '你习惯逃避压力，不敢面对挑战。',
+        '你容易被情绪影响，失去信心。',
+        '你会因过去的失败而不敢向前。',
+      ],
+      learnTitle: '你现在最需要学习的是：',
+      learnHeadline: '在软弱中被神重新坚固 🔥',
+      learnBody: [
+        '摩西型的人，常常觉得自己不行。',
+        '但神用的，正是承认自己不行的人。',
+        '把你的自卑、胆怯、压力都交给神，祂会亲自带领你。',
+      ],
+      verseLabel: '经文：',
+      verseText: '我是什么人，竟能去见法老，将以色列人从埃及领出来呢？',
+      verseChapter: 3, verseRef: '出埃及记 3:11',
+      verseCta: '点击经文出处读经📕',
+    },
+    advice_en: {
+      strengthsTitle: 'Your spiritual strengths like Moses:',
+      strengths: [
+        'You are naturally compassionate, humble, and ready to bear God’s calling.',
+        'You know your unworthiness yet still yield to be used by God.',
+        'You show grace and empathy toward others’ weaknesses.',
+        'You remain willing to lead others even in hardship.',
+        'Having been broken by God, you learn to fully rely on Him.',
+      ],
+      growthTitle: 'Areas you need to grow:',
+      growth: [
+        'You struggle with self-doubt and feelings of inadequacy.',
+        'You tend to avoid pressure and shy away from challenges.',
+        'Your faith is easily shaken by emotions.',
+        'Past failures often hold you back from moving forward.',
+      ],
+      learnTitle: 'What you most need to learn now:',
+      learnHeadline: 'Be strengthened by God in your weakness 🔥',
+      learnBody: [
+        'Moses-type people often feel incapable.',
+        'Yet God chooses those who admit their weakness.',
+        'Lay your inferiority, fear and pressure before God, and He will personally lead you.',
+      ],
+      verseLabel: 'Related Verse:',
+      verseText: 'Who am I, that I should go to Pharaoh and bring the Israelites out of Egypt?',
+      verseChapter: 3, verseRef: 'Exodus 3:11',
+      verseCta: 'Tap the scripture reference to read 📕',
+    },
+  },
+  FAIJ: {
+    char_tw: '約書亞', char_cn: '约书亚', char_en: 'Joshua', avatar: 'https://assets.grace-word.com/app/bibleti/avatars/FAIJ.webp',
+    title_tw: '勇敢的勇士', title_cn: '勇敢的勇士', title_en: 'Courageous Warrior',
+    color: '#4A5E8A', initial: 'J',
+    verseBook: 6, verseChapter: 1,
+    verse_tw: '我豈沒有吩咐你麼？你當剛強壯膽！不要懼怕，也不要驚惶；因為你無論往那裏去，耶和華你的神必與你同在。',
+    verse_ref_tw: '約書亞記 1:9',
+    verse_cn: '我岂没有吩咐你吗？你当刚强壮胆！不要惧怕，也不要惊惶；因为你无论往哪里去，耶和华你的神必与你同在。',
+    verse_ref_cn: '约书亚记 1:9',
+    verse_en: 'Have not I commanded thee? Be strong and of a good courage; be not afraid, neither be thou dismayed: for the LORD thy God is with thee whithersoever thou goest.',
+    verse_ref_en: 'Joshua 1:9',
+    desc_tw: '你清楚神的應許，也願意緊緊抓住不放。像約書亞，他面對高牆耶利哥、強悍的仇敵，依然憑著信心向前。你前進不是因為障礙消失，而是因為你知道誰與你同在。你穩定、剛強、值得信賴，是別人在艱難時刻最想依靠的人。',
+    desc_cn: '你清楚神的应许，也愿意紧紧抓住不放。像约书亚，他面对高墙耶利哥、强悍的仇敌，依然凭着信心向前。你前进不是因为障碍消失，而是因为你知道谁与你同在。你稳定、刚强、值得信赖，是别人在艰难时刻最想依靠的人。',
+    desc_en: 'You know God’s promises and hold fast to them. Like Joshua, you march forward not because obstacles are gone, but because you know who goes with you. Steady and brave, you are the one others follow into hard places.',
+    strengths_tw: ['持守應許', '憑信前行', '剛強穩定', '艱難中引路'],
+    strengths_cn: ['持守应许', '凭信前行', '刚强稳定', '艰难中引路'],
+    strengths_en: ['Hold fast to promises', 'Move forward by faith', 'Strong and steady', 'Guide in difficulties'],
+    growth_tw: '即使是最勇敢的勇士也需要安靜的季節。不要將忙碌與忠心混為一談。',
+    growth_cn: '即使是最勇敢的勇士也需要安静的季节。不要将忙碌与忠心混为一谈。',
+    growth_en: 'Even the bravest warriors need seasons of stillness. Don\'t confuse busyness with faithfulness.',
+    story_tw: [
+      {t:'🎞️ 當時背景',b:'耶利哥城是當時迦南地區最堅固的城池之一，城牆高大厚實，防守嚴密，被認為是「不可攻破」的堡壘。在古代戰爭中，攻城需要強大的軍隊和攻城器械，而以色列人剛剛出埃及，沒有任何作戰經驗和裝備。神卻給了他們一個看似毫無軍事邏輯的命令：繞城七日，然後呼喊。'},
+      {t:'🙏 人物抉擇',b:'約書亞沒有質疑神的命令，也沒有依賴自己的軍事常識，而是選擇順服。他帶領百姓繞城七日，沒有進攻，只是安靜行走。他信的不是自己的眼睛，而是神的話語。'},
+      {t:'✨ 信仰本質',b:'信心不是看見才信，而是沒看見也順服。真正的勇敢，不是無所畏懼，而是即便害怕，依然選擇相信神的話語。神的道路常常高過我們的道路，祂的方法也高過我們的方法。'},
+    ],
+    story_cn: [
+      {t:'🎞️ 当时背景',b:'耶利哥城是当时迦南地区最坚固的城池之一，城墙高大厚实，防守严密，被认为是 "不可攻破" 的堡垒。在古代战争中，攻城需要强大的军队和攻城器械，而以色列人刚刚出埃及，没有任何作战经验和装备。神却给了他们一个看似毫无军事逻辑的命令：绕城七日，然后呼喊。'},
+      {t:'🙏 人物抉择',b:'约书亚没有质疑神的命令，也没有依赖自己的军事常识，而是选择顺服。他带领百姓绕城七日，没有进攻，只是安静行走。他信的不是自己的眼睛，而是神的话语。'},
+      {t:'✨ 信仰本质',b:'信心不是看见才信，而是没看见也顺服。真正的勇敢，不是无所畏惧，而是即便害怕，依然选择相信神的话语。神的道路常常高过我们的道路，祂的方法也高过我们的方法。'},
+    ],
+    story_en: [
+      {t:'🎫 Context',b:'Jericho was one of the strongest cities in the region at that time, with high, thick walls and tight defenses, considered an "impenetrable fortress." In ancient warfare, conquering cities required large armies and siege weapons. The Israelites had just left Egypt, with no combat experience or equipment. Yet God gave them a seemingly illogical command: march around the city for seven days, then shout.'},
+      {t:'🙏 His Choice',b:'Joshua did not doubt God\'s command, nor rely on his own military wisdom. Instead, he obeyed. He led the people to march around the city for seven days, not attacking but only walking quietly. He trusted not his own eyes, but God\'s words.'},
+      {t:'✨ The Essence of Faith',b:'Faith is not seeing to believe, but believing even when you cannot see. True courage is not being fearless, but choosing to trust God even when afraid. God\'s ways are higher than ours, and His methods are beyond our understanding.'},
+    ],
+    advice_tw: {
+      strengthsTitle: '你如約書亞一樣擁有以下屬靈優勢：',
+      strengths: [
+        '你天生擁有穩定、堅定、敢於前行的生命氣質。',
+        '你相信神的應許，不會輕易被環境嚇退。',
+        '你在壓力下依然可靠，是別人艱難時的依靠。',
+        '你願意順服神的帶領，前路不明也敢踏出腳步。',
+        '你內心剛強，有責任感，願意扛起使命。',
+      ],
+      growthTitle: '你的生命成長方向：',
+      growth: [
+        '你容易憑感覺和環境判斷，不用話語穩固信心。',
+        '你習慣靠行動衝，缺少安靜等候聆聽神。',
+        '你的勇敢有時來自血氣，不是屬靈信心。',
+        '你在壓力前易慌張，活不出剛強壯膽。',
+      ],
+      learnTitle: '你現在最需要學習的是：',
+      learnHeadline: '在安靜中重新得力 💪',
+      learnBody: [
+        '約書亞型的人，很容易不停往前衝。',
+        '真正的力量不是硬撐，而是回到神面前。',
+        '記錄真實感受，放下壓力，用經文從神得力，帶著平安結束一天。',
+      ],
+      verseLabel: '經文：',
+      verseText: '約書亞吩咐百姓說：你們不可呼喊，不可出聲，連一句話也不可出你們的口，等到我吩咐你們呼喊的日子，那時才可以呼喊。',
+      verseChapter: 6, verseRef: '約書亞記 6:10',
+      verseCta: '點擊經文出處讀經📕',
+    },
+    advice_cn: {
+      strengthsTitle: '你如约书亚一样拥有以下属灵优势：',
+      strengths: [
+        '你天生拥有稳定、坚定、敢于前行的生命气质。',
+        '你相信神的应许，不会轻易被环境吓退。',
+        '你在压力下依然可靠，是别人艰难时的依靠。',
+        '你愿意顺服神的带领，前路不明也敢踏出脚步。',
+        '你内心刚强，有责任感，愿意扛起使命。',
+      ],
+      growthTitle: '你的生命成长方向：',
+      growth: [
+        '你容易凭感觉和环境判断，不用话语稳固信心。',
+        '你习惯靠行动冲，缺少安静等候聆听神。',
+        '你的勇敢有时来自血气，不是属灵信心。',
+        '你在压力前易慌张，活不出刚强壮胆。',
+      ],
+      learnTitle: '你现在最需要学习的是：',
+      learnHeadline: '在安静中重新得力 💪',
+      learnBody: [
+        '约书亚型的人，很容易不停往前冲。',
+        '真正的力量不是硬撑，而是回到神面前。',
+        '记录真实感受，放下压力，用经文从神得力，带着平安结束一天。',
+      ],
+      verseLabel: '经文：',
+      verseText: '约书亚吩咐百姓说：你们不可呼喊，不可出声，连一句话也不可出你们的口，等到我吩咐你们呼喊的日子，那时才可以呼喊。',
+      verseChapter: 6, verseRef: '约书亚记 6:10',
+      verseCta: '点击经文出处读经📕',
+    },
+    advice_en: {
+      strengthsTitle: 'Your spiritual strengths like Joshua:',
+      strengths: [
+        'You are steady, resolute, and bold to move forward in faith.',
+        'You believe God’s promises and do not easily retreat from difficult circumstances.',
+        'You remain reliable under pressure and become a shelter for others in hardship.',
+        'You obey God’s leading bravely even when the road ahead is unclear.',
+        'You are strong-hearted, responsible, and ready to carry God’s mission.',
+      ],
+      growthTitle: 'Areas you need to grow:',
+      growth: [
+        'You often judge by feelings and surroundings instead of grounding faith in God’s Word.',
+        'You rush into action without pausing to wait and listen to God quietly.',
+        'Your courage sometimes comes from human zeal rather than spiritual faith.',
+        'Pressure makes you anxious, keeping you from living out true boldness.',
+      ],
+      learnTitle: 'What you most need to learn now:',
+      learnHeadline: 'Renew your strength in quiet waiting 💪',
+      learnBody: [
+        'Joshua-type people tend to keep rushing forward nonstop.',
+        'True strength is not stubborn endurance, but returning quietly to God.',
+        'Record your true feelings, lay down pressure, draw strength from Scripture, and end each day in peace.',
+      ],
+      verseLabel: 'Related Verse:',
+      verseText: 'Be strong and courageous. Do not be afraid; do not be discouraged, for the Lord your God will be with you wherever you go.',
+      verseChapter: 1, verseRef: 'Joshua 1:9',
+      verseCta: 'Tap the scripture reference to read 📕',
+    },
+  },
+  FCPG: {
+    char_tw: '戶勒大', char_cn: '户勒大', char_en: 'Huldah', avatar: 'https://assets.grace-word.com/app/bibleti/avatars/FCPG.webp',
+    title_tw: '懇切的代禱者', title_cn: '恳切的代祷者', title_en: 'Earnest Intercessor',
+    color: '#9A4A72', initial: 'H',
+    verseBook: 12, verseChapter: 22,
+    verse_tw: '我必使你平平安安的歸到墳墓到你列祖那裏；我要降與這地的一切災禍，你也不至親眼看見。',
+    verse_ref_tw: '列王紀下 22:20',
+    verse_cn: '我必使你平平安安地归到坟墓到你列祖那里；我要降与这地的一切灾祸，你也不至亲眼看见。',
+    verse_ref_cn: '列王纪下 22:20',
+    verse_en: 'Behold therefore, I will gather thee unto thy fathers, and thou shalt be gathered into thy grave in peace; and thine eyes shall not see all the evil which I will bring upon this place. And they brought the king word again.',
+    verse_ref_en: '2 Kings 22:20',
+    desc_tw: '你習慣把最深的重擔先帶到神面前，再去面對人。如同戶勒大，她是一位藏在後宮的小先知，不張揚、不顯眼，卻在國家最迷茫的時候，說出神最準確的話語。你默默流淚、默默代求，沒有人知道你為多少人擺上，而你的禱告，正悄悄改變你所在的群體。',
+    desc_cn: '你习惯把最深的重担先带到神面前，再去面对人。如同户勒大，她是一位藏在后宫的小先知，不张扬、不显眼，却在国家最迷茫的时候，说出神最准确的话语。你默默流泪、默默代求，没有人知道你为多少人摆上，而你的祷告，正悄悄改变你所在的群体。',
+    desc_en: 'You bring your deepest burdens to God first. Like Huldah, a hidden prophetess who spoke God’s word in a dark time, you pray quietly and faithfully. Your intercession shapes your community in ways no one fully sees.',
+    strengths_tw: ['先將重擔帶到神麵前', '流淚禱告', '溫柔堅定'],
+    strengths_cn: ['先将重担带到神面前', '流泪祷告', '温柔坚定'],
+    strengths_en: ['Brings burdens to God first', 'prays with tears', 'gentle yet steadfast'],
+    growth_tw: '有時讓他人進入你的內心世界。你的沉默，有時會被誤解為距離感。',
+    growth_cn: '有时让他人进入你的内心世界。你的沉默，有时会被误解为距离感。',
+    growth_en: 'Let others into your inner world sometimes. Your silence can be mistaken for distance.',
+    story_tw: [
+      {t:'🎞️ 當時背景',b:'戶勒大是一位住在後宮的女先知，身份卑微，不為人知。當時的猶大國，律法書遺失，君王與百姓都在信仰上迷茫，全國一片混亂。國王約西亞派人四處尋求神的話語，最後找到了她。在那個時代，女性的地位低下，更不用說是後宮裡的一位普通先知。'},
+      {t:'🙏 人物抉擇',b:'戶勒大雖然身處不起眼的位置，卻牢牢持守神的話語，不隨波逐流，不因人微言輕就放棄真理。她對神的話語忠心耿耿，所以當國家最迷茫的時候，神讓她成為了指引方向的燈臺。'},
+      {t:'✨ 屬靈應用',b:'影響力從來不來自地位，而來自對神話語的忠心。神常常在不起眼的地方，預備忠心的器皿，成為時代的光。在暗處堅持真理的人，神必在明處高舉他。'},
+    ],
+    story_cn: [
+      {t:'🎞️ 当时背景',b:'户勒大是一位住在后宫的女先知，身份卑微，不为人知。当时的犹大国，律法书遗失，君王与百姓都在信仰上迷茫，全国一片混乱。国王约西亚派人四处寻求神的话语，最后找到了她。在那个时代，女性的地位低下，更不用说是后宫里的一位普通先知。'},
+      {t:'🙏 人物抉择',b:'户勒大虽然身处不起眼的位置，却牢牢持守神的话语，不随波逐流，不因人微言轻就放弃真理。她对神的话语忠心耿耿，所以当国家最迷茫的时候，神让她成为了指引方向的灯台。'},
+      {t:'✨ 属灵应用',b:'影响力从来不来自地位，而来自对神话语的忠心。神常常在不起眼的地方，预备忠心的器皿，成为时代的光。在暗处坚持真理的人，神必在明处高举他。'},
+    ],
+    story_en: [
+      {t:'🎫 Context',b:'Huldah was a prophetess in the palace, lowly and unknown. In Judah at that time, the law of God was lost, and both the king and people were lost in idolatry. The nation was in chaos. King Josiah sent men everywhere to seek the word of God, and they finally found her. In that era, women had low status, let alone a prophetess in the palace.'},
+      {t:'🙏 Her Choice',b:'Though in an invisible position, she held fast to God\'s word and did not go with the flow, nor gave up because of her low status. She kept God\'s words quietly in her heart. So when the nation was most lost, she became the guiding light in the right direction.'},
+      {t:'✨ Spiritual Application',b:'Influence does not come from status, but from faithfulness to God\'s word. God often prepares faithful vessels in hidden places to become light for the times. Those who hold fast to truth in secret will be lifted up by God in plain sight.'},
+    ],
+    advice_tw: {
+      strengthsTitle: '你如戶勒大一樣擁有以下屬靈優勢：',
+      strengths: [
+        '你天生擁有敏銳、持守真理、安靜卻有分量的生命氣質。',
+        '你在暗處依然忠心持守神的話。',
+        '你不張揚，卻能說出準確的指引。',
+        '你對神的話語專注，不隨波逐流。',
+        '你在卑微位置依然影響別人。',
+      ],
+      growthTitle: '你的生命成長方向：',
+      growth: [
+        '你容易因不被重視而隱藏自己。',
+        '你習慣默默承受，不表達領受。',
+        '你容易只研究真理，卻不應用真理。',
+        '你會因環境冷漠而關閉自己的心。',
+      ],
+      learnTitle: '你現在最需要學習的是：',
+      learnHeadline: '在暗處忠心被神使用 🕯️',
+      learnBody: [
+        '戶勒大型的人，常常不被看見、不被理解。',
+        '但神最看重暗處的忠心，祂會高舉你。',
+        '把你領受的亮光寫下來，神正用你成為別人的指引。',
+      ],
+      verseLabel: '對應經文：',
+      verseText: '戶勒大先知奉耶和華的名回答他們。',
+      verseChapter: 22, verseRef: '列王紀下 22:14',
+      verseCta: '點擊經文出處讀經📕',
+    },
+    advice_cn: {
+      strengthsTitle: '你如户勒大一样拥有以下属灵优势：',
+      strengths: [
+        '你天生拥有敏锐、持守真理、安静却有分量的生命气质。',
+        '你在暗处依然忠心持守神的话。',
+        '你不张扬，却能说出准确的指引。',
+        '你对神的话语专注，不随波逐流。',
+        '你在卑微位置依然影响别人。',
+      ],
+      growthTitle: '你的生命成长方向：',
+      growth: [
+        '你容易因不被重视而隐藏自己。',
+        '你习惯默默承受，不表达领受。',
+        '你容易只研究真理，却不应用真理。',
+        '你会因环境冷漠而关闭自己的心。',
+      ],
+      learnTitle: '你现在最需要学习的是：',
+      learnHeadline: '在暗处忠心被神使用 🕯️',
+      learnBody: [
+        '户勒大型的人，常常不被看见、不被理解。',
+        '但神最看重暗处的忠心，祂会高举你。',
+        '把你领受的亮光写下来，神正用你成为别人的指引。',
+      ],
+      verseLabel: '对应经文：',
+      verseText: '户勒大先知奉耶和华的名回答他们。',
+      verseChapter: 22, verseRef: '列王纪下 22:14',
+      verseCta: '点击经文出处读经📕',
+    },
+    advice_en: {
+      strengthsTitle: 'Your spiritual strengths like Huldah:',
+      strengths: [
+        'You are spiritually perceptive, uphold truth, and carry quiet yet weighty influence.',
+        'You remain loyal to God’s Word even in hidden, unnoticed places.',
+        'You live humbly without seeking fame yet give accurate spiritual guidance.',
+        'You focus firmly on Scripture and refuse to follow worldly trends.',
+        'You impact others faithfully even in humble positions.',
+      ],
+      growthTitle: 'Areas you need to grow:',
+      growth: [
+        'You tend to hide yourself when unappreciated.',
+        'You silently bear burdens without sharing what God has shown you.',
+        'You may study truth intellectually without living it out.',
+        'Spiritual indifference around you can cause you to close your heart.',
+      ],
+      learnTitle: 'What you most need to learn now:',
+      learnHeadline: 'Be faithfully used by God in hidden places 🕯️',
+      learnBody: [
+        'Huldah-type people are often unseen and misunderstood.',
+        'Yet God values hidden faithfulness and will exalt you in His time.',
+        'Write down the insights you receive, for God is using you to guide others.',
+      ],
+      verseLabel: 'Related Verse:',
+      verseText: 'The prophetess Huldah replied.',
+      verseChapter: 22, verseRef: '2 Kings 22:14',
+      verseCta: 'Tap the scripture reference to read 📕',
+    },
+  },
+  FCPJ: {
+    char_tw: '亞比該', char_cn: '亚比该', char_en: 'Abigail', avatar: 'https://assets.grace-word.com/app/bibleti/avatars/FCPJ.webp',
+    title_tw: '智慧的勸慰者', title_cn: '智慧的劝慰者', title_en: 'Wise Comforter',
+    color: '#6A4A8A', initial: 'A',
+    verseBook: 9, verseChapter: 25,
+    verse_tw: '那人名叫拿八，是迦勒族的人；他的妻名叫亞比該，是聰明俊美的婦人。拿八為人剛愎兇惡。',
+    verse_ref_tw: '撒母耳記上 25:3',
+    verse_cn: '那人名叫拿八，是迦勒族的人；他的妻名叫亚比该，是聪明俊美的妇人。拿八为人刚愎凶恶。',
+    verse_ref_cn: '撒母耳记上 25:3',
+    verse_en: 'Now the name of the man was Nabal; and the name of his wife Abigail: and she was a woman of good understanding, and of a beautiful countenance: but the man was churlish and evil in his doings; and he was of the house of Caleb.',
+    verse_ref_en: '1 Samuel 25:3',
+    desc_tw: '你看得通透、說得真誠，用溫柔與智慧穩住局面。像亞比該，她在丈夫愚昧闖禍、全家即將遭禍的時刻，冷靜預備、主動和解，用智慧化解一場流血衝突。你既有母親般的柔軟，又有清醒的判斷力，人們來找你，是因為你給的不是安慰，而是真正能救命的方向。',
+    desc_cn: '你看得通透、说得真诚，用温柔与智慧稳住局面。像亚比该，她在丈夫愚昧闯祸、全家即将遭祸的时刻，冷静预备、主动和解，用智慧化解一场流血冲突。你既有母亲般的柔软，又有清醒的判断力，人们来找你，是因为你给的不是安慰，而是真正能救命的方向。',
+    desc_en: 'You see clearly and speak with gentle wisdom. Like Abigail, who stepped in to save her household with calm courage and quick action, you bring peace and clarity to chaos. People come to you for truth, not just comfort.',
+    strengths_tw: ['看得清晰', '説話誠實', '有智慧與憐憫', '穩定人心'],
+    strengths_cn: ['看得清晰', '说话诚实', '有智慧与怜悯', '稳定人心'],
+    strengths_en: ['Sees clearly', 'speaks honestly', 'full of wisdom and compassion', 'stabilizes others'],
+    growth_tw: '你的直接有時對敏感的人像刀。保持你的鋒利，也學習溫柔地包裹它。',
+    growth_cn: '你的直接有时对敏感的人像刀。保持你的锋利，也学习温柔地包裹它。',
+    growth_en: 'Your directness can feel sharp to tender souls. Stay sharp — but learn to soften the delivery.',
+    story_tw: [
+      {t:'🎞️ 當時背景',b:'亞比該的丈夫拿八，是個剛愎自用、粗魯無禮的人。當大衛的僕人向他求助時，他不僅拒絕，還出言侮辱大衛，激怒了這位未來的國王。在古代中東，這種侮辱足以引來滅門之禍。當時的女性地位低下，根本沒有公開處理這種衝突的權力。'},
+      {t:'🙏 人物抉擇',b:'亞比該沒有慌亂，也沒有任由丈夫的愚昧導致全家滅亡。她冷靜、謙卑、有見識，主動預備禮物，親自前去見大衛，用溫柔和智慧的話語平息了大衛的怒氣，化解了一場流血衝突。她用行動證明了，溫柔與智慧比強硬的暴力更有力量。'},
+      {t:'✨ 屬靈應用',b:'真正的力量，不是爭吵與對抗，而是從神而來的安寧與智慧。信仰不是讓我們變得強硬，而是讓我們在混亂中依然能保持冷靜，用愛與智慧解決問題。'},
+    ],
+    story_cn: [
+      {t:'🎞️ 当时背景',b:'亚比该的丈夫拿八，是个刚愎自用、粗鲁无礼的人。当大卫的仆人向他求助时，他不仅拒绝，还出言侮辱大卫，激怒了这位未来的国王。在古代中东，这种侮辱足以引来灭门之祸。当时的女性地位低下，根本没有公开处理这种冲突的权力。'},
+      {t:'🙏 人物抉择',b:'亚比该没有慌乱，也没有任由丈夫的愚昧导致全家灭亡。她冷静、谦卑、有见识，主动预备礼物，亲自前去见大卫，用温柔和智慧的话语平息了大卫的怒气，化解了一场流血冲突。她用行动证明了，温柔与智慧比强硬的暴力更有力量。'},
+      {t:'✨ 属灵应用',b:'真正的力量，不是争吵与对抗，而是从神而来的安宁与智慧。信仰不是让我们变得强硬，而是让我们在混乱中依然能保持冷静，用爱与智慧解决问题。'},
+    ],
+    story_en: [
+      {t:'🎫 Context',b:'Nabal, Abigail\'s husband, was a harsh and foolish man. When David\'s men asked him for help, he refused and insulted them, angering the future king. In the ancient Middle East, such an insult could bring bloodshed. Women had no right to resolve conflicts openly at that time.'},
+      {t:'🙏 Her Choice',b:'She did not hesitate, nor let her husband\'s foolishness destroy the family. She acted calmly, humbly, and wisely. She prepared gifts, went to meet David herself, and calmed his anger with gentle and wise words, resolving the crisis. She proved that gentleness and wisdom are stronger than brute force.'},
+      {t:'✨ Spiritual Application',b:'True strength is not about fighting and resisting, but about God-given peace and wisdom. Faith does not make us tough and aggressive; it enables us to stay calm in chaos and solve problems with love and wisdom.'},
+    ],
+    advice_tw: {
+      strengthsTitle: '你如亞比該一樣擁有以下屬靈優勢：',
+      strengths: [
+        '你天生擁有智慧、清醒、溫柔又堅定的生命氣質。',
+        '你能看清局勢，用正確方式化解衝突。',
+        '你說話得體，有憐憫又有判斷力。',
+        '你在混亂中能穩住局面。',
+        '你顧全大局，願意主動挽回。',
+      ],
+      growthTitle: '你的生命成長方向：',
+      growth: [
+        '你容易為了平息問題而委屈自己。',
+        '你習慣用理性壓制情緒，不懂得釋放。',
+        '你容易為別人而活，忽略自己的需要。',
+        '你會因壓力過大而內心疲憊。',
+      ],
+      learnTitle: '你現在最需要學習的是：',
+      learnHeadline: '在智慧裡先保守自己 ❤️',
+      learnBody: [
+        '亞比該型的人，總在照顧別人、穩住局面。',
+        '但智慧的起點，是先讓自己被神安慰。',
+        '停下來安息，把重擔卸給神，你才能繼續用智慧祝福別人。',
+      ],
+      verseLabel: '對應經文：',
+      verseText: '亞比該有聰明俊美，是個有見識的婦人。',
+      verseChapter: 25, verseRef: '撒母耳記上 25:3',
+      verseCta: '點擊經文出處讀經📕',
+    },
+    advice_cn: {
+      strengthsTitle: '你如亚比该一样拥有以下属灵优势：',
+      strengths: [
+        '你天生拥有智慧、清醒、温柔又坚定的生命气质。',
+        '你能看清局势，用正确方式化解冲突。',
+        '你说话得体，有怜悯又有判断力。',
+        '你在混乱中能稳住局面。',
+        '你顾全大局，愿意主动挽回。',
+      ],
+      growthTitle: '你的生命成长方向：',
+      growth: [
+        '你容易为了平息问题而委屈自己。',
+        '你习惯用理性压制情绪，不懂得释放。',
+        '你容易为别人而活，忽略自己的需要。',
+        '你会因压力过大而内心疲惫。',
+      ],
+      learnTitle: '你现在最需要学习的是：',
+      learnHeadline: '在智慧里先保守自己 ❤️',
+      learnBody: [
+        '亚比该型的人，总在照顾别人、稳住局面。',
+        '但智慧的起点，是先让自己被神安慰。',
+        '停下来安息，把重担卸给神，你才能继续用智慧祝福别人。',
+      ],
+      verseLabel: '对应经文：',
+      verseText: '亚比该有聪明俊美，是个有见识的妇人。',
+      verseChapter: 25, verseRef: '撒母耳记上 25:3',
+      verseCta: '点击经文出处读经📕',
+    },
+    advice_en: {
+      strengthsTitle: 'Your spiritual strengths like Abigail:',
+      strengths: [
+        'You possess God-given wisdom, clarity, gentleness and firmness.',
+        'You discern situations wisely and resolve conflicts peacefully.',
+        'You speak appropriately with both compassion and good judgment.',
+        'You calm chaos and stabilize tense moments.',
+        'You care for the bigger picture and take initiative to reconcile relationships.',
+      ],
+      growthTitle: 'Areas you need to grow:',
+      growth: [
+        'You often wrong yourself just to keep peace with others.',
+        'You suppress emotions with reason instead of releasing them before God.',
+        'You live too much for others while neglecting your own spiritual needs.',
+        'Heavy responsibilities easily leave you emotionally exhausted.',
+      ],
+      learnTitle: 'What you most need to learn now:',
+      learnHeadline: 'Guard your own heart first in wisdom ❤️',
+      learnBody: [
+        'Abigail-type people constantly care for others and stabilize situations.',
+        'Yet true wisdom begins with letting God comfort your own heart first.',
+        'Rest before Him, cast your burdens on the Lord, and you will continue blessing others with wisdom.',
+      ],
+      verseLabel: 'Related Verse:',
+      verseText: 'Abigail bowed low before David.',
+      verseChapter: 25, verseRef: '1 Samuel 25:32',
+      verseCta: 'Tap the scripture reference to read 📕',
+    },
+  },
+  FCIG: {
+    char_tw: '伊莉莎白', char_cn: '伊丽莎白', char_en: 'Elizabeth', avatar: 'https://assets.grace-word.com/app/bibleti/avatars/FCIG.webp',
+    title_tw: '沉靜的敬虔者', title_cn: '沉静的敬虔者', title_en: 'Quiet Devotee',
+    color: '#3A7A6A', initial: 'E',
+    verseBook: 42, verseChapter: 1,
+    verse_tw: '高聲喊着說：「你在婦女中是有福的！你所懷的胎也是有福的！」',
+    verse_ref_tw: '路加福音 1:42',
+    verse_cn: '高声喊着说：“你在妇女中是有福的！你所怀的胎也是有福的！”',
+    verse_ref_cn: '路加福音 1:42',
+    verse_en: 'And she spake out with a loud voice, and said, Blessed art thou among women, and blessed is the fruit of thy womb.',
+    verse_ref_en: 'Luke 1:42',
+    desc_tw: '你對神有深沉的專注，習慣在安靜中領受、在等候中堅定。如同伊莉莎白，她年老不孕、被人誤解，卻一生堅守敬虔，在靜默中被神大大使用，成為祝福的管道。你不喜歡喧鬧，卻在安靜裡擁有最穩的力量，在浮躁的世界裡，你是難得的安息與穩定。',
+    desc_cn: '你对神有深沉的专注，习惯在安静中领受、在等候中坚定。如同伊丽莎白，她年老不孕、被人误解，却一生坚守虔诚，在静默中被神大大使用，成为祝福的管道。你不喜欢喧闹，却在安静里拥有最稳的力量，在浮躁的世界里，你是难得的安息与稳定。',
+    desc_en: 'You carry a deep, quiet devotion to God. Like Elizabeth, who waited faithfully in obscurity and was used to bless generations, you find strength in stillness. You are a calm, rooted presence in a noisy world.',
+    strengths_tw: ['對神專注敏感', '安靜領受', '內心堅定', '默默忠心'],
+    strengths_cn: ['对神专注敏感', '安静领受', '内心坚定', '默默忠心'],
+    strengths_en: ['Focused and sensitive to God', 'receives in stillness', 'steadfast heart', 'quiet faithfulness'],
+    growth_tw: '這個世界需要你的內心世界化為言語。把你所領受的說出來。',
+    growth_cn: '这个世界需要你的内心世界化为言语。把你所领受的说出来。',
+    growth_en: 'The world needs your inner life to become outward words sometimes. Speak what you have been given.',
+    story_tw: [
+      {t:'🎞️ 當時背景',b:'在猶太文化中，不孕被視為羞恥，甚至被認為是「不蒙神祝福」的象徵。伊麗莎白年老卻沒有孩子，常年承受著鄰里的議論、異樣的眼光和無形的壓力。她不被理解，也不被同情，只能默默承受。'},
+      {t:'🙏 人物抉擇',b:'伊麗莎白沒有抱怨，沒有懷疑，也沒有因別人的議論而放棄信仰。她只是安靜地等候，默默持守對神的信心，相信神的時間是美好的。神在她幾乎絕望的時候，成就了祂的應許，讓她懷上了施洗約翰。'},
+      {t:'✨ 屬靈應用',b:'真正的信心，是在看不見希望時，依然相信神的美意。當你在漫長的等待中感到疲憊或被人誤解時，不要灰心。繼續持守對神的信心，祂必在最合適的時候，成就祂的應許。'},
+    ],
+    story_cn: [
+      {t:'🎞️ 当时背景',b:'在犹太文化中，不孕被视为羞耻，甚至被认为是 "不蒙神祝福" 的象征。伊丽莎白年老却没有孩子，常年承受着邻里的议论、异样的眼光和无形的压力。她不被理解，也不被同情，只能默默承受。'},
+      {t:'🙏 人物抉择',b:'伊丽莎白没有抱怨，没有怀疑，也没有因别人的议论而放弃信仰。她只是安静地等候，默默持守对神的信心，相信神的时间是美好的。神在她几乎绝望的时候，成就了祂的应许，让她怀上了施洗约翰。'},
+      {t:'✨ 属灵应用',b:'真正的信心，是在看不见希望时，依然相信神的美意。当你在漫长的等待中感到疲惫或被人误解时，不要灰心。继续持守对神的信心，祂必在最合适的时候，成就祂的应许。'},
+    ],
+    story_en: [
+      {t:'🎫 Context',b:'In Jewish culture, being childless was considered a shame, even a sign of being "unblessed." Elizabeth had no children in her old age, enduring gossip, strange looks, and invisible pressure. She was misunderstood, not accepted, and silently suffered alone.'},
+      {t:'🙏 Her Choice',b:'Even in the face of misunderstanding and loneliness, she did not turn bitter or doubt God\'s goodness. She remained faithful to God, quietly trusting His timing. Her heart stayed pure, even when the world labeled her "unblessed."'},
+      {t:'✨ Spiritual Application',b:'Faith is not only trusting God when things go well, but trusting Him even when life feels unfair. God sees your hidden faithfulness, and He will bring beauty out of your pain in His perfect time.'},
+    ],
+    advice_tw: {
+      strengthsTitle: '你如伊莉莎白一樣擁有以下屬靈優勢：',
+      strengths: [
+        '你天生擁有沉靜、等候、敬虔、堅定的生命氣質。',
+        '你在等待中依然保持信心。',
+        '你不與人比較，專注走自己的路。',
+        '你內心安穩，不被外界議論影響。',
+        '你默默忠心，在安靜中被神使用。',
+      ],
+      growthTitle: '你的生命成長方向：',
+      growth: [
+        '你容易因長期等候而變得麻木。',
+        '你習慣隱藏感受，不向神表達渴望。',
+        '你容易被別人的看法影響信心。',
+        '你會因遲遲未見應許而疲憊。',
+      ],
+      learnTitle: '你現在最需要學習的是：',
+      learnHeadline: '在等候中持守盼望 ⏳',
+      learnBody: [
+        '伊莉莎白型的人，常常在漫長等待裡默默堅持。',
+        '真正的等候，不是無奈，是相信神的時間最美。',
+        '寫下你的等待與渴望，神正在為你成就最美的事。',
+      ],
+      verseLabel: '對應經文：',
+      verseText: '主眷顧我，使我不再在人面前受羞辱。',
+      verseChapter: 1, verseRef: '路加福音 1:25',
+      verseCta: '點擊經文出處讀經📕',
+    },
+    advice_cn: {
+      strengthsTitle: '你如伊丽莎白一样拥有以下属灵优势：',
+      strengths: [
+        '你天生拥有沉静、等候、敬虔、坚定的生命气质。',
+        '你在等待中依然保持信心。',
+        '你不与人比较，专注走自己的路。',
+        '你内心安稳，不被外界议论影响。',
+        '你默默忠心，在安静中被神使用。',
+      ],
+      growthTitle: '你的生命成长方向：',
+      growth: [
+        '你容易因长期等候而变得麻木。',
+        '你习惯隐藏感受，不向神表达渴望。',
+        '你容易被别人的看法影响信心。',
+        '你会因迟迟未见应许而疲惫。',
+      ],
+      learnTitle: '你现在最需要学习的是：',
+      learnHeadline: '在等候中持守盼望 ⏳',
+      learnBody: [
+        '伊丽莎白型的人，常常在漫长等待里默默坚持。',
+        '真正的等候，不是无奈，是相信神的时间最美。',
+        '写下你的等待与渴望，神正在为你成就最美的事。',
+      ],
+      verseLabel: '对应经文：',
+      verseText: '主眷顾我，使我不再在人面前受羞辱。',
+      verseChapter: 1, verseRef: '路加福音 1:25',
+      verseCta: '点击经文出处读经📕',
+    },
+    advice_en: {
+      strengthsTitle: 'Your spiritual strengths like Elizabeth:',
+      strengths: [
+        'You are calm, patient, godly, and steadfast in waiting.',
+        'You keep faith even through long seasons of delay.',
+        'You avoid comparison and focus on your own walk with God.',
+        'Your heart remains at peace, unaffected by others’ opinions.',
+        'You serve faithfully in quietness and are used by God behind the scenes.',
+      ],
+      growthTitle: 'Areas you need to grow:',
+      growth: [
+        'Long waiting can make you spiritually numb.',
+        'You hide inner longings instead of pouring them out to God.',
+        'Others’ judgments easily shake your faith.',
+        'Delayed promises often leave you weary and discouraged.',
+      ],
+      learnTitle: 'What you most need to learn now:',
+      learnHeadline: 'Hold fast to hope while waiting ⏳',
+      learnBody: [
+        'Elizabeth-type people endure silently through long delays.',
+        'True waiting is not helpless resignation, but trusting God’s perfect timing.',
+        'Write down your hopes and longings, for God is preparing something beautiful for you.',
+      ],
+      verseLabel: 'Related Verse:',
+      verseText: 'The Lord has taken away my disgrace among the people.',
+      verseChapter: 1, verseRef: 'Luke 1:25',
+      verseCta: 'Tap the scripture reference to read 📕',
+    },
+  },
+  FCIJ: {
+    char_tw: '亞撒利雅', char_cn: '亚撒利雅', char_en: 'Azariah', avatar: 'https://assets.grace-word.com/app/bibleti/avatars/FCIJ.webp',
+    title_tw: '堅定的持守者', title_cn: '坚定的持守者', title_en: 'Steadfast Guardian',
+    color: '#2C5A7B', initial: 'A',
+    verseBook: 27, verseChapter: 3,
+    verse_tw: '即或不然，王啊，你當知道我們決不事奉你的神，也不敬拜你所立的金像。',
+    verse_ref_tw: '但以理書 3:18',
+    verse_cn: '即或不然，王啊，你当知道我们决不侍奉你的神，也不敬拜你所立的金像。',
+    verse_ref_cn: '但以理书 3:18',
+    verse_en: 'But if not, be it known unto thee, O king, that we will not serve thy gods, nor worship the golden image which thou hast set up.',
+    verse_ref_en: 'Daniel 3:18',
+    desc_tw: '你活出安靜卻不妥協的生命，不炫耀、不爭辯，只用行動守住原則。像亞撒利雅（沙得拉），他與同伴在烈火窯前寧死不拜偶像，即便被扔在火中，也不放棄信仰。你在壓力裡依然忠誠，在人群中依然純正，你的生命本身，就是一篇最強的見證。',
+    desc_cn: '你活出安静却不妥协的生命，不炫耀、不争辩，只用行动守住原则。像亚撒利雅（沙得拉），他与同伴在烈火窑前宁死不拜偶像，即便被扔在火中，也不放弃信仰。你在压力里依然忠诚，在人群中依然纯正，你的生命本身，就是一篇最强的见证。',
+    desc_en: 'You live with quiet, unshakable integrity. Like Azariah (Shadrach), who chose the fiery furnace rather than compromise, you stand faithful even when it costs. Your quiet faithfulness is a powerful testimony.',
+    strengths_tw: ['安靜不妥協', '持守純正', '壓力下忠心', '不隨波逐流'],
+    strengths_cn: ['安静不妥协', '持守纯正', '压力下忠心', '不随波逐流'],
+    strengths_en: ['Lives uncompromisingly in quiet', 'upholds purity', 'faithful under pressure', 'does not follow the crowd'],
+    growth_tw: '讓人們進入你的生命。完全在孤獨中活出的忠信，會變得孤單而脆弱。',
+    growth_cn: '让人们进入你的生命。完全在孤独中活出的忠信，会变得孤单而脆弱。',
+    growth_en: 'Let people in. Faithfulness lived in complete isolation can become lonely and brittle.',
+    story_tw: [
+      {t:'🎞️ 當時背景',b:'亞撒利雅（沙得拉）生活在巴比倫帝國，國王尼布甲尼撒下令所有人都要跪拜他所立的金像，否則就會被扔進烈火窯中。這是一個強權高壓的時代，不拜就意味著死亡，大多數人都選擇了屈服。'},
+      {t:'🙏 人物抉擇',b:'亞撒利雅和他的同伴，在生死關頭，依然選擇不拜金像。他們不是不怕死，而是把對神的忠誠看得比生命更重要。他們相信，神能拯救他們，即便不能，也絕不背叛神。'},
+      {t:'✨ 屬靈應用',b:'信仰的考驗，從來都不是在順境中，而是在壓力面前。真正的敬畏神，不是口頭上的，而是在生死關頭依然持守的。神必保守那些全心依靠祂的人。'},
+    ],
+    story_cn: [
+      {t:'🎞️ 当时背景',b:'亚撒利雅（沙得拉）生活在巴比伦帝国，国王尼布甲尼撒下令所有人都要跪拜他所立的金像，否则就会被扔进烈火窑中。这是一个强权高压的时代，不拜就意味着死亡，大多数人都选择了屈服。'},
+      {t:'🙏 人物抉择',b:'亚撒利雅和他的同伴，在生死关头，依然选择不拜金像。他们不是不怕死，而是把对神的忠诚看得比生命更重要。他们相信，神能拯救他们，即便不能，也绝不背叛神。'},
+      {t:'✨ 属灵应用',b:'信仰的考验，从来都不是在顺境中，而是在压力面前。真正的敬畏神，不是口头上的，而是在生死关头依然持守的。神必保守那些全心依靠祂的人。'},
+    ],
+    story_en: [
+      {t:'🎫 Context',b:'Azariah (Shadrach) lived in the Babylonian Empire. King Nebuchadnezzar commanded everyone to bow down to the golden image he had set up, or be thrown into the fiery furnace. It was a time of tyranny and oppression—refusal meant death, and most people chose to submit.'},
+      {t:'🙏 His Choice',b:'At the moment of life and death, Azariah and his companions chose not to bow to the idol. They were not fearless, but valued faithfulness to God more than their own lives. They trusted that God could save them, and even if He did not, they would never betray Him.'},
+      {t:'✨ Spiritual Application',b:'The test of faith never comes in comfort, but in the face of pressure. True reverence for God is not just words, but standing firm even in life-or-death moments. God keeps those who fully trust in Him.'},
+    ],
+    advice_tw: {
+      strengthsTitle: '你如亞撒利雅一樣擁有以下屬靈優勢：',
+      strengths: [
+        '你天生擁有堅定、不妥協、持守純正、勇敢的生命氣質。',
+        '你在壓力下依然忠心。',
+        '你不隨波逐流，有清楚的立場。',
+        '你把信仰看得比生命重要。',
+        '你在試探中能站穩立場。',
+      ],
+      growthTitle: '你的生命成長方向：',
+      growth: [
+        '你容易變得剛硬，不懂得謙卑領受。',
+        '你習慣只看對錯，缺少憐憫與包容。',
+        '你容易因別人妥協而失望。',
+        '你會因堅持立場而孤立自己。',
+      ],
+      learnTitle: '你現在最需要學習的是：',
+      learnHeadline: '在堅定中學習恩典 🔥',
+      learnBody: [
+        '亞撒利雅型的人，最能站穩立場、不向世界低頭。',
+        '但信仰不是只有立場，還要有神的愛與恩典。',
+        '堅守真理，也學習憐憫，你的見證會更有力量。',
+      ],
+      verseLabel: '對應經文：',
+      verseText: '我們不侍奉你的神，也不敬拜你所立的金像。',
+      verseChapter: 3, verseRef: '但以理書 3:18',
+      verseCta: '點擊經文出處讀經📕',
+    },
+    advice_cn: {
+      strengthsTitle: '你如亚撒利雅一样拥有以下属灵优势：',
+      strengths: [
+        '你天生拥有坚定、不妥协、持守纯正、勇敢的生命气质。',
+        '你在压力下依然忠心。',
+        '你不随波逐流，有清楚的立场。',
+        '你把信仰看得比生命重要。',
+        '你在试探中能站稳立场。',
+      ],
+      growthTitle: '你的生命成长方向：',
+      growth: [
+        '你容易变得刚硬，不懂得谦卑领受。',
+        '你习惯只看对错，缺少怜悯与包容。',
+        '你容易因别人妥协而失望。',
+        '你会因坚持立场而孤立自己。',
+      ],
+      learnTitle: '你现在最需要学习的是：',
+      learnHeadline: '在坚定中学习恩典 🔥',
+      learnBody: [
+        '亚撒利雅型的人，最能站稳立场、不向世界低头。',
+        '但信仰不是只有立场，还要有神的爱与恩典。',
+        '坚守真理，也学习怜悯，你的见证会更有力量。',
+      ],
+      verseLabel: '对应经文：',
+      verseText: '我们不侍奉你的神，也不敬拜你所立的金像。',
+      verseChapter: 3, verseRef: '但以理书 3:18',
+      verseCta: '点击经文出处读经📕',
+    },
+    advice_en: {
+      strengthsTitle: 'Your spiritual strengths like Azariah:',
+      strengths: [
+        'You are resolute, uncompromising, pure in faith, and spiritually brave.',
+        'You remain loyal to God even under heavy pressure.',
+        'You stand firm with clear convictions and refuse to follow worldly ways.',
+        'You value faith above personal safety and life.',
+        'You hold your ground firmly amid temptation.',
+      ],
+      growthTitle: 'Areas you need to grow:',
+      growth: [
+        'Your firmness can turn into spiritual rigidity without humility.',
+        'You tend to judge only by right and wrong, lacking mercy and tolerance.',
+        'You grow disappointed when others compromise their faith.',
+        'Standing for truth may cause you to isolate yourself from others.',
+      ],
+      learnTitle: 'What you most need to learn now:',
+      learnHeadline: 'Learn grace while standing firm 🔥',
+      learnBody: [
+        'Azariah-type people stand unyieldingly for truth and never bow to the world.',
+        'Yet faith is not only about standing firm; it must also carry God’s love and grace.',
+        'Uphold truth while learning mercy, and your testimony will carry greater power.',
+      ],
+      verseLabel: 'Related Verse:',
+      verseText: 'The God we serve is able to deliver us from the burning fiery furnace.',
+      verseChapter: 3, verseRef: 'Daniel 3:17',
+      verseCta: 'Tap the scripture reference to read 📕',
+    },
+  },
+  QAPG: {
+    char_tw: '彼得', char_cn: '彼得', char_en: 'Peter', avatar: 'https://assets.grace-word.com/app/bibleti/avatars/QAPG.webp',
+    title_tw: '熱情的門徒', title_cn: '热情的门徒', title_en: 'Passionate Pioneer',
+    color: '#8A4A2C', initial: 'P',
+    verseBook: 43, verseChapter: 6,
+    verse_tw: '西門彼得回答說：「主啊，你有永生之道，我們還歸從誰呢？」',
+    verse_ref_tw: '約翰福音 6:68',
+    verse_cn: '西门·彼得回答说：“主啊，你有永生之道，我们还归从谁呢？”',
+    verse_ref_cn: '约翰福音 6:68',
+    verse_en: 'Then Simon Peter answered him, Lord, to whom shall we go? thou hast the words of eternal life.',
+    verse_ref_en: 'John 6:68',
+    desc_tw: '你愛得直接、投入得徹底，常常衝動卻無比真誠。像彼得，他曾大膽認主，也曾軟弱跌倒，但每一次跌倒後都更真實地回到主面前。你的熱情、你的脆弱、你的回轉，都讓信仰變得有血有肉，恩典總能在你最破碎的地方緊緊抓住你。',
+    desc_cn: '你爱得直接、投入得彻底，常常冲动却无比真诚。像彼得，他曾大胆认主，也曾软弱跌倒，但每一次跌倒后都更真实地回到主面前。你的热情、你的脆弱、你的回转，都让信仰变得有血有肉，恩典总能在你最破碎的地方紧紧抓住你。',
+    desc_en: 'You love boldly and live fully, with honest vulnerability. Like Peter, you may stumble but always return. Your passion and authenticity make faith real, and grace meets you in your brokenness.',
+    strengths_tw: ['全心投入', '愛得熱烈', '真實脆弱', '屢次歸回'],
+    strengths_cn: ['全心投入', '爱得热烈', '真实脆弱', '屡次归回'],
+    strengths_en: ['Wholehearted devotion', 'loves fervently', 'authentically vulnerable', 'repeatedly returns to God'],
+    growth_tw: '你的熱情是恩賜，但先學會聆聽再跳躍。不是每個衝動都是呼召。',
+    growth_cn: '你的热情是恩赐，但先学会聆听再跳跃。不是每个冲动都是呼召。',
+    growth_en: 'Your enthusiasm is a gift, but learn to listen before you leap. Not every impulse is a calling.',
+    story_tw: [
+      {t:'🎞️ 當時背景',b:'耶穌被捕時，門徒們都四散逃跑，彼得也在眾人面前三次否認認識耶穌。他曾經信誓旦旦地說自己絕不離棄主，卻在壓力下跌倒。他的失敗是真實的，軟弱也是真實的。'},
+      {t:'🙏 人物抉擇',b:'耶穌沒有因為彼得的跌倒而放棄他，反而在復活後，特意向他顯現，三次問他「你愛我嗎？」。耶穌看見的不是他的失敗，而是他悔改後的真誠與忠心。'},
+      {t:'✨ 屬靈應用',b:'神愛的不是完美的人，而是願意承認軟弱、回轉歸向祂的人。跌倒不是結束，而是悔改的開始。\n如果你在信仰上跌倒了，不要灰心，不要放棄，立刻回轉，祂依然會用祂的恩典接納你、重新使用你。'},
+    ],
+    story_cn: [
+      {t:'🎞️当时背景',b:'耶稣被捕时，门徒们都四散逃跑，彼得也在众人面前三次否认认识耶稣。他曾经信誓旦旦地说自己绝不离弃主，却在压力下跌倒。他的失败是真实的，软弱也是真实的。'},
+      {t:'🙏人物抉择',b:'耶稣没有因为彼得的跌倒而放弃他，反而在复活后，特意向他显现，三次问他 "你爱我吗？"。耶稣看见的不是他的失败，而是他悔改后的真诚与忠心。'},
+      {t:'✨属灵应用',b:'神爱的不是完美的人，而是愿意承认软弱、回转归向祂的人。跌倒不是结束，而是悔改的开始。\n如果你在信仰上跌倒了，不要灰心，不要放弃，立刻回转，祂依然会用祂的恩典接纳你、重新使用你。'},
+    ],
+    story_en: [
+      {t:'🎫 Context',b:'When Jesus was arrested, the disciples all scattered, and Peter denied knowing Him three times in front of the crowd. He had once boldly declared that he would never leave the Lord, yet he fell under pressure. His failure was real, and his weakness was real.'},
+      {t:'🙏 His Choice',b:'Jesus did not reject Peter because of his fall. Instead, after His resurrection, He appeared to Peter specifically and asked three times, "Do you love me?" Jesus saw not his failure, but the sincerity and devotion of his repentant heart.'},
+      {t:'✨ Spiritual Application',b:'God loves not perfect people, but those who are willing to admit their weakness and turn back to Him. Falling is not the end, but the beginning of repentance.\nIf you have fallen in your faith, do not lose heart or give up. Turn back immediately, and He will still receive you with grace and use you again.'},
+    ],
+    advice_tw: {
+      strengthsTitle: '你如彼得一樣擁有以下屬靈優勢：',
+      strengths: [
+        '你天生擁有熱情、真誠、直接、敢於愛的生命氣質。',
+        '你愛主真誠，投入徹底。',
+        '你願意為主擺上，不保留。',
+        '你真實不偽裝，跌倒也願意回轉。',
+        '你有牧人的心，顧念神的羊群。',
+      ],
+      growthTitle: '你的生命成長方向：',
+      growth: [
+        '你容易衝動、情緒化，憑感覺行事。',
+        '你習慣靠自己，不懂得依靠神。',
+        '你容易軟弱跌倒，信心不穩定。',
+        '你會因失敗而自責、不敢再站起來。',
+      ],
+      learnTitle: '你現在最需要學習的是：',
+      learnHeadline: '在回轉中被主恢復 🐑',
+      learnBody: [
+        '彼得型的人，熱情又真誠，卻也最容易跌倒。',
+        '但主愛的不是不失敗的人，而是願意回轉的人。',
+        '把你的軟弱、失敗、情緒都帶到主面前，祂會重新堅固你。',
+      ],
+      verseLabel: '對應經文：',
+      verseText: '你愛我嗎？你餵養我的羊。',
+      verseChapter: 21, verseRef: '約翰福音 21:15',
+      verseCta: '點擊經文出處讀經📕',
+    },
+    advice_cn: {
+      strengthsTitle: '你如彼得一样拥有以下属灵优势：',
+      strengths: [
+        '你天生拥有热情、真诚、直接、敢于爱的生命气质。',
+        '你爱主真诚，投入彻底。',
+        '你愿意为主摆上，不保留。',
+        '你真实不伪装，跌倒也愿意回转。',
+        '你有牧人的心，顾念神的羊群。',
+      ],
+      growthTitle: '你的生命成长方向：',
+      growth: [
+        '你容易冲动、情绪化，凭感觉行事。',
+        '你习惯靠自己，不懂得依靠神。',
+        '你容易软弱跌倒，信心不稳定。',
+        '你会因失败而自责、不敢再站起来。',
+      ],
+      learnTitle: '你现在最需要学习的是：',
+      learnHeadline: '在回转中被主恢复 🐑',
+      learnBody: [
+        '彼得型的人，热情又真诚，却也最容易跌倒。',
+        '但主爱的不是不失败的人，而是愿意回转的人。',
+        '把你的软弱、失败、情绪都带到主面前，祂会重新坚固你。',
+      ],
+      verseLabel: '对应经文：',
+      verseText: '你爱我吗？你喂养我的羊。',
+      verseChapter: 21, verseRef: '约翰福音 21:15',
+      verseCta: '点击经文出处读经📕',
+    },
+    advice_en: {
+      strengthsTitle: 'Your spiritual strengths like Peter:',
+      strengths: [
+        'You are passionate, sincere, straightforward, and wholehearted in loving the Lord.',
+        'Your love for Jesus is genuine and fully devoted.',
+        'You are willing to sacrifice everything for Him without reservation.',
+        'You live honestly without pretense and readily return to God after falling.',
+        'You carry a shepherd’s heart that cares for God’s flock.',
+      ],
+      growthTitle: 'Areas you need to grow:',
+      growth: [
+        'You act impulsively and follow emotions instead of the Spirit.',
+        'You rely on your own strength rather than trusting God.',
+        'Your faith is unstable, and you often stumble in weakness.',
+        'Failures leave you self-condemned and afraid to rise again.',
+      ],
+      learnTitle: 'What you most need to learn now:',
+      learnHeadline: 'Be restored by the Lord through repentance 🐑',
+      learnBody: [
+        'Peter-type people are passionate and sincere, yet prone to spiritual falls.',
+        'The Lord does not love only perfect people, but those who humbly turn back to Him.',
+        'Bring your weakness, failures and emotions before Jesus, and He will restore and strengthen you.',
+      ],
+      verseLabel: 'Related Verse:',
+      verseText: 'Do you love me? Feed my lambs.',
+      verseChapter: 21, verseRef: 'John 21:15',
+      verseCta: 'Tap the scripture reference to read 📕',
+    },
+  },
+  QAPJ: {
+    char_tw: '保羅', char_cn: '保罗', char_en: 'Paul', avatar: 'https://assets.grace-word.com/app/bibleti/avatars/QAPJ.webp',
+    title_tw: '大膽的使徒', title_cn: '大胆的使徒', title_en: 'Bold Catalyst',
+    color: '#3D4A8A', initial: 'P',
+    verseBook: 50, verseChapter: 3,
+    verse_tw: '不但如此，我也將萬事當作有損的，因我以認識我主基督耶穌為至寶。我為他已經丟棄萬事，看作糞土，為要得着基督。',
+    verse_ref_tw: '腓利比書 3:8',
+    verse_cn: '不但如此，我也将万事当作有损的，因我以认识我主基督耶稣为至宝。我为他已经丢弃万事，看作粪土，为要得着基督。',
+    verse_ref_cn: '腓立比书 3:8',
+    verse_en: 'Yea doubtless, and I count all things but loss for the excellency of the knowledge of Christ Jesus my Lord: for whom I have suffered the loss of all things, and do count them but dung, that I may win Christ.',
+    verse_ref_en: 'Philippians 3:8',
+    desc_tw: '你思想深刻、說話有力，為真理毫不退縮。像保羅，他曾逼迫教會，卻在遇見主後徹底翻轉，一生為福音奔走、受苦、擺上。別人以為你執著，其實你只是深深愛著那一位改變你生命的主，你的使命比你的舒適更重要。',
+    desc_cn: '你思想深刻、说话有力，为真理毫不退缩。像保罗，他曾逼迫教会，却在遇见主后彻底翻转，一生为福音奔走、受苦、摆上。别人以为你执着，其实你只是深深爱着那一位改变你生命的主，你的使命比你的舒适更重要。',
+    desc_en: 'You think deeply and speak fearlessly for truth. Like Paul, transformed by a radical encounter with Christ, you live for a mission greater than comfort. What others call zeal, you simply call love.',
+    strengths_tw: ['思想嚴謹', '勇敢傳講', '爲真理擺上', '使命驅動'],
+    strengths_cn: ['思想严谨', '勇敢传讲', '为真理摆上', '使命驱动'],
+    strengths_en: ['Thoughtful and rigorous', 'preaches courageously', 'lays down life for truth', 'mission-driven'],
+    growth_tw: '你周圍的人需要關係，不只是使命。慢下來，讓人認識你這個人。',
+    growth_cn: '你周围的人需要关系，不只是使命。慢下来，让人认识你这个人。',
+    growth_en: 'The people around you need relationship, not just mission. Slow down enough to be truly known.',
+    story_tw: [
+      {t:'🎞️ 當時背景',b:'保羅原本是法利賽人，受過嚴格的宗教訓練，他因嫉妒和偏見，瘋狂逼迫早期教會，殘害信徒。他是教會的敵人，也是一個剛硬、自以為義的人。'},
+      {t:'🙏 人物翻轉',b:'神沒有放棄他，反而在他前往大馬士革的路上，親自向他顯現，光照他，徹底翻轉了他的生命。保羅從一個逼迫者，變成了福音的傳播者，他的生命被神徹底改變。'},
+      {t:'✨ 屬靈應用',b:'神的恩典，能夠改變最剛硬的心。沒有任何人，是神不能拯救、不能改變的。神的呼召，永遠超越人的過往。無論你過去有怎樣的經歷，犯過怎樣的錯，只要你願意回轉，神的恩典永遠夠你用，祂必能翻轉你的生命。'},
+    ],
+    story_cn: [
+      {t:'🎞️ 当时背景',b:'保罗原本是法利赛人，受过严格的宗教训练，他因嫉妒和偏见，疯狂逼迫早期教会，残害信徒。他是教会的敌人，也是一个刚硬、自以为义的人。'},
+      {t:'🙏 人物翻转',b:'神没有放弃他，反而在他前往大马士革的路上，亲自向他显现，光照他，彻底翻转了他的生命。保罗从一个逼迫者，变成了福音的传播者，他的生命被神彻底改变。'},
+      {t:'✨ 属灵应用',b:'神的恩典，能够改变最刚硬的心。没有任何人，是神不能拯救、不能改变的。神的呼召，永远超越人的过往。无论你过去有怎样的经历，犯过怎样的错，只要你愿意回转，神的恩典永远够你用，祂必能翻转你的生命。'},
+    ],
+    story_en: [
+      {t:'🎫 Context',b:'Paul was originally a Pharisee, trained in strict religious law. Out of jealousy and prejudice, he violently persecuted the early church and its believers. He was an enemy of the church, a hard-hearted man who thought he was righteous.'},
+      {t:'🙏 His Choice',b:'God did not abandon him. Instead, on the road to Damascus, He appeared to Paul, shining His light and completely turning his life upside down. Paul went from a persecutor to a preacher of the gospel, and his life was completely transformed by God.'},
+      {t:'✨ Spiritual Application',b:'God\'s grace can change even the hardest heart. There is no one God cannot save or change. God\'s call always transcends our past. No matter what you have been through or what mistakes you have made, as long as you are willing to turn back, God\'s grace is always enough for you, and He will turn your life around.'},
+    ],
+    advice_tw: {
+      strengthsTitle: '你如保羅一樣擁有以下屬靈優勢：',
+      strengths: [
+        '你天生擁有使命、異象、敢為真理發聲的生命氣質。',
+        '你思想清晰，目標明確。',
+        '你為福音擺上一切，不計算代價。',
+        '你被神翻轉，生命有力量。',
+        '你影響他人，帶來改變。',
+      ],
+      growthTitle: '你的生命成長方向：',
+      growth: [
+        '你容易執著、強勢，缺少溫柔。',
+        '你習慣靠能力，不懂得安息。',
+        '你容易只看使命，忽略內心的感受。',
+        '你會因負擔太重而疲憊。',
+      ],
+      learnTitle: '你現在最需要學習的是：',
+      learnHeadline: '在使命裡學習安息 ☁️',
+      learnBody: [
+        '保羅型的人，一心為使命奔跑，從不停止。',
+        '但福音的能力，不是來自辛苦，而是來自與主相連。',
+        '停下來安息，重新得力，你才能走更遠的路。',
+      ],
+      verseLabel: '對應經文：',
+      verseText: '我以認識我主基督耶穌為至寶，為祂我已丟棄萬事。',
+      verseChapter: 3, verseRef: '腓立比書 3:8',
+      verseCta: '點擊經文出處讀經📕',
+    },
+    advice_cn: {
+      strengthsTitle: '你如保罗一样拥有以下属灵优势：',
+      strengths: [
+        '你天生拥有使命、异象、敢为真理发声的生命气质。',
+        '你思想清晰，目标明确。',
+        '你为福音摆上一切，不计算代价。',
+        '你被神翻转，生命有力量。',
+        '你影响他人，带来改变。',
+      ],
+      growthTitle: '你的生命成长方向：',
+      growth: [
+        '你容易执着、强势，缺少温柔。',
+        '你习惯靠能力，不懂得安息。',
+        '你容易只看使命，忽略内心的感受。',
+        '你会因负担太重而疲惫。',
+      ],
+      learnTitle: '你现在最需要学习的是：',
+      learnHeadline: '在使命里学习安息 ☁️',
+      learnBody: [
+        '保罗型的人，一心为使命奔跑，从不停止。',
+        '但福音的能力，不是来自辛苦，而是来自与主相连。',
+        '停下来安息，重新得力，你才能走更远的路。',
+      ],
+      verseLabel: '对应经文：',
+      verseText: '我以认识我主基督耶稣为至宝，为祂我已丢弃万事。',
+      verseChapter: 3, verseRef: '腓立比书 3:8',
+      verseCta: '点击经文出处读经📕',
+    },
+    advice_en: {
+      strengthsTitle: 'Your spiritual strengths like Paul:',
+      strengths: [
+        'You carry a strong sense of calling, spiritual vision, and boldness to proclaim truth.',
+        'Your thinking is clear and your spiritual goals are definite.',
+        'You sacrifice all things for the gospel without counting the cost.',
+        'Transformed deeply by God, your life carries spiritual authority.',
+        'You influence others and bring lasting spiritual change.',
+      ],
+      growthTitle: 'Areas you need to grow:',
+      growth: [
+        'You can become overly determined and forceful, lacking gentleness.',
+        'You rely on personal ability instead of resting in God.',
+        'You focus too much on ministry while neglecting your inner spiritual well-being.',
+        'Heavy spiritual burdens easily wear you down.',
+      ],
+      learnTitle: 'What you most need to learn now:',
+      learnHeadline: 'Learn to rest while fulfilling your calling ☁️',
+      learnBody: [
+        'Paul-type people run tirelessly for God’s mission.',
+        'Yet the power of the gospel comes not from human labor, but from abiding in Christ.',
+        'Slow down to rest and be renewed, so you can walk longer in God’s calling.',
+      ],
+      verseLabel: 'Related Verse:',
+      verseText: 'I consider everything a loss because of the surpassing worth of knowing Christ Jesus my Lord.',
+      verseChapter: 3, verseRef: 'Philippians 3:8',
+      verseCta: 'Tap the scripture reference to read 📕',
+    },
+  },
+  QAIG: {
+    char_tw: '以利亞', char_cn: '以利亚', char_en: 'Elijah', avatar: 'https://assets.grace-word.com/app/bibleti/avatars/QAIG.webp',
+    title_tw: '曠野的先知', title_cn: '旷野的先知', title_en: 'Wilderness Surrenderer',
+    color: '#8A5530', initial: 'E',
+    verseBook: 11, verseChapter: 19,
+    verse_tw: '自己在曠野走了一日的路程，來到一棵羅騰樹下〔羅騰，小樹名，松類；下同〕，就坐在那裏求死，說：「耶和華啊，罷了！求你取我的性命，因為我不勝於我的列祖。」',
+    verse_ref_tw: '列王紀上 19:4',
+    verse_cn: '自己在旷野走了一日的路程，来到一棵罗腾树下，就坐在那里求死，说：“耶和华啊，罢了！求你取我的性命，因为我不胜于我的列祖。”',
+    verse_ref_cn: '列王纪上 19:4',
+    verse_en: 'But he himself went a day’s journey into the wilderness, and came and sat down under a juniper tree: and he requested for himself that he might die; and said, It is enough; now, O LORD, take away my life; for I am not better than my fathers.',
+    verse_ref_en: '1 Kings 19:4',
+    desc_tw: '你能燃起極大的熱情，也會經歷很深的疲憊。像以利亞，他在迦密山大勝先知，卻在威脅下逃到曠野絕望哀求。你不是沒有軟弱，而是在軟弱中依然被神尋見。你需要曠野、需要安靜，才能重新找回力量與方向。',
+    desc_cn: '你能燃起极大的热情，也会经历很深的疲惫。像以利亚，他在迦密山大胜先知，却在威胁下逃到旷野绝望哀求。你不是没有软弱，而是在软弱中依然被神寻见。你需要旷野、需要安静，才能重新找回力量与方向。',
+    desc_en: 'You carry great fire and great weariness. Like Elijah, you experience victory and despair, yet God meets you in the wilderness. You need quiet seasons to recover and refocus.',
+    strengths_tw: ['有火熱信心', '也會疲憊', '需安靜恢復', '獨自站立'],
+    strengths_cn: ['有火热信心', '也会疲惫', '需安静恢复', '独自站立'],
+    strengths_en: ['Has fiery faith yet grows weary', 'needs quiet to recover', 'stands alone with God'],
+    growth_tw: '你不是被設計來獨自維持那團火的。在崩潰來臨前，為休息和群體建立結構。',
+    growth_cn: '你不是被设计来独自维持那团火的。在崩溃来临前，为休息和群体建立结构。',
+    growth_en: 'You are not designed to sustain the fire alone. Build in rhythms of rest and community before the crash comes.',
+    story_tw: [
+      {t:'🎞️ 背景',b:'以利亞剛剛在迦密山上，靠著神的大能，戰勝了巴力的 450 個先知，經歷了極大的勝利。然而，王后耶洗別一句威脅，就讓他陷入了極度的恐懼、疲憊和孤獨中，逃到了曠野，甚至求死。'},
+      {t:'🙏 人物解析',b:'以利亞也是人，他也會累、會怕、會失望、會情緒崩潰。神沒有責備他的軟弱，反而差遣天使供應他食物和水，在微小的聲音中安慰他。神的同在，不只是在勝利的高光時刻，也在我們軟弱崩潰的低谷裡。'},
+      {t:'✨ 屬靈亮光',b:'神允許我們軟弱，不要求我們硬撐。在軟弱裡投靠神，才是最剛強的信仰。當你感到疲憊、軟弱、甚至想放棄時，不要假裝堅強，向神誠實敞開你的心。祂會在你最軟弱的地方，賜下恩典與力量。'},
+    ],
+    story_cn: [
+      {t:'🎞️ 背景',b:'以利亚刚刚在迦密山上，靠着神的大能，战胜了巴力的 450 个先知，经历了极大的胜利。然而，王后耶洗别一句威胁，就让他陷入了极度的恐惧、疲惫和孤独中，逃到了旷野，甚至求死。'},
+      {t:'🙏 人物解析',b:'以利亚也是人，他也会累、会怕、会失望、会情绪崩溃。神没有责备他的软弱，反而差遣天使供应他食物和水，在微小的声音中安慰他。神的同在，不只是在胜利的高光时刻，也在我们软弱崩溃的低谷里。'},
+      {t:'✨ 属灵亮光',b:'神允许我们软弱，不要求我们硬撑。在软弱里投靠神，才是最刚强的信仰。当你感到疲惫、软弱、甚至想放弃时，不要假装坚强，向神诚实敞开你的心。祂会在你最软弱的地方，赐下恩典与力量。'},
+    ],
+    story_en: [
+      {t:'🎫 Context',b:'Elijah had just defeated the 450 prophets of Baal on Mount Carmel through God\'s great power. It was a great victory. However, one threat from Queen Jezebel sent him into extreme fear, exhaustion, and loneliness. He fled into the wilderness, even wishing to die.'},
+      {t:'🙏 His Choice',b:'Elijah was human too—he got tired, afraid, discouraged, and emotionally broken. God did not condemn his weakness. Instead, He sent angels to provide him with food and water, and comforted him in the still small voice. God\'s presence is not only for the mountaintop moments of victory, but also for the valleys of our weakness and breakdown.'},
+      {t:'✨ Spiritual Application',b:'God allows us to be weak; He does not ask us to be tough all the time. Trusting God in our weakness is the strongest kind of faith. When you feel exhausted, weak, or even want to give up, do not pretend to be strong. Open your heart honestly to God, and He will give you grace and strength in your weakest moments.'},
+    ],
+    advice_tw: {
+      strengthsTitle: '你如以利亞一樣擁有以下屬靈優勢：',
+      strengths: [
+        '你天生擁有熱心、勇敢、為真理爭戰的生命氣質。',
+        '你對神心懷熱忱，不容忍妥協。',
+        '你在關鍵時刻能站出來。',
+        '你有先知的眼光，看見屬靈真相。',
+        '你敢於獨自為神爭辯。',
+      ],
+      growthTitle: '你的生命成長方向：',
+      growth: [
+        '你容易孤獨、疲憊，不懂得與人同行。',
+        '你習慣獨自承擔，不接受幫助。',
+        '你容易情緒低落，陷入灰心。',
+        '你會因環境黑暗而失去盼望。',
+      ],
+      learnTitle: '你現在最需要學習的是：',
+      learnHeadline: '在孤獨中被神安慰 🕊️',
+      learnBody: [
+        '以利亞型的人，常常獨自爭戰、獨自疲憊。',
+        '但神不責備你的軟弱，祂會親自安慰你。',
+        '把你的累、恐懼、灰心告訴神，祂會讓你重新得力。',
+      ],
+      verseLabel: '對應經文：',
+      verseText: '地震後有火，耶和華卻不在火中；火後有微小的聲音。',
+      verseChapter: 19, verseRef: '列王紀上 19:12',
+      verseCta: '點擊經文出處讀經📕',
+    },
+    advice_cn: {
+      strengthsTitle: '你如以利亚一样拥有以下属灵优势：',
+      strengths: [
+        '你天生拥有热心、勇敢、为真理争战的生命气质。',
+        '你对神心怀热忱，不容忍妥协。',
+        '你在关键时刻能站出来。',
+        '你有先知的眼光，看见属灵真相。',
+        '你敢于独自为神争辩。',
+      ],
+      growthTitle: '你的生命成长方向：',
+      growth: [
+        '你容易孤独、疲惫，不懂得与人同行。',
+        '你习惯独自承担，不接受帮助。',
+        '你容易情绪低落，陷入灰心。',
+        '你会因环境黑暗而失去盼望。',
+      ],
+      learnTitle: '你现在最需要学习的是：',
+      learnHeadline: '在孤独中被神安慰 🕊️',
+      learnBody: [
+        '以利亚型的人，常常独自争战、独自疲惫。',
+        '但神不责备你的软弱，祂会亲自安慰你。',
+        '把你的累、恐惧、灰心告诉神，祂会让你重新得力。',
+      ],
+      verseLabel: '对应经文：',
+      verseText: '地震后有火，耶和华却不在火中；火后有微小的声音。',
+      verseChapter: 19, verseRef: '列王纪上 19:12',
+      verseCta: '点击经文出处读经📕',
+    },
+    advice_en: {
+      strengthsTitle: 'Your spiritual strengths like Elijah:',
+      strengths: [
+        'You are zealous, courageous, and ready to contend for God’s truth.',
+        'You burn with passion for the Lord and refuse to tolerate spiritual compromise.',
+        'You stand bravely for God in critical moments.',
+        'You have prophetic insight to discern spiritual realities.',
+        'You dare to defend God alone even when others stay silent.',
+      ],
+      growthTitle: 'Areas you need to grow:',
+      growth: [
+        'You often feel lonely and weary, unwilling to walk alongside others.',
+        'You carry burdens alone and refuse to receive support.',
+        'You easily fall into low spirits and spiritual discouragement.',
+        'Spiritual darkness around you can steal your hope.',
+      ],
+      learnTitle: 'What you most need to learn now:',
+      learnHeadline: 'Be comforted by God in loneliness 🕊️',
+      learnBody: [
+        'Elijah-type people often fight and grow weary alone.',
+        'Yet God does not condemn your weakness; He comes personally to comfort you.',
+        'Pour out your weariness, fear and discouragement to Him, and He will renew your strength.',
+      ],
+      verseLabel: 'Related Verse:',
+      verseText: 'After the fire came a gentle whisper.',
+      verseChapter: 19, verseRef: '1 Kings 19:12',
+      verseCta: 'Tap the scripture reference to read 📕',
+    },
+  },
+  QAIJ: {
+    char_tw: '施洗約翰', char_cn: '施洗约翰', char_en: 'John the Baptist', avatar: 'https://assets.grace-word.com/app/bibleti/avatars/QAIJ.webp',
+    title_tw: '曠野的聲音', title_cn: '旷野的声音', title_en: 'Wilderness Preacher',
+    color: '#4A7A3A', initial: 'J',
+    verseBook: 43, verseChapter: 3,
+    verse_tw: '他必興旺，我必衰微。',
+    verse_ref_tw: '約翰福音 3:30',
+    verse_cn: '他必兴旺，我必衰微。',
+    verse_ref_cn: '约翰福音 3:30',
+    verse_en: 'He must increase, but I must decrease.',
+    verse_ref_en: 'John 3:30',
+    desc_tw: '你活在真實裡，不迎合、不妥協，只為真理而活。像施洗約翰，他在曠野呼喊、為人預備道路，甘心降低自己，只為高舉主耶穌。你不在乎別人的眼光，只在乎神的心意，你願意成為配角，成就更偉大的事。',
+    desc_cn: '你活在真实里，不迎合、不妥协，只为真理而活。像施洗约翰，他在旷野呼喊、为人预备道路，甘心降低自己，只为高举主耶稣。你不在乎别人的眼光，只在乎神的心意，你愿意成为配角，成就更伟大的事。',
+    desc_en: 'You live for truth, not comfort. Like John the Baptist, you prepare the way and joyfully decrease so Christ may increase. You live simply to lift up what is greater.',
+    strengths_tw: ['追求真理', '甘心捨己', '預備道路', '清醒堅定'],
+    strengths_cn: ['追求真理', '甘心舍己', '预备道路', '清醒坚定'],
+    strengths_en: ['Seeks truth', 'lays down self willingly', 'prepares the way', 'clear and resolute'],
+    growth_tw: '不要讓曠野成為永久的家。即使是先知，也需要群體與安息。',
+    growth_cn: '不要让旷野成为永久的家。即使是先知，也需要群体与安息。',
+    growth_en: 'Don\'t let the desert become a permanent dwelling. Even prophets need community and rest.',
+    story_tw: [
+      {t:'🎞️ 背景',b:'施洗約翰是當時極有影響力的先知，他在曠野傳道，吸引了大批人跟隨。他本可以藉著自己的名聲，建立自己的勢力，成為萬眾矚目的焦點。'},
+      {t:'🙏 人物解析',b:'施洗約翰清楚地知道自己的使命，他甘心降低自己，成為耶穌的「配角」，為祂預備道路，讓主得著榮耀。他不搶風頭，不彰顯自己，只高舉基督。'},
+      {t:'✨ 屬靈應用',b:'真正的事奉，是甘心隱藏自己，讓主顯大。我們的目標，不是讓人看見我們，而是讓人看見基督。在服侍中，放下自己的驕傲和對名聲的追求，甘心做一個隱藏的器皿，讓主得著榮耀。'},
+    ],
+    story_cn: [
+      {t:'🎞️ 背景',b:'施洗约翰是当时极有影响力的先知，他在旷野传道，吸引了大批人跟随。他本可以借着自己的名声，建立自己的势力，成为万众瞩目的焦点。'},
+      {t:'🙏 人物解析',b:'施洗约翰清楚地知道自己的使命， 他甘心降低自己，成为耶稣的 "配角"，为祂预备道路，让主得着荣耀。他不抢风头，不彰显自己，只高举基督。'},
+      {t:'✨ 属灵应用',b:'真正的事奉，是甘心隐藏自己，让主显大。我们的目标，不是让人看见我们，而是让人看见基督。在服侍中，放下自己的骄傲和对名声的追求，甘心做一个隐藏的器皿，让主得着荣耀。'},
+    ],
+    story_en: [
+      {t:'🎫 Background',b:'John the Baptist was a highly influential prophet. He preached in the wilderness and drew large crowds. He could have used his fame to build his own influence and become the center of attention.'},
+      {t:'🙏 His Choice',b:'John the Baptist clearly understood his mission. He willingly lowered himself to be a "supporting role" for Jesus, preparing the way for Him so that the Lord might receive glory. He did not seek the spotlight or exalt himself, but lifted up Christ alone.'},
+      {t:'✨ Spiritual Application',b:'True ministry is about hiding yourself so that the Lord may increase. Our goal is not to make people see us, but to make them see Christ. In service, lay down pride and the pursuit of fame, and willingly be a hidden vessel so that the Lord may receive glory.'},
+    ],
+    advice_tw: {
+      strengthsTitle: '你如施洗約翰一樣擁有以下屬靈優勢：',
+      strengths: [
+        '你天生擁有真實、清醒、甘心卑微、預備道路的生命氣質。',
+        '你不迎合世界，只忠於真理。',
+        '你清楚自己的使命，不搶風頭。',
+        '你願意降低自己，高舉基督。',
+        '你在曠野中也能持守信仰。',
+      ],
+      growthTitle: '你的生命成長方向：',
+      growth: [
+        '你容易嚴肅、苛刻，缺少包容。',
+        '你習慣指責錯誤，缺少恩典。',
+        '你容易與人保持距離，顯得冷漠。',
+        '你會因無人理解而孤獨。',
+      ],
+      learnTitle: '你現在最需要學習的是：',
+      learnHeadline: '在真實裡學習恩典 🌿',
+      learnBody: [
+        '施洗約翰型的人，最真實、最清醒，不妥協。',
+        '但真理要帶著恩典，才能感動人心。',
+        '持守真誠，也領受神的愛，你會成為更多人的幫助。',
+      ],
+      verseLabel: '對應經文：',
+      verseText: '祂必興旺，我必衰微。',
+      verseChapter: 3, verseRef: '約翰福音 3:30',
+      verseCta: '點擊經文出處讀經📕',
+    },
+    advice_cn: {
+      strengthsTitle: '你如施洗约翰一样拥有以下属灵优势：',
+      strengths: [
+        '你天生拥有真实、清醒、甘心卑微、预备道路的生命气质。',
+        '你不迎合世界，只忠于真理。',
+        '你清楚自己的使命，不抢风头。',
+        '你愿意降低自己，高举基督。',
+        '你在旷野中也能持守信仰。',
+      ],
+      growthTitle: '你的生命成长方向：',
+      growth: [
+        '你容易严肃、苛刻，缺少包容。',
+        '你习惯指责错误，缺少恩典。',
+        '你容易与人保持距离，显得冷漠。',
+        '你会因无人理解而孤独。',
+      ],
+      learnTitle: '你现在最需要学习的是：',
+      learnHeadline: '在真实里学习恩典 🌿',
+      learnBody: [
+        '施洗约翰型的人，最真实、最清醒，不妥协。',
+        '但真理要带着恩典，才能感动人心。',
+        '持守真诚，也领受神的爱，你会成为更多人的帮助。',
+      ],
+      verseLabel: '对应经文：',
+      verseText: '祂必兴旺，我必衰微。',
+      verseChapter: 3, verseRef: '约翰福音 3:30',
+      verseCta: '点击经文出处读经📕',
+    },
+    advice_en: {
+      strengthsTitle: 'Your spiritual strengths like John the Baptist:',
+      strengths: [
+        'You are genuine, spiritually clear, humble, and called to prepare the way for Christ.',
+        'You do not conform to the world but remain faithful to God’s truth.',
+        'You understand your God-given mission and never seek the spotlight.',
+        'You gladly humble yourself to exalt Christ above all.',
+        'You keep your faith faithfully even in lonely wilderness seasons.',
+      ],
+      growthTitle: 'Areas you need to grow:',
+      growth: [
+        'You tend to be overly serious and strict, lacking tolerance.',
+        'You easily point out faults without extending God’s grace.',
+        'You keep emotional distance from others and may appear cold.',
+        'Lack of understanding from others leaves you feeling isolated.',
+      ],
+      learnTitle: 'What you most need to learn now:',
+      learnHeadline: 'Walk in grace while staying true 🌿',
+      learnBody: [
+        'John the Baptist-type people are honest, clear-minded and uncompromising.',
+        'Yet truth must be shared with grace to touch hearts.',
+        'Keep your sincerity while receiving God’s love, and you will become a blessing to many.',
+      ],
+      verseLabel: 'Related Verse:',
+      verseText: 'He must become greater; I must become less.',
+      verseChapter: 3, verseRef: 'John 3:30',
+      verseCta: 'Tap the scripture reference to read 📕',
+    },
+  },
+  QCPG: {
+    char_tw: '多馬', char_cn: '多马', char_en: 'Thomas', avatar: 'https://assets.grace-word.com/app/bibleti/avatars/QCPG.webp',
+    title_tw: '誠實的尋求者', title_cn: '诚实的寻求者', title_en: 'Honest Seeker',
+    color: '#7A3D7A', initial: 'T',
+    verseBook: 43, verseChapter: 20,
+    verse_tw: '那些門徒就對他說：「我們已經看見主了。」多馬卻說：「我非看見他手上的釘痕，用指頭探入那釘痕，又用手探入他的肋旁，我總不信。」',
+    verse_ref_tw: '約翰福音 20:25',
+    verse_cn: '那些门徒就对他说：“我们已经看见主了。”多马却说：“我非看见他手上的钉痕，用指头探入那钉痕，又用手探入他的肋旁，我总不信。”',
+    verse_ref_cn: '约翰福音 20:25',
+    verse_en: 'The other disciples therefore said unto him, We have seen the LORD. But he said unto them, Except I shall see in his hands the print of the nails, and put my finger into the print of the nails, and thrust my hand into his side, I will not believe.',
+    verse_ref_en: 'John 20:25',
+    desc_tw: '你不喜歡假裝相信，你需要真實、需要看見，才願意全心跟隨。像多馬，他直言要看見主的釘痕才肯信，卻在遇見主後成為最真誠的見證者。你的懷疑不是不信，而是讓信仰更紮實的過程，一旦你確信，就會一生堅定。',
+    desc_cn: '你不喜欢假装相信，你需要真实、需要看见，才愿意全心跟随。像多马，他直言要看见主的钉痕才肯信，却在遇见主后成为最真诚的见证者。你的怀疑不是不信，而是让信仰更扎实的过程，一旦你确信，就会一生坚定。',
+    desc_en: 'You seek honest faith, not quick answers. Like Thomas, you need to see to believe—and when you do, your faith is unshakable. Your honesty makes your faith real and deep.',
+    strengths_tw: ['求真務實', '懷疑中成長', '確信後深度委身'],
+    strengths_cn: ['求真务实', '怀疑中成长', '确信后深度委身'],
+    strengths_en: ['Seeks truth practically', 'grows through doubt', 'commits deeply once convinced'],
+    growth_tw: '不要停留在等待確鑿證據的房間裡。信心有時在確定性到來之前就已先行了。',
+    growth_cn: '不要停留在等待确凿证据的房间里。信心有时在确定性到来之前就已先行了。',
+    growth_en: 'Don\'t stay in the upper room waiting for certainty. Sometimes faith moves before proof arrives.',
+    story_tw: [
+      {t:'🎞️ 背景',b:'耶穌復活後，門徒們都看見了主，唯獨多馬不在場。他聽到大家的見證，卻誠實地說：「我非看見他手上的釘痕，用指頭探入那釘痕，又用手探入他的肋旁。我總不信。」在那個時代，這種「懷疑」是不被接受的。'},
+      {t:'🙏 人物解析',b:'耶穌沒有責備他的懷疑，反而在他面前顯現，讓他親手觸摸釘痕。耶穌接納了他的真實，不要求他假裝信心，而是親自向他顯現，堅固他的信心。'},
+      {t:'✨ 屬靈亮光',b:'神看重我們的真實，勝過虛假的信心。帶著誠實的疑問來尋找神，神必會親自向你顯現，堅固你的信心。如果你有疑惑，不要假裝信，也不要隱藏，帶著真實來到主面前，祂必會引導你，堅固你。'},
+    ],
+    story_cn: [
+      {t:'🎞️ 背景',b:'耶稣复活后，门徒们都看见了主，唯独多马不在场。他听到大家的见证，却诚实的说："我非看见他手上的钉痕，用指头探入那钉痕，又用手探入他的肋旁。我总不信" 在那个时代，这种 "怀疑" 是不被接受的。'},
+      {t:'🙏 人物解析',b:'耶稣没有责备他的怀疑，反而在他面前显现，让他亲手触摸钉痕。耶稣接纳了他的真实，不要求他假装信心，而是亲自向他显现，坚固他的信心。'},
+      {t:'✨ 属灵亮光',b:'神看重我们的真实，胜过虚假的信心。带着诚实的疑问来寻找神，神必会亲自向你显现，坚固你的信心。如果你有疑惑，不要假装信，也不要隐藏，带着真实来到主面前，祂必会引导你，坚固你。'},
+    ],
+    story_en: [
+      {t:'🎫 Background',b:'After Jesus\' resurrection, the disciples all saw the Lord, but Thomas was not there. When he heard their testimony, he honestly said: "Unless I see the nail marks in his hands and put my finger where the nails were, and my hand into his side, I will not believe." In that time, such "doubt" was not accepted.'},
+      {t:'🙏 His Choice',b:'Jesus did not condemn his doubt. Instead, He appeared to him and let Thomas touch the nail marks. Jesus accepted his honesty, did not demand fake faith, and appeared to him personally to strengthen his faith.'},
+      {t:'✨ Spiritual Light',b:'God values our truth more than false faith. When you come to God with honest questions, He will appear to you and strengthen your faith. If you have doubts, do not pretend to believe or hide them. Come to Him with your true self, and He will guide and establish you.'},
+    ],
+    advice_tw: {
+      strengthsTitle: '你如多馬一樣擁有以下屬靈優勢：',
+      strengths: [
+        '你天生擁有求真、踏實、不偽裝、深度委身的生命氣質。',
+        '你不假裝信心，誠實面對疑問。',
+        '你一旦確信，就全心跟隨。',
+        '你真誠不虛偽，讓人感到可靠。',
+        '你在疑問中成長，信仰扎實。',
+      ],
+      growthTitle: '你的生命成長方向：',
+      growth: [
+        '你容易懷疑、猶豫，缺少信心的跳躍。',
+        '你習慣靠眼見，不懂得憑信前行。',
+        '你容易被疑問困住，難以釋放。',
+        '你會因看不見而內心不安。',
+      ],
+      learnTitle: '你現在最需要學習的是：',
+      learnHeadline: '在信心裡不再疑惑 ✨',
+      learnBody: [
+        '多馬型的人，一定要看見才敢相信，最真實。',
+        '但神賜下信心，讓你在看不見時也能依靠。',
+        '把你的疑問帶到神面前，祂會親自堅固你的心。',
+      ],
+      verseLabel: '對應經文：',
+      verseText: '耶穌對他說：「你因看見了我才信；那沒有看見就信的有福了。」',
+      verseChapter: 20, verseRef: '約翰福音 20:29',
+      verseCta: '點擊經文出處讀經📕',
+    },
+    advice_cn: {
+      strengthsTitle: '你如多马一样拥有以下属灵优势：',
+      strengths: [
+        '你天生拥有求真、踏实、不伪装、深度委身的生命气质。',
+        '你不假装信心，诚实面对疑问。',
+        '你一旦确信，就全心跟随。',
+        '你真诚不虚伪，让人感到可靠。',
+        '你在疑问中成长，信仰扎实。',
+      ],
+      growthTitle: '你的生命成长方向：',
+      growth: [
+        '你容易怀疑、犹豫，缺少信心的跳跃。',
+        '你习惯靠眼见，不懂得凭信前行。',
+        '你容易被疑问困住，难以释放。',
+        '你会因看不见而内心不安。',
+      ],
+      learnTitle: '你现在最需要学习的是：',
+      learnHeadline: '在信心里不再疑惑 ✨',
+      learnBody: [
+        '多马型的人，一定要看见才敢相信，最真实。',
+        '但神赐下信心，让你在看不见时也能依靠。',
+        '把你的疑问带到神面前，祂会亲自坚固你的心。',
+      ],
+      verseLabel: '对应经文：',
+      verseText: '耶稣对他说：“你因看见了我才信；那没有看见就信的有福了。”',
+      verseChapter: 20, verseRef: '约翰福音 20:29',
+      verseCta: '点击经文出处读经📕',
+    },
+    advice_en: {
+      strengthsTitle: 'Your spiritual strengths like Thomas:',
+      strengths: [
+        'You seek truth earnestly, live down-to-earth, and walk with sincere wholehearted devotion.',
+        'You never pretend faith but honestly acknowledge your doubts.',
+        'Once convinced of God’s truth, you follow wholeheartedly.',
+        'Your sincerity makes you trustworthy to others.',
+        'Your faith grows deeper through honest questioning.',
+      ],
+      growthTitle: 'Areas you need to grow:',
+      growth: [
+        'You tend to doubt and hesitate, lacking the leap of faith.',
+        'You rely heavily on physical sight instead of walking by faith.',
+        'Unresolved doubts often hold you back spiritually.',
+        'Not seeing immediate answers leaves you inwardly restless.',
+      ],
+      learnTitle: 'What you most need to learn now:',
+      learnHeadline: 'Step into faith and let go of doubt ✨',
+      learnBody: [
+        'Thomas-type people are honest and only believe what they can see.',
+        'Yet God gives faith so you can trust Him even when you cannot see.',
+        'Bring all your doubts before the Lord, and He will personally strengthen your heart.',
+      ],
+      verseLabel: 'Related Verse:',
+      verseText: 'Put your finger here; see my hands. Stop doubting and believe.',
+      verseChapter: 20, verseRef: 'John 20:27',
+      verseCta: 'Tap the scripture reference to read 📕',
+    },
+  },
+  QCPJ: {
+    char_tw: '約伯', char_cn: '约伯', char_en: 'Job', avatar: 'https://assets.grace-word.com/app/bibleti/avatars/QCPJ.webp',
+    title_tw: '與神摔跤的靈魂', title_cn: '与神摔跤的灵魂', title_en: 'Authentic Experiencer',
+    color: '#5A5A6A', initial: 'J',
+    verseBook: 18, verseChapter: 13,
+    verse_tw: '他必殺我；我雖無指望，然而我在他面前還要辯明我所行的。',
+    verse_ref_tw: '約伯記 13:15',
+    verse_cn: '他必杀我；我虽无指望，然而我在他面前还要辩明我所行的。',
+    verse_ref_cn: '约伯记 13:15',
+    verse_en: 'Though he slay me, yet will I trust in him: but I will maintain mine own ways before him.',
+    verse_ref_en: 'Job 13:15',
+    desc_tw: '你不掩飾痛苦，不假裝堅強，敢把最真實的情緒帶到神面前。像約伯，他一夜失去一切，卻依然在破碎中抓住神，不用宗教話術粉飾傷痛。你的信仰不是完美的，卻是在黑夜中熬出來的、最真實的信心。',
+    desc_cn: '你不掩饰痛苦，不假装坚强，敢把最真实的情绪带到神面前。像约伯，他一夜失去一切，却依然在破碎中抓住神，不用宗教话术粉饰伤痛。你的信仰不是完美的，却是在黑夜中熬出来的、最真实的信心。',
+    desc_en: 'You wrestle honestly with pain and doubt. Like Job, you bring raw emotion to God without religious pretense. Your faith is not neat—it is forged in the dark and deeply real.',
+    strengths_tw: ['誠實面對痛苦', '不粉飾哀傷', '信心經火試煉'],
+    strengths_cn: ['诚实面对痛苦', '不粉饰哀伤', '信心经火试炼'],
+    strengths_en: ['Faces pain honestly', 'does not gloss over grief', 'faith refined through fire'],
+    growth_tw: '不要讓角力本身成為你的身份。黎明會來到。讓它來。',
+    growth_cn: '不要让角力本身成为你的身份。黎明会来到。让它来。',
+    growth_en: 'Don\'t let the wrestling become your identity. The dawn comes. Let it.',
+    story_tw: [
+      {t:'🎞️ 當時背景',b:'約伯原本是個完全正直、敬畏神的人，擁有萬貫家財、兒女成群、健康的身體，受人尊敬。然而，一夜之間，他失去了所有的財產、兒女，甚至自己的健康，被朋友誤解、被妻子嘲笑，陷入了最深的痛苦。'},
+      {t:'🙏 人物翻轉',b:'約伯不明白為什麼受苦，他也有疑問、有抱怨，但他始終沒有放棄對神的信靠。他不粉飾自己的痛苦，也不用宗教話術來偽裝堅強，而是誠實地把自己的疑問和痛苦帶到神面前，依然緊緊抓住神。'},
+      {t:'✨ 屬靈應用',b:'真正的信仰，不是一帆風順才信，而是在痛苦、黑暗、不明白的時候，依然不離開神。信仰不是沒有疑問，而是在疑問中依然選擇信靠。'},
+    ],
+    story_cn: [
+      {t:'🎞️ 当时背景',b:'约伯原本是个完全正直、敬畏神的人，拥有万贯家财、儿女成群、健康的身体，受人尊敬。然而，一夜之间，他失去了所有的财产、儿女，甚至自己的健康，被朋友误解、被妻子嘲笑，陷入了最深的痛苦。'},
+      {t:'🙏 人物翻转',b:'约伯不明白为什么受苦，他也有疑问、有抱怨，但他始终没有放弃对神的信靠。他不粉饰自己的痛苦，也不用宗教话术来伪装坚强，而是诚实地把自己的疑问和痛苦带到神面前，依然紧紧抓住神。'},
+      {t:'✨ 属灵应用',b:'真正的信仰，不是一帆风顺才信，而是在痛苦、黑暗、不明白的时候，依然不离开神。信仰不是没有疑问，而是在疑问中依然选择信靠。'},
+    ],
+    story_en: [
+      {t:'🎫 Background',b:'Job was a blameless and upright man who feared God. He had great wealth, many children, good health, and was respected by everyone. Yet in one day, he lost all his property, children, and even his health. He was misunderstood by his friends and mocked by his wife, falling into deep suffering.'},
+      {t:'🙏 His Transformation',b:'Job did not understand why he suffered. He had questions and complaints, but he never let go of his trust in God. He did not hide his pain or pretend to be strong with religious words. Instead, he honestly brought his doubts and pain to God and clung to Him tightly.'},
+      {t:'✨ Spiritual Application',b:'True faith is not about smooth sailing, but about staying close to God even in pain, darkness, and unanswered questions. Faith is not the absence of doubt, but choosing to trust even in doubt.'},
+    ],
+    advice_tw: {
+      strengthsTitle: '你如約伯一樣擁有以下屬靈優勢：',
+      strengths: [
+        '你天生擁有正直、誠實、敬畏神、在苦難中堅定的生命氣質。',
+        '你不偽裝痛苦，誠實面對情緒。',
+        '你在苦難中依然抓住神。',
+        '你心地純全，不向罪惡妥協。',
+        '你有深度的信心，經過試煉而純淨。',
+      ],
+      growthTitle: '你的生命成長方向：',
+      growth: [
+        '你容易陷入情緒、難以走出。',
+        '你習慣獨自承受痛苦，不被理解。',
+        '你容易質問神，而不是等候神。',
+        '你會因苦難而懷疑神的愛。',
+      ],
+      learnTitle: '你現在最需要學習的是：',
+      learnHeadline: '在痛苦中抓住神的愛 🕯️',
+      learnBody: [
+        '約伯型的人，經歷傷痛卻依然敬畏神。',
+        '信心不是不痛苦，而是痛苦中依然抓住神。',
+        '把你的眼淚、疑問、傷痛都帶到神面前，祂是你的安慰。',
+      ],
+      verseLabel: '對應經文：',
+      verseText: '祂雖殺我，我仍要倚靠祂。',
+      verseChapter: 13, verseRef: '約伯記 13:15',
+      verseCta: '點擊經文出處讀經📕',
+    },
+    advice_cn: {
+      strengthsTitle: '你如约伯一样拥有以下属灵优势：',
+      strengths: [
+        '你天生拥有正直、诚实、敬畏神、在苦难中坚定的生命气质。',
+        '你不伪装痛苦，诚实面对情绪。',
+        '你在苦难中依然抓住神。',
+        '你心地纯全，不向罪恶妥协。',
+        '你有深度的信心，经过试炼而纯净。',
+      ],
+      growthTitle: '你的生命成长方向：',
+      growth: [
+        '你容易陷入情绪、难以走出。',
+        '你习惯独自承受痛苦，不被理解。',
+        '你容易质问神，而不是等候神。',
+        '你会因苦难而怀疑神的爱。',
+      ],
+      learnTitle: '你现在最需要学习的是：',
+      learnHeadline: '在痛苦中抓住神的爱 🕯️',
+      learnBody: [
+        '约伯型的人，经历伤痛却依然敬畏神。',
+        '信心不是不痛苦，而是痛苦中依然抓住神。',
+        '把你的眼泪、疑问、伤痛都带到神面前，祂是你的安慰。',
+      ],
+      verseLabel: '对应经文：',
+      verseText: '祂虽杀我，我仍要倚靠祂。',
+      verseChapter: 13, verseRef: '约伯记 13:15',
+      verseCta: '点击经文出处读经📕',
+    },
+    advice_en: {
+      strengthsTitle: 'Your spiritual strengths like Job:',
+      strengths: [
+        'You are upright, honest, God-fearing, and steadfast even through suffering.',
+        'You do not pretend to be unaffected by pain but face emotions honestly.',
+        'You hold fast to God even amid deep hardship.',
+        'Your heart is blameless and refuses to compromise with sin.',
+        'Your faith becomes pure and deeper after spiritual trials.',
+      ],
+      growthTitle: 'Areas you need to grow:',
+      growth: [
+        'You easily get trapped in negative emotions and struggle to move forward.',
+        'You bear pain alone and feel misunderstood by others.',
+        'You tend to question God instead of waiting quietly for Him.',
+        'Suffering may cause you to doubt God’s loving nature.',
+      ],
+      learnTitle: 'What you most need to learn now:',
+      learnHeadline: 'Cling to God’s love in suffering 🕯️',
+      learnBody: [
+        'Job-type people endure deep pain yet still reverence the Lord.',
+        'True faith is not freedom from pain, but holding fast to God even in pain.',
+        'Bring your tears, questions and wounds before Him, for He is your true Comforter.',
+      ],
+      verseLabel: 'Related Verse:',
+      verseText: 'Though he slay me, yet will I hope in him.',
+      verseChapter: 13, verseRef: 'Job 13:15',
+      verseCta: 'Tap the scripture reference to read 📕',
+    },
+  },
+  QCIG: {
+    char_tw: '撒馬利亞婦人', char_cn: '撒玛利亚妇人', char_en: 'Samaritan Woman', avatar: 'https://assets.grace-word.com/app/bibleti/avatars/QCIG.webp',
+    title_tw: '被尋回的見證者', title_cn: '被寻回的见证者', title_en: 'Restored Witness',
+    color: '#8A3D5A', initial: 'S',
+    verseBook: 43, verseChapter: 4,
+    verse_tw: '婦人說：「我知道彌賽亞（就是那稱為基督的）要來；他來了，必將一切的事都告訴我們。」',
+    verse_ref_tw: '約翰福音 4:25',
+    verse_cn: '妇人说：“我知道弥赛亚（就是那称为基督的）要来；他来了，必将一切的事都告诉我们。”',
+    verse_ref_cn: '约翰福音 4:25',
+    verse_en: 'The woman saith unto him, I know that Messias cometh, which is called Christ: when he is come, he will tell us all things.',
+    verse_ref_en: 'John 4:25',
+    desc_tw: '你曾有傷痕、有過去、有不為人知的破碎，卻被主親自尋回。像撒馬利亞婦人，她在井邊被耶穌觸摸生命，立刻放下水罐，跑去向全城人作見證。你被深深改變，所以願意熱烈奉獻、勇敢分享，成為別人的祝福。',
+    desc_cn: '你曾有伤痕、有过去、有不为人知的破碎，却被主亲自寻回。像撒玛利亚妇人，她在井边被耶稣触摸生命，立刻放下水罐，跑去向全城人作见证。你被深深改变，所以愿意热烈奉献、勇敢分享，成为别人的祝福。',
+    desc_en: 'You have been broken and deeply restored. Like the Samaritan woman, encountered by Christ at the well, you quickly become a bold witness. Your transformation makes you wholehearted and grateful.',
+    strengths_tw: ['曾破碎被拯救', '熱烈奉獻', '勇敢爲主作見証'],
+    strengths_cn: ['曾破碎被拯救', '热烈奉献', '勇敢为主作见证'],
+    strengths_en: ['Once broken and redeemed', 'devoted passionately', 'boldly testifies for the Lord'],
+    growth_tw: '你不只是你被拯救的故事。讓上帝繼續寫新的篇章。',
+    growth_cn: '你不只是你被拯救的故事。让上帝继续写新的篇章。',
+    growth_en: 'You are more than your story of being saved. Let God continue to write new chapters in you.',
+    story_tw: [
+      {t:'🎞️ 當時背景',b:'撒瑪利亞婦人是個被社會輕視的女人。她有複雜的婚姻經歷，被鄰里排斥，猶太人更是看不起撒瑪利亞人，認為他們是「雜種」，絕不與他們往來。她在中午最熱的時候來打水，就是為了避開別人的眼光。'},
+      {t:'🙏 人物抉擇',b:'耶穌打破了當時的社會偏見和種族隔閡，主動向她要水喝。祂不看她的過去、她的身份、她的標籤，只看她內心的需要和價值。祂在井邊遇見她，向她傳講活水的道，讓她的生命徹底改變。'},
+      {t:'✨ 屬靈應用',b:'在神的眼中，人人平等。無論你過去如何，有怎樣的傷痕，被人如何看待，神依然愛你，願意主動尋找你、拯救你。無論你覺得自己多麼不配、多麼破碎，都可以坦然來到主面前。祂愛你，不是因為你有多好，而是因為祂就是愛。'},
+    ],
+    story_cn: [
+      {t:'🎞️ 当时背景',b:'撒玛利亚妇人是个被社会轻视的女人。她有复杂的婚姻经历，被邻里排斥，犹太人更是看不起撒玛利亚人，认为他们是 "杂种"，绝不与他们往来。她在中午最热的时候来打水，就是为了避开别人的眼光。'},
+      {t:'🙏 人物抉择',b:'耶稣打破了当时的社会偏见和种族隔阂，主动向她要水喝。祂不看她的过去、她的身份、她的标签，只看她内心的需要和价值。祂在井边遇见她，向她传讲活水的道，让她的生命彻底改变。'},
+      {t:'✨ 属灵应用',b:'在神的眼中，人人平等。无论你过去如何，有怎样的伤痕，被人如何看待，神依然爱你，愿意主动寻找你、拯救你。无论你觉得自己多么不配、多么破碎，都可以坦然来到主面前。祂爱你，不是因为你有多好，而是因为祂就是爱。'},
+    ],
+    story_en: [
+      {t:'🎫 Background',b:'The Samaritan woman was a woman despised by society. She had a complicated marital history, was rejected by neighbors, and looked down on by Jews who considered Samaritans "half-breeds" and refused to associate with them. She came to draw water at the hottest time of noon just to avoid people\'s stares.'},
+      {t:'🙏 Her Encounter',b:'Jesus broke the social prejudices and racial barriers of the time by asking her for water. He did not look at her past, status, or labels, but only at her inner needs and worth. He met her at the well and shared the living water with her, transforming her life forever.'},
+      {t:'✨ Spiritual Application',b:'In God\'s eyes, everyone is equal. No matter your past, your wounds, or how people see you, God still loves you and wants to seek and save you. No matter how unworthy or broken you feel, you can come boldly to Him. He loves you not because of who you are, but because of who He is.'},
+    ],
+    advice_tw: {
+      strengthsTitle: '你如撒馬利亞婦人一樣擁有以下屬靈優勢：',
+      strengths: [
+        '你天生擁有被愛、渴望改變、敢於見證、真誠悔改的生命氣質。',
+        '你曾破碎卻被神尋回。',
+        '你一旦被觸摸，就勇敢分享。',
+        '你不放棄自己，渴望生命更新。',
+        '你能成為別人的祝福。',
+      ],
+      growthTitle: '你的生命成長方向：',
+      growth: [
+        '你容易被過去捆綁，感到不配。',
+        '你習慣隱藏自己，不敢面對人。',
+        '你容易被別人眼光影響，不接納自己。',
+        '你會因羞愧而遠離神。',
+      ],
+      learnTitle: '你現在最需要學習的是：',
+      learnHeadline: '在被愛中重新站立 💧',
+      learnBody: [
+        '撒馬利亞婦人型的人，帶著傷痕卻被主尋找。',
+        '神的愛能洗淨一切，讓你重新站立。',
+        '來到主面前，領受祂的接納，你是祂所寶貴的。',
+      ],
+      verseLabel: '對應經文：',
+      verseText: '婦人說：我知道彌賽亞要來。',
+      verseChapter: 4, verseRef: '約翰福音 4:25',
+      verseCta: '點擊經文出處讀經📕',
+    },
+    advice_cn: {
+      strengthsTitle: '你如撒玛利亚妇人一样拥有以下属灵优势：',
+      strengths: [
+        '你天生拥有被爱、渴望改变、敢于见证、真诚悔改的生命气质。',
+        '你曾破碎却被神寻回。',
+        '你一旦被触摸，就勇敢分享。',
+        '你不放弃自己，渴望生命更新。',
+        '你能成为别人的祝福。',
+      ],
+      growthTitle: '你的生命成长方向：',
+      growth: [
+        '你容易被过去捆绑，感到不配。',
+        '你习惯隐藏自己，不敢面对人。',
+        '你容易被别人眼光影响，不接纳自己。',
+        '你会因羞愧而远离神。',
+      ],
+      learnTitle: '你现在最需要学习的是：',
+      learnHeadline: '在被爱中重新站立 💧',
+      learnBody: [
+        '撒玛利亚妇人型的人，带着伤痕却被主寻找。',
+        '神的爱能洗净一切，让你重新站立。',
+        '来到主面前，领受祂的接纳，你是祂所宝贵的。',
+      ],
+      verseLabel: '对应经文：',
+      verseText: '妇人说：我知道弥赛亚要来。',
+      verseChapter: 4, verseRef: '约翰福音 4:25',
+      verseCta: '点击经文出处读经📕',
+    },
+    advice_en: {
+      strengthsTitle: 'Your spiritual strengths like the Samaritan Woman:',
+      strengths: [
+        'You are deeply loved by God, hungry for transformation, bold in testimony, and sincere in repentance.',
+        'You have been broken yet personally sought and redeemed by Jesus.',
+        'Once touched by the Lord, you bravely share your faith with others.',
+        'You refuse to give up on yourself and long for spiritual renewal.',
+        'Your life becomes a powerful blessing to many.',
+      ],
+      growthTitle: 'Areas you need to grow:',
+      growth: [
+        'Past mistakes and wounds easily bind you and make you feel unworthy.',
+        'You hide your true self and fear opening up to others.',
+        'Others’ judgments affect your self-acceptance.',
+        'Shame sometimes draws you away from God.',
+      ],
+      learnTitle: 'What you most need to learn now:',
+      learnHeadline: 'Stand anew in God’s unconditional love 💧',
+      learnBody: [
+        'Samaritan Woman-type people carry wounds yet are precious in the Lord’s eyes.',
+        'God’s love washes away all shame and enables you to stand restored.',
+        'Come openly before Jesus, receive His acceptance, and know you are highly valued by Him.',
+      ],
+      verseLabel: 'Related Verse:',
+      verseText: 'If you knew the gift of God, you would have asked him.',
+      verseChapter: 4, verseRef: 'John 4:10',
+      verseCta: 'Tap the scripture reference to read 📕',
+    },
+  },
+  QCIJ: {
+    char_tw: '阿摩司', char_cn: '阿摩司', char_en: 'Amos', avatar: 'https://assets.grace-word.com/app/bibleti/avatars/QCIJ.webp',
+    title_tw: '看見的先知', title_cn: '看见的先知', title_en: 'Advocate for Justice',
+    color: '#2C4A7B', initial: 'A',
+    verseBook: 30, verseChapter: 7,
+    verse_tw: '阿摩司對亞瑪謝說：「我原不是先知，也不是先知的門徒。我是牧人，又是修理桑樹的。」',
+    verse_ref_tw: '阿摩司書 7:14',
+    verse_cn: '阿摩司对亚玛谢说：“我原不是先知，也不是先知的门徒。我是牧人，又是修理桑树的。”',
+    verse_ref_cn: '阿摩司书 7:14',
+    verse_en: 'Then answered Amos, and said to Amaziah, I was no prophet, neither was I a prophet’s son; but I was an herdman, and a gatherer of sycomore fruit.',
+    verse_ref_en: 'Amos 7:14',
+    desc_tw: '你能看見別人看不見的真相，感受到理想與現實之間的重量。像阿摩司，他本是牧人、修理桑樹，沒有受過先知訓練，卻被神呼召，向偏離正道的百姓發出真誠的呼喚。你的眼光超越環境，你的話語帶著力量，能影響一代又一代的人。',
+    desc_cn: '你能看见别人看不见的真相，感受到理想与现实之间的重量。像阿摩司，他本是牧人、修理桑树，没有受过先知训练，却被神呼召，向偏离正道的百姓发出真诚的呼唤。你的眼光超越环境，你的话语带着力量，能影响一代又一代的人。',
+    desc_en: 'You see what others miss and feel the weight of what could be. Like Amos, a shepherd called to speak God’s truth, you carry vision that outlasts your time. Your words bring clarity and call people back to God.',
+    strengths_tw: ['看見屬靈真相', '爲正義發聲', '有遠見', '願被差遣'],
+    strengths_cn: ['看见属灵真相', '为正义发声', '有远见', '愿被差遣'],
+    strengths_en: ['Sees spiritual truth', 'speaks up for justice', 'visionary', 'willing to be sent'],
+    growth_tw: '你無法承擔每一個不公義的重量。學習選擇性地哀歌，把你承擔不了的交託給上帝。',
+    growth_cn: '你无法承担每一个不公义的重量。学习选择性地哀歌，把你承担不了的交托给上帝。',
+    growth_en: 'You cannot carry the weight of every injustice. Learn to grieve selectively and trust God with what you cannot fix.',
+    story_tw: [
+      {t:'🎞️ 當時背景',b:'阿摩司原本是一個牧人，修理桑樹的人，沒有受過先知的訓練，也沒有顯赫的背景。當時的以色列國，富足安逸，百姓離棄神，欺壓窮人，宗教領袖也腐敗不堪，卻沒有先知敢說真話。'},
+      {t:'🙏 人物抉擇',b:'神呼召了阿摩司，讓他向偏離正道的百姓發出警告。他沒有因為自己身份卑微而退縮，也沒有因為百姓的安逸而妥協，他帶著從神而來的負擔和勇氣，勇敢地說出了神的審判話語。'},
+      {t:'✨ 屬靈應用',b:'神呼召的，不是有學問、有地位的人，而是願意被差遣、願意順服的人。神的話語，常常透過最普通的器皿，傳遞給這個時代。\n不要因為自己平凡，就覺得神不會用你。只要你願意順服神的帶領，神就能使用你，成為祂的出口。'},
+    ],
+    story_cn: [
+      {t:'🎞️ 当时背景',b:'阿摩司原本是一个牧人，修理桑树的人，没有受过先知的训练，也没有显赫的背景。当时的以色列国，富足安逸，百姓离弃神，欺压穷人，宗教领袖也腐败不堪，却没有先知敢说真话。'},
+      {t:'🙏 人物抉择',b:'神呼召了阿摩司，让他向偏离正道的百姓发出警告。他没有因为自己身份卑微而退缩，也没有因为百姓的安逸而妥协，他带着从神而来的负担和勇气，勇敢地说出了神的审判话语。'},
+      {t:'✨ 属灵应用',b:'神呼召的，不是有学问、有地位的人，而是愿意被差遣、愿意顺服的人。神的话语，常常通过最普通的器皿，传递给这个时代。\n不要因为自己平凡，就觉得神不会用你。只要你愿意顺服神的带领，神就能使用你，成为祂的出口。'},
+    ],
+    story_en: [
+      {t:'🎫 Context',b:'Amos was originally a shepherd and a tender of sycamore trees. He had no formal training as a prophet and no distinguished background. In Israel at that time, the nation was wealthy and complacent. The people had abandoned God, oppressed the poor, and religious leaders were corrupt, yet no prophet dared to speak the truth.'},
+      {t:'🙏 His Choice',b:'God called Amos to warn the people who had strayed from the right path. He did not shrink back because of his humble status, nor compromise because of the people\'s comfort. With the burden and courage from God, he boldly spoke the words of God\'s judgment.'},
+      {t:'✨ Spiritual Application',b:'God does not call people with great learning or status, but those who are willing to be sent and obedient. God\'s word is often delivered to this generation through the most ordinary vessels.\nDo not think God cannot use you because you are ordinary. If you are willing to obey His leading, He will use you to be His mouthpiece.'},
+    ],
+    advice_tw: {
+      strengthsTitle: '你如阿摩司一樣擁有以下屬靈優勢：',
+      strengths: [
+        '你天生擁有看見異象、為正義發聲、敢於說真理的生命氣質。',
+        '你能看見別人看不見的屬靈真相。',
+        '你沒有專業裝備，卻被神使用。',
+        '你心懷負擔，為神發聲。',
+        '你平凡卻勇敢。',
+      ],
+      growthTitle: '你的生命成長方向：',
+      growth: [
+        '你容易感到自己不配、不夠專業。',
+        '你習慣沉默，不敢表達領受。',
+        '你容易被環境影響，不敢站出來。',
+        '你會因無人認同而退縮。',
+      ],
+      learnTitle: '你現在最需要學習的是：',
+      learnHeadline: '在平凡中被神使用 🌟',
+      learnBody: [
+        '阿摩司型的人，平凡普通，卻有從神來的負擔。',
+        '神不用的是「有能力的人」，而是「願意的人」。',
+        '順服神的感動，勇敢開口，神正使用你。',
+      ],
+      verseLabel: '對應經文：',
+      verseText: '我本不是先知，我是牧人，也是修理桑樹的。',
+      verseChapter: 7, verseRef: '阿摩司書 7:14',
+      verseCta: '點擊經文出處讀經📕',
+    },
+    advice_cn: {
+      strengthsTitle: '你如阿摩司一样拥有以下属灵优势：',
+      strengths: [
+        '你天生拥有看见异象、为正义发声、敢于说真理的生命气质。',
+        '你能看见别人看不见的属灵真相。',
+        '你没有专业装备，却被神使用。',
+        '你心怀负担，为神发声。',
+        '你平凡却勇敢。',
+      ],
+      growthTitle: '你的生命成长方向：',
+      growth: [
+        '你容易感到自己不配、不够专业。',
+        '你习惯沉默，不敢表达领受。',
+        '你容易被环境影响，不敢站出来。',
+        '你会因无人认同而退缩。',
+      ],
+      learnTitle: '你现在最需要学习的是：',
+      learnHeadline: '在平凡中被神使用 🌟',
+      learnBody: [
+        '阿摩司型的人，平凡普通，却有从神来的负担。',
+        '神不用的是 “有能力的人”，而是 “愿意的人”。',
+        '顺服神的感动，勇敢开口，神正使用你。',
+      ],
+      verseLabel: '对应经文：',
+      verseText: '我本不是先知，我是牧人，也是修理桑树的。',
+      verseChapter: 7, verseRef: '阿摩司书 7:14',
+      verseCta: '点击经文出处读经📕',
+    },
+    advice_en: {
+      strengthsTitle: 'Your spiritual strengths like Amos:',
+      strengths: [
+        'You receive spiritual insights, stand for justice, and boldly proclaim God’s truth.',
+        'You discern spiritual realities that others overlook.',
+        'You have no formal religious training yet are powerfully used by God.',
+        'You carry a divine burden and speak forth God’s voice courageously.',
+        'You are ordinary yet spiritually brave.',
+      ],
+      growthTitle: 'Areas you need to grow:',
+      growth: [
+        'You often feel unqualified and insufficiently trained for spiritual ministry.',
+        'You stay silent instead of sharing what God has laid on your heart.',
+        'Surrounding pressure can stop you from standing for truth.',
+        'Lack of recognition from others makes you hold back your calling.',
+      ],
+      learnTitle: 'What you most need to learn now:',
+      learnHeadline: 'Be willing to be used by God in ordinariness 🌟',
+      learnBody: [
+        'Amos-type people are ordinary in the world yet carry a genuine burden from God.',
+        'God does not only use the talented; He uses those who are willing and yielded.',
+        'Obey God’s inner prompting, speak up bravely, and He will work through your life.',
+      ],
+      verseLabel: 'Related Verse:',
+      verseText: 'I was neither a prophet nor a prophet’s son, but I was a shepherd.',
+      verseChapter: 7, verseRef: 'Amos 7:14',
+      verseCta: 'Tap the scripture reference to read 📕',
+    },
+  },
+};
+
+// ═══════════════════════════════════════════════
+// SCORING
+// ═══════════════════════════════════════════════
+function computeType(answers) {
+  const c = { F:0, Q:0, A:0, C:0, P:0, I:0, G:0, J:0 };
+  answers.forEach((ans, i) => {
+    const q = QUESTIONS[i];
+    c[ans === 'A' ? q.mapA : q.mapB]++;
+  });
+  state.scores = c;
+  return (c.F >= c.Q ? 'F' : 'Q') +
+         (c.A >= c.C ? 'A' : 'C') +
+         (c.P >= c.I ? 'P' : 'I') +
+         (c.G >= c.J ? 'G' : 'J');
+}
+
+function encodeAnswers(answers) {
+  const bits = answers.map(a => a === 'A' ? '1' : '0').join('');
+  return parseInt(bits, 2).toString(36);
+}
+
+function decodeAnswers(code, len) {
+  const bits = parseInt(code, 36).toString(2).padStart(len, '0');
+  return bits.split('').map(b => b === '1' ? 'A' : 'B');
+}
+
+// ═══════════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════════
+function t(key) { return UI[state.lang][key]; }
+function L(type, field) {
+  const lang = state.lang === 'cn' ? 'cn' : state.lang === 'en' ? 'en' : 'tw';
+  return type[`${field}_${lang}`];
+}
+
+function setLang(lang) {
+  state.lang = lang;
+  document.documentElement.lang = lang === 'tw' ? 'zh-Hant' : lang === 'cn' ? 'zh-Hans' : 'en';
+  const url = new URL(window.location.href);
+  url.searchParams.set('lang', lang);
+  window.history.replaceState({}, '', url.toString());
+  render();
+}
+
+function startQuiz() {
+  trackEvent('start_quiz');
+  state.screen = 'quiz';
+  state.current = 0;
+  state.answers = [];
+  state.type = null;
+  if (window.AndroidBridge) {
+    window.AndroidBridge.saveData('bibleti', '');
+  } else {
+    localStorage.removeItem('bibleti');
+  }
+  render();
+}
+
+function answer(choice) {
+  const btn = document.querySelector(`.ans-btn[data-choice="${choice}"]`);
+  if (btn) { btn.classList.add('chosen'); }
+  setTimeout(() => {
+    state.answers.push(choice);
+    if (state.current < QUESTIONS.length - 1) {
+      state.current++;
+      render();
+    } else {
+      state.type = computeType(state.answers);
+      state.screen = 'result';
+      const url = new URL(window.location.href);
+      url.searchParams.set('a', encodeAnswers(state.answers));
+      url.searchParams.set('lang', state.lang);
+      window.history.replaceState({}, '', url.toString());
+      render();
+      const answerStr = state.answers.join(',')
+      if (isInApp()) {
+        if(window.AndroidBridge){
+          window.AndroidBridge.saveData('bibleti', answerStr);
+        } else {
+          localStorage.setItem('bibleti', answerStr)
+        }
+      }
+      trackEvent('finish_quiz', { result: state.type, answer: answerStr});
+    }
+  }, 220);
+}
+
+function goBack() {
+  if (state.current === 0) {
+    state.screen = 'landing';
+    render();
+  } else {
+    state.current--;
+    state.answers.pop();
+    render();
+  }
+}
+
+function shareResult() {
+  const url = window.location.href;
+  if (window.AndroidBridge) {
+    AndroidBridge.shareToFriends(t('share_title'), t('share_text'), url);
+  } else if (navigator.share) {
+    navigator.share({ title: t('share_title'), text: t('share_text'), url });
+  } else {
+    navigator.clipboard.writeText(url).then(() => showToast(t('share_copied')));
+  }
+  trackEvent('share', { result: state.type });
+}
+
+function showToast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 2800);
+}
+
+function retry() {
+  state.screen = 'landing';
+  state.current = 0;
+  state.answers = [];
+  state.type = null;
+  state.shared = false;
+  const url = new URL(window.location.href);
+  url.searchParams.delete('a');
+  url.searchParams.delete('lang');
+  window.history.replaceState({}, '', url.toString());
+  render();
+  if (window.AndroidBridge) {
+    window.AndroidBridge.saveData('bibleti', '');
+  } else {
+    localStorage.removeItem('bibleti');
+  }
+  trackEvent('retry');
+}
+
+// ═══════════════════════════════════════════════
+// LANG BAR
+// ═══════════════════════════════════════════════
+function renderLangBar() {
+  return `<div class="lang-bar">
+    <button class="lang-btn ${state.lang==='tw'?'active':''}" onclick="setLang('tw')">繁中</button>
+    <button class="lang-btn ${state.lang==='cn'?'active':''}" onclick="setLang('cn')">简中</button>
+    <button class="lang-btn ${state.lang==='en'?'active':''}" onclick="setLang('en')">EN</button>
+  </div>`;
+}
+
+// ═══════════════════════════════════════════════
+// RENDER: LANDING
+// ═══════════════════════════════════════════════
+// ── Character Preview Carousel State ──
+const PREVIEW_KEYS = Object.keys(TYPES);
+let previewIndex = 0;
+
+// Pre-create all avatar img elements
+const avatarImgs = {};
+PREVIEW_KEYS.forEach(key => {
+  const img = new Image();
+  img.className = 'char-preview-bg';
+  img.src = TYPES[key].avatar;
+  img.alt = TYPES[key].char_en;
+  img.style.display = 'none';
+  avatarImgs[key] = img;
+});
+
+function mountAvatars(container) {
+  if (!container) return;
+  PREVIEW_KEYS.forEach(key => container.appendChild(avatarImgs[key]));
+}
+
+function showAvatar(key) {
+  PREVIEW_KEYS.forEach(k => { avatarImgs[k].style.display = k === key ? '' : 'none'; });
+}
+
+function setPreviewIndex(i) {
+  const total = PREVIEW_KEYS.length;
+  previewIndex = ((i % total) + total) % total;
+  updatePreviewCard();
+}
+
+function initSwipe() {
+  const el = document.querySelector('.char-preview');
+  if (!el) return;
+  let startX = 0;
+  let startY = 0;
+  el.addEventListener('touchstart', e => {
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+  }, { passive: true });
+  el.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - startX;
+    const dy = e.changedTouches[0].clientY - startY;
+    if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
+      setPreviewIndex(previewIndex + (dx < 0 ? 1 : -1));
+    }
+  }, { passive: true });
+}
+
+function viewCharacter(typeCode) {
+  state.prevScreen = state.screen;
+  state.detailType = typeCode;
+  state.screen = 'detail';
+  render();
+  window.scrollTo(0, 0);
+  trackEvent('explore_more');
+}
+
+function updatePreviewCard() {
+  const key = PREVIEW_KEYS[previewIndex];
+  const ch = TYPES[key];
+  const lang = state.lang === 'en' ? 'en' : state.lang === 'cn' ? 'cn' : 'tw';
+  const charName = ch['char_' + lang];
+  const charTitle = ch['title_' + lang];
+
+  const cardEl = document.querySelector('.char-preview');
+  const nameEl = document.querySelector('.char-preview-name');
+  const tagEl = document.querySelector('.char-preview-tag');
+  if (cardEl) {
+    showAvatar(key);
+    if (cardEl.hasAttribute('onclick')) cardEl.setAttribute('onclick', `viewCharacter('${key}')`);
+  }
+  if (nameEl) nameEl.textContent = charName;
+  if (tagEl) tagEl.textContent = charTitle;
+
+  document.querySelectorAll('.char-preview-dot').forEach((dot, i) => {
+    dot.classList.toggle('active', i === previewIndex);
+  });
+}
+
+function openBible(book, chapter) {
+  const url = isInApp()
+    ? `graceword://bible/${book}?chapter=${chapter}`
+    : `https://grace-word.com/action/bible/${book}?chapter=${chapter}`;
+  window.location.href = url;
+}
+
+function isInApp() {
+  var ua = navigator.userAgent.toLowerCase();
+  if(ua.match(/graceword/i)=="graceword") {
+    return true;
+  }
+  if (window.AndroidBridge) {
+    return true;
+  }
+  return false;
+}
+
+function renderLanding() {
+  const dims = [t('dim1'), t('dim2'), t('dim3'), t('dim4')];
+  const lang = state.lang === 'en' ? 'en' : state.lang === 'cn' ? 'cn' : 'tw';
+  const key = PREVIEW_KEYS[previewIndex];
+  const ch = TYPES[key];
+  const charName = ch['char_' + lang];
+  const charTitle = ch['title_' + lang];
+
+  const total = PREVIEW_KEYS.length;
+
+  const dotsHtml = PREVIEW_KEYS.map((_, i) =>
+    `<span class="char-preview-dot${i === previewIndex ? ' active' : ''}" onclick="event.stopPropagation();setPreviewIndex(${i})"></span>`
+  ).join('');
+
+  return `<div class="screen">
+    ${renderLangBar()}
+    <div class="landing-wrap">
+      <div class="landing-title">${t('badge')}</div>
+      <div class="char-preview" onclick="viewCharacter('${key}')">
+        <div class="char-preview-top">
+          <div class="char-preview-name">${charName}</div>
+          <div class="char-preview-tag">${charTitle}</div>
+        </div>
+        <div class="avatar-container"></div>
+        <div class="char-preview-dots">${dotsHtml}</div>
+      </div>
+      <div class="landing-logo">Bible <span>TI</span></div>
+      <p class="landing-sub">${t('sub').replace('\n','<br>')}</p>
+      <div class="landing-dims">
+        ${dims.map(d => `<div class="dim-pill"><strong>${d[0]}</strong>${d[1]}</div>`).join('')}
+      </div>
+      <button class="btn-primary" onclick="startQuiz()">${t('start')}</button>
+      <p class="landing-meta">${t('meta')}</p>
+    </div>
+  </div>`;
+}
+
+// ═══════════════════════════════════════════════
+// RENDER: QUIZ
+// ═══════════════════════════════════════════════
+function renderQuiz() {
+  const q = QUESTIONS[state.current];
+  const qData = q[state.lang === 'en' ? 'en' : state.lang === 'cn' ? 'cn' : 'tw'];
+  const pct = Math.round((state.current / QUESTIONS.length) * 100);
+  const qNum = state.lang === 'en'
+    ? `${t('q_prefix')}${state.current + 1}`
+    : `${t('q_prefix')} ${state.current + 1} ${t('q_suffix')}`;
+
+  return `<div class="screen">
+    <div class="quiz-header">
+      <div class="progress-info">
+        <span class="progress-count">${qNum} / ${QUESTIONS.length}</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" style="width:${pct}%"></div>
+      </div>
+    </div>
+    <div class="question-area">
+      <div class="question-card">
+        <div class="q-num">${qNum}</div>
+        <div class="q-text">${qData.q}</div>
+      </div>
+      <div class="answers-wrap">
+        <button class="ans-btn" data-choice="A" onclick="answer('A')">
+          <span class="ans-label">A</span>
+          <span>${qData.a}</span>
+        </button>
+        <button class="ans-btn" data-choice="B" onclick="answer('B')">
+          <span class="ans-label">B</span>
+          <span>${qData.b}</span>
+        </button>
+      </div>
+      <button class="quiz-back" onclick="goBack()">
+        ${t('back')}
+      </button>
+    </div>
+  </div>`;
+}
+
+// ═══════════════════════════════════════════════
+// RESULT CHARACTER PREVIEW CAROUSEL
+// ═══════════════════════════════════════════════
+function renderStoryCard(typeCode) {
+  const type = TYPES[typeCode];
+  if (!type) return '';
+  const nameLang = state.lang === 'en' ? 'en' : state.lang === 'cn' ? 'cn' : 'tw';
+  const story = type[`story_${nameLang}`];
+  if (!story) return '';
+  return `<div class="story-card">
+    <div class="dim-analysis-title">${t('section_story')}</div>
+    ${story.map(s => `<div class="story-section">
+      <div class="story-section-title">${s.t}</div>
+      <div class="story-section-body">${s.b}</div>
+    </div>`).join('')}
+  </div>`;
+}
+
+function renderAdvice(typeCode) {
+  const type = TYPES[typeCode];
+  if (!type) return '';
+  const nameLang = state.lang === 'en' ? 'en' : state.lang === 'cn' ? 'cn' : 'tw';
+  const a = type[`advice_${nameLang}`];
+  if (!a) return '';
+  return `<div class="advice-card">
+    <div class="dim-analysis-title">${t('section_advice')}</div>
+    <div class="advice-body">
+    <div class="advice-sub">
+      <div class="advice-sub-title">${a.strengthsTitle}</div>
+      <ul class="advice-list">${a.strengths.map(s => `<li>${s}</li>`).join('')}</ul>
+    </div>
+    <div class="advice-sub">
+      <div class="advice-sub-title">${a.growthTitle}</div>
+      <ul class="advice-list">${a.growth.map(s => `<li>${s}</li>`).join('')}</ul>
+    </div>
+    <div class="advice-sub">
+      <div class="advice-sub-title">${a.learnTitle}</div>
+      <div class="advice-headline">${a.learnHeadline}</div>
+      ${a.learnBody.map(b => `<p class="advice-line">${b}</p>`).join('')}
+    </div>
+    <div class="advice-sub">
+      <div class="advice-sub-title">${a.verseLabel}</div>
+      <div class="advice-verse" onclick="openBible(${type.verseBook}, ${a.verseChapter})">${a.verseText}</div>
+      <div class="advice-verse-ref" onclick="openBible(${type.verseBook}, ${a.verseChapter})">— <span class="verse-ref-text">${a.verseRef}</span></div>
+      <div class="advice-verse-cta">${a.verseCta}</div>
+    </div>
+    </div>
+  </div>`;
+}
+
+function renderDimAnalysis() {
+  const s = state.scores;
+  if (!s) return '';
+
+  const isEn = state.lang === 'en';
+  const isCn = state.lang === 'cn';
+
+  const dims = [
+    { a: 'F', b: 'Q', aLabel: t('F'), bLabel: t('Q') },
+    { a: 'A', b: 'C', aLabel: t('A'), bLabel: t('C') },
+    { a: 'P', b: 'I', aLabel: t('P'), bLabel: t('I') },
+    { a: 'G', b: 'J', aLabel: t('G'), bLabel: t('J') },
+  ];
+
+  return `<div class="dim-analysis">
+    <div class="dim-analysis-title">${t('dim_result_title')}</div>
+    ${dims.map(d => {
+      const total = s[d.a] + s[d.b];
+      const pctA = total ? Math.round(s[d.a] / total * 100) : 50;
+      const pctB = 100 - pctA;
+      return `<div class="dim-row" data-dim="${dims.indexOf(d)}">
+        <div class="dim-label-left">
+          <div class="dim-pct">${pctA}%</div>
+          <div class="dim-name">${d.aLabel}</div>
+        </div>
+        <div class="dim-bar-track">
+          <div class="dim-bar-fill-left" style="width:${pctA / 2}%"></div>
+          <div class="dim-bar-fill-right" style="width:${pctB / 2}%"></div>
+        </div>
+        <div class="dim-label-right">
+          <div class="dim-pct">${pctB}%</div>
+          <div class="dim-name">${d.bLabel}</div>
+        </div>
+      </div>`;
+    }).join('')}
+  </div>`;
+}
+
+// ═══════════════════════════════════════════════
+// RENDER: RESULT
+// ═══════════════════════════════════════════════
+function renderResult() {
+  const type = TYPES[state.type];
+  if (!type) { state.screen = 'landing'; render(); return ''; }
+
+  const lang = state.lang;
+  const nameLang = lang === 'en' ? 'en' : lang === 'cn' ? 'cn' : 'tw';
+  const charName = type[`char_${nameLang}`];
+  const charEn   = type.char_en;
+  const titleStr = type[`title_${nameLang}`];
+  const verse    = type[`verse_${nameLang}`];
+  const verseRef = type[`verse_ref_${nameLang}`];
+  const desc     = type[`desc_${nameLang}`];
+  const strengths= type[`strengths_${nameLang}`];
+  const growth   = type[`growth_${nameLang}`];
+
+  const isEn = lang === 'en';
+  return `<div class="screen">
+    <div class="lang-bar" style="justify-content:${state.shared ? 'flex-end' : 'space-between'}">
+      ${state.shared ? '' : `<button class="lang-btn active" onclick="retry()">${t('retry')}</button>`}
+      <div style="display:flex;gap:6px">
+        <button class="lang-btn ${state.lang==='tw'?'active':''}" onclick="setLang('tw')">繁中</button>
+        <button class="lang-btn ${state.lang==='cn'?'active':''}" onclick="setLang('cn')">简中</button>
+        <button class="lang-btn ${state.lang==='en'?'active':''}" onclick="setLang('en')">EN</button>
+      </div>
+    </div>
+    <div class="result-wrap">
+      <div class="result-header">
+        <div class="result-avatar-wrap"><img src="${type.avatar}" alt="${charName}"></div>
+        <div class="result-type-code">${t('your_type')} · ${state.type}</div>
+        <div class="result-char-name">${charName}</div>
+        ${!isEn ? `<div class="result-char-en">${charEn}</div>` : ''}
+        <span class="result-title">${titleStr}</span>
+      </div>
+
+      <div class="result-card">
+        <div class="dim-analysis-title">${t('section_verse')}</div>
+        <div class="result-verse" onclick="openBible(${type.verseBook}, ${type.verseChapter})">${verse}</div>
+        <div class="result-verse-ref" onclick="openBible(${type.verseBook}, ${type.verseChapter})">— <span class="verse-ref-text">${verseRef}</span></div>
+        <div class="result-desc">${desc}</div>
+
+        <div class="result-section-title">${t('section_strengths')}</div>
+        <div class="strengths-list">
+          ${strengths.map(s => `<span class="strength-tag">${s}</span>`).join('')}
+        </div>
+
+        <div class="result-section-title">${t('section_growth')}</div>
+        <p class="growth-text">${growth}</p>
+      </div>
+      ${renderDimAnalysis()}
+      ${renderStoryCard(state.type)}
+      ${isInApp() ? renderAdvice(state.type) : `
+      <div class="result-card-locked">
+        ${renderAdvice(state.type)}
+        <div class="lock-overlay">
+          <img src="https://assets.grace-word.com/app/bibleti/lock.webp" alt="locked">
+          <a class="lock-overlay-cta" href="https://grace-word.com/action/web?url=https%3A%2F%2Fgrace-word.com%2Fbibleti">${t('unlock_advice')}</a>
+        </div>
+      </div>
+      `}
+      <div class="actions-wrap">
+        ${state.shared ? `<button class="btn-share" onclick="retry()">${t('my_test')}</button>` : `<button class="btn-share" onclick="shareResult()">${t('share')}</button>`}
+        ${isInApp() ? 
+        `<button class="btn-app" onclick="viewCharacter(PREVIEW_KEYS[0] === state.type ? PREVIEW_KEYS[1] : PREVIEW_KEYS[0])">${t('app_cta')}</button>` : 
+        `<button class="btn-app" onclick="location.href='https://grace-word.com/action/web?url=https%3A%2F%2Fgrace-word.com%2Fbibleti'">${t('read_advice')}</button>`}
+      </div>
+    </div>
+  </div>`;
+}
+
+// ═══════════════════════════════════════════════
+// RENDER: DETAIL
+// ═══════════════════════════════════════════════
+function setDetailIndex(i) {
+  const total = PREVIEW_KEYS.length;
+  const idx = ((i % total) + total) % total;
+  state.detailType = PREVIEW_KEYS[idx];
+  updateDetailCard();
+}
+
+function updateDetailCard() {
+  const type = TYPES[state.detailType];
+  if (!type) return;
+  const lang = state.lang;
+  const nameLang = lang === 'en' ? 'en' : lang === 'cn' ? 'cn' : 'tw';
+  const charName = type[`char_${nameLang}`];
+  const charEn = type.char_en;
+  const titleStr = type[`title_${nameLang}`];
+  const verse = type[`verse_${nameLang}`];
+  const verseRef = type[`verse_ref_${nameLang}`];
+  const desc = type[`desc_${nameLang}`];
+  const strengths = type[`strengths_${nameLang}`];
+  const growth = type[`growth_${nameLang}`];
+  const isEn = lang === 'en';
+  const currentIdx = getDetailKeyIndex();
+
+  // Update avatar (show/hide — no network request)
+  showAvatar(state.detailType);
+
+  // Update dots
+  document.querySelectorAll('.char-preview-dot').forEach((dot, i) => {
+    dot.classList.toggle('active', i === currentIdx);
+  });
+
+  // Update text content
+  const codeEl = document.querySelector('.result-type-code');
+  const nameEl = document.querySelector('.result-char-name');
+  const enEl = document.querySelector('.result-char-en');
+  const titleEl = document.querySelector('.result-title');
+  if (codeEl) codeEl.textContent = state.detailType;
+  if (nameEl) nameEl.textContent = charName;
+  if (enEl) { if (!isEn) { enEl.textContent = charEn; enEl.style.display = ''; } else { enEl.style.display = 'none'; } }
+  if (titleEl) titleEl.textContent = titleStr;
+
+  // Update card content
+  const verseEl = document.querySelector('.result-verse');
+  const refEl = document.querySelector('.result-verse-ref');
+  const descEl = document.querySelector('.result-desc');
+  const growthEl = document.querySelector('.growth-text');
+  if (verseEl) {
+    verseEl.textContent = verse;
+    verseEl.setAttribute('onclick', `openBible(${type.verseBook}, ${type.verseChapter})`);
+  }
+  if (refEl) {
+    const refTextEl = refEl.querySelector('.verse-ref-text');
+    if (refTextEl) refTextEl.textContent = verseRef;
+    else refEl.textContent = '— ' + verseRef;
+    refEl.setAttribute('onclick', `openBible(${type.verseBook}, ${type.verseChapter})`);
+  }
+  if (descEl) descEl.textContent = desc;
+  if (growthEl) growthEl.textContent = growth;
+
+  const strengthsEl = document.querySelector('.strengths-list');
+  if (strengthsEl) strengthsEl.innerHTML = strengths.map(s => `<span class="strength-tag">${s}</span>`).join('');
+
+  const adviceEl = document.querySelector('.advice-card');
+  if (adviceEl) adviceEl.outerHTML = renderAdvice(state.detailType);
+
+  const storyEl = document.querySelector('.story-card');
+  if (storyEl) storyEl.outerHTML = renderStoryCard(state.detailType);
+
+  window.scrollTo(0, 0);
+}
+
+function getDetailKeyIndex() {
+  return PREVIEW_KEYS.indexOf(state.detailType);
+}
+
+function initDetailSwipe() {
+  const el = document.querySelector('.detail-carousel');
+  if (!el) return;
+  let startX = 0, startY = 0;
+  el.addEventListener('touchstart', e => {
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+  }, { passive: true });
+  el.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - startX;
+    const dy = e.changedTouches[0].clientY - startY;
+    if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
+      setDetailIndex(getDetailKeyIndex() + (dx < 0 ? 1 : -1));
+    }
+  }, { passive: true });
+}
+
+function renderDetail() {
+  const type = TYPES[state.detailType];
+  if (!type) { state.screen = state.prevScreen || 'landing'; render(); return ''; }
+
+  const lang = state.lang;
+  const nameLang = lang === 'en' ? 'en' : lang === 'cn' ? 'cn' : 'tw';
+  const charName = type[`char_${nameLang}`];
+  const charEn   = type.char_en;
+  const titleStr = type[`title_${nameLang}`];
+  const verse    = type[`verse_${nameLang}`];
+  const verseRef = type[`verse_ref_${nameLang}`];
+  const desc     = type[`desc_${nameLang}`];
+  const strengths= type[`strengths_${nameLang}`];
+  const growth   = type[`growth_${nameLang}`];
+  const isEn = lang === 'en';
+  const currentIdx = getDetailKeyIndex();
+
+  const dotsHtml = PREVIEW_KEYS.map((_, i) =>
+    `<span class="char-preview-dot${i === currentIdx ? ' active' : ''}" onclick="setDetailIndex(${i})"></span>`
+  ).join('');
+
+  return `<div class="screen">
+    <div class="lang-bar" style="justify-content:space-between">
+      <button class="lang-btn" onclick="goBackFromDetail()" style="padding:4px 11px"><img src="https://assets.grace-word.com/app/bibleti/back.webp" alt="back" style="width:8px;vertical-align:middle"></button>
+      <div style="display:flex;gap:6px">
+        <button class="lang-btn ${state.lang==='tw'?'active':''}" onclick="setLang('tw')">繁中</button>
+        <button class="lang-btn ${state.lang==='cn'?'active':''}" onclick="setLang('cn')">简中</button>
+        <button class="lang-btn ${state.lang==='en'?'active':''}" onclick="setLang('en')">EN</button>
+      </div>
+    </div>
+    <div class="result-wrap">
+      <div class="detail-carousel">
+        <div class="char-preview">
+          <div class="avatar-container"></div>
+          <div style="flex:1"></div>
+          <div class="char-preview-dots">${dotsHtml}</div>
+        </div>
+      </div>
+
+      <div class="result-header" style="margin-top:8px">
+        <div class="result-type-code">${state.detailType}</div>
+        <div class="result-char-name">${charName}</div>
+        ${!isEn ? `<div class="result-char-en">${charEn}</div>` : ''}
+        <span class="result-title">${titleStr}</span>
+      </div>
+
+      ${isInApp() ? `
+      <div class="result-card">
+        <div class="dim-analysis-title">${t('section_verse')}</div>
+        <div class="result-verse" onclick="openBible(${type.verseBook}, ${type.verseChapter})">${verse}</div>
+        <div class="result-verse-ref" onclick="openBible(${type.verseBook}, ${type.verseChapter})">— <span class="verse-ref-text">${verseRef}</span></div>
+        <div class="result-desc">${desc}</div>
+
+        <div class="result-section-title">${t('section_strengths')}</div>
+        <div class="strengths-list">
+          ${strengths.map(s => `<span class="strength-tag">${s}</span>`).join('')}
+        </div>
+
+        <div class="result-section-title">${t('section_growth')}</div>
+        <p class="growth-text">${growth}</p>
+      </div>
+      ${renderStoryCard(state.detailType)}
+      ${renderAdvice(state.detailType)}
+      ` : `
+      <div class="result-card-locked">
+        <div class="result-card">
+          <div class="result-section-title">${t('section_verse')}</div>
+          <div class="result-verse" onclick="openBible(${type.verseBook}, ${type.verseChapter})">${verse}</div>
+          <div class="result-verse-ref" onclick="openBible(${type.verseBook}, ${type.verseChapter})">— <span class="verse-ref-text">${verseRef}</span></div>
+          <div class="result-desc">${desc}</div>
+
+          <div class="result-section-title">${t('section_strengths')}</div>
+          <div class="strengths-list">
+            ${strengths.map(s => `<span class="strength-tag">${s}</span>`).join('')}
+          </div>
+
+          <div class="result-section-title">${t('section_growth')}</div>
+          <p class="growth-text">${growth}</p>
+        </div>
+        <div class="lock-overlay">
+          <img src="https://assets.grace-word.com/app/bibleti/lock.webp" alt="locked">
+          <a class="lock-overlay-cta" href="https://grace-word.com/action/web?url=https%3A%2F%2Fgrace-word.com%2Fbibleti">${t('unlock')}</a>
+        </div>
+      </div>
+      `}
+
+    </div>
+  </div>`;
+}
+
+function goBackFromDetail() {
+  state.screen = state.prevScreen || 'landing';
+  render();
+}
+
+// ═══════════════════════════════════════════════
+// MAIN RENDER
+// ═══════════════════════════════════════════════
+function render() {
+  const app = document.getElementById('app');
+  if (state.screen === 'landing') {
+    app.innerHTML = renderLanding(); initSwipe();
+    mountAvatars(document.querySelector('.avatar-container'));
+    showAvatar(PREVIEW_KEYS[previewIndex]);
+  }
+  else if (state.screen === 'quiz') app.innerHTML = renderQuiz();
+  else if (state.screen === 'result') app.innerHTML = renderResult();
+  else if (state.screen === 'detail') {
+    app.innerHTML = renderDetail(); initDetailSwipe();
+    mountAvatars(document.querySelector('.avatar-container'));
+    showAvatar(state.detailType);
+  }
+}
+
+// ═══════════════════════════════════════════════
+// INIT — check URL params for direct result links
+// ═══════════════════════════════════════════════
+(function init() {
+  const params = new URLSearchParams(window.location.search);
+  const ansParam = params.get('a');
+  const langParam = params.get('lang');
+  const typeParam = params.get('type');
+
+  if (langParam && ['tw','cn','en'].includes(langParam)) {
+    state.lang = langParam;
+    document.documentElement.lang = langParam === 'tw' ? 'zh-Hant' : langParam === 'cn' ? 'zh-Hans' : 'en';
+  }
+
+  if (ansParam) {
+    const answers = decodeAnswers(ansParam, QUESTIONS.length);
+    const type = computeType(answers);
+    if (type && TYPES[type]) {
+      state.type = type;
+      state.screen = 'result';
+      state.shared = true;
+    }
+  } else if (typeParam) {
+    state.detailType = typeParam;
+    state.screen = 'detail';
+  } else {
+    let savedData = ''
+    if (window.AndroidBridge) {
+      savedData = window.AndroidBridge.getData('bibleti');
+    } else {
+      savedData = localStorage.getItem('bibleti')
+    }
+    if (savedData) {
+      const typeSaved = computeType(savedData.split(","))
+      if (typeSaved && TYPES[typeSaved]) {
+        state.type = typeSaved;
+        state.screen = 'result';
+      }
+    }
+  }
+  render();
+  trackEvent('page_open');
+})();
+</script>
+</body>
+</html>
+

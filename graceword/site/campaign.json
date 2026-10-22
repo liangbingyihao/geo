@@ -1,0 +1,12 @@
+{
+  "promo": {
+    "enabled": true,
+    "slug": "promo",
+    "start": "2026-10-20",
+    "end": "2027-01-20",
+    "endpoint": "/web/subscribe",
+    "labelEn": "Offers",
+    "labelCn": "优惠",
+    "labelTw": "優惠"
+  }
+}

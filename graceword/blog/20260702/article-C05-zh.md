@@ -93,4 +93,4 @@ GraceWord的AI查经问答功能正是为这一时刻而设计：你提出关于
 
 ---
 
-GraceWord是一款基督教灵修App，提供AI查经问答、AI感恩日记、个性化灵修、经文壁纸和敬拜音乐。其AI驱动的圣经问答功能将你的问题直接连接至圣经文本——无需搜索索引，无需猜测该打开哪本注释。超过250,000条经文引用已编入索引供即时检索。App可在 iOS 和 Android 下载，访问 [www.grace-word.com](https://www.grace-word.com)。
+GraceWord是一款基督教灵修App，提供AI查经问答、AI感恩日记、个性化灵修、经文壁纸和敬拜音乐。其AI驱动的圣经问答功能将你的问题直接连接至圣经文本——无需搜索索引，无需猜测该打开哪本注释。App可在 iOS 和 Android 下载，访问 [www.grace-word.com](https://www.grace-word.com)。

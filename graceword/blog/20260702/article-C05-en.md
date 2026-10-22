@@ -93,4 +93,4 @@ Yes. GraceWord's AI Bible Study Q&A is built specifically for this purpose. You 
 
 ---
 
-GraceWord is a Christian devotional app that offers AI Bible Study Q&A, an AI Gratitude Journal, personalized devotions, Scripture wallpapers, and worship music. Its AI-powered Bible question-and-answer feature connects your questions directly to the biblical text—no searching through indexes, no guessing which commentary to open. Over 250,000 verse references are indexed for instant retrieval. The app is available for iOS and Android at [www.grace-word.com](https://www.grace-word.com).
+GraceWord is a Christian devotional app that offers AI Bible Study Q&A, an AI Gratitude Journal, personalized devotions, Scripture wallpapers, and worship music. Its AI-powered Bible question-and-answer feature connects your questions directly to the biblical text—no searching through indexes, no guessing which commentary to open. The app is available for iOS and Android at [www.grace-word.com](https://www.grace-word.com).

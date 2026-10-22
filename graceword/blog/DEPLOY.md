@@ -116,8 +116,8 @@ CDN 缓存头要求：`Cache-Control: public, max-age=31536000, immutable`（版
 rsync -avz dist/blog/ user@your-server:/var/www/html/graceword/blog/
 
 # 2) 更新源站 nginx 配置
-sudo cp deploy/graceword.conf /etc/nginx/sites-available/graceword          # 生产
-sudo cp deploy/graceword_test.conf /etc/nginx/sites-available/graceword_test # 测试（noindex）
+sudo cp ../deploy/graceword.conf /etc/nginx/sites-available/graceword          # 生产
+sudo cp ../deploy/graceword_test.conf /etc/nginx/sites-available/graceword_test # 测试（noindex）
 # （按你现有的配置管理方式：覆盖同名站点文件，或手工把 location /blog/ 合并进去）
 
 # 3) 校验并重载
@@ -125,7 +125,7 @@ sudo nginx -t
 sudo systemctl reload nginx
 ```
 
-> 源站 `deploy/graceword.conf` 已按你线上真实配置（root `/var/www/html/graceword`、`/action/`、`apple-app-site-association`、`.html` 302、`server_tokens off`）原样保留，仅新增了 `location /blog/`。
+> 源站 `../deploy/graceword.conf` 已按你线上真实配置（root `/var/www/html/graceword`、`/action/`、`apple-app-site-association`、`.html` 302、`server_tokens off`）原样保留，仅新增了 `location /blog/`。
 
 ### 4.3 Cloudflare 边缘配置（www→非www 301 + HTTP→HTTPS）
 
@@ -143,8 +143,8 @@ sudo systemctl reload nginx
 ### 4.4 现网主页需配合的改动
 
 1. **导航加「Blog」**：在 `homepage/gw/index.html` 的 `header-nav` 里加 `<a href="/blog/">Blog</a>`（本仓库已改好，如主页已上线请同步该行）。
-2. **robots.txt**：用 `deploy/robots.txt`（已含 `Sitemap: https://grace-word.com/blog/sitemap.xml`）覆盖源站的 `/var/www/html/graceword/robots.txt`，并关闭 Cloudflare 的 AI 屏蔽托管（见 §4.5）。
-3. **下载按钮依赖 `/action/`**：博客 CTA 与 sticky bar 的「下载 App / 下载恩语」按钮指向 `/action/download`，依赖源站 nginx 的 `location /action/ { return 301 https://smart.link/...; }`（已在 `deploy/graceword.conf` 中保留）。若以后更换归因商，只需改这一条 301，博客端无需改。
+2. **robots.txt**：用 `../deploy/robots.txt`（已含 `Sitemap: https://grace-word.com/blog/sitemap.xml`）覆盖源站的 `/var/www/html/graceword/robots.txt`，并关闭 Cloudflare 的 AI 屏蔽托管（见 §4.5）。
+3. **下载按钮依赖 `/action/`**：博客 CTA 与 sticky bar 的「下载 App / 下载恩语」按钮指向 `/action/download`，依赖源站 nginx 的 `location /action/ { return 301 https://smart.link/...; }`（已在 `../deploy/graceword.conf` 中保留）。若以后更换归因商，只需改这一条 301，博客端无需改。
 
 > 下载按钮：`/action/download`（智能链，自动分流 iOS/Android）；软性「Visit GraceWord → / 首页」按钮仍指向主页，供零认知的访客先了解产品。
 
@@ -152,14 +152,14 @@ sudo systemctl reload nginx
 
 策略：**允许搜索/引用，禁止训练**（`search=yes, ai-train=no, use=reference`）。
 
-1. **上传 `deploy/robots.txt` 到源站**：
+1. **上传 `../deploy/robots.txt` 到源站**：
    ```bash
-   rsync -avz deploy/robots.txt user@server:/var/www/html/graceword/robots.txt
+   rsync -avz ../deploy/robots.txt user@server:/var/www/html/graceword/robots.txt
    ```
 2. **关闭 Cloudflare 的 AI 屏蔽托管**（否则 Cloudflare 会往 robots.txt 注入 `Disallow: /` 屏蔽 GPTBot/ClaudeBot/CCBot 等，与 GEO 目标相反）：
    - Cloudflare 后台 → 找到 **AI Content Signals / Managed robots.txt / Scrape Shield** 相关开关
-   - **关闭「Block AI bots」或「AI 内容扫描」的自动屏蔽**；保留/忽略 `Content-Signal` 声明（`deploy/robots.txt` 里已自带）
-3. 确认最终 `https://grace-word.com/robots.txt` 与 `deploy/robots.txt` 一致：允许 `GPTBot` 以外的搜索/引用爬虫，`GPTBot/ClaudeBot/Google-Extended/…` 为 `Disallow: /`，`CCBot` 为 `Allow: /`。
+   - **关闭「Block AI bots」或「AI 内容扫描」的自动屏蔽**；保留/忽略 `Content-Signal` 声明（`../deploy/robots.txt` 里已自带）
+3. 确认最终 `https://grace-word.com/robots.txt` 与 `../deploy/robots.txt` 一致：允许 `GPTBot` 以外的搜索/引用爬虫，`GPTBot/ClaudeBot/Google-Extended/…` 为 `Disallow: /`，`CCBot` 为 `Allow: /`。
 
 > 说明：`Google-Extended` 只影响 Gemini，不影响 Google 搜索与 AI Overviews（走 Googlebot）。`GPTBot` 仅用于训练，不影响 ChatGPT 搜索引用（走 `OAI-SearchBot`）。`CCBot`（Common Crawl）已放行，用于检索/搜索/RAG 数据集发现。
 
@@ -171,7 +171,7 @@ curl -I https://grace-word.com/blog/bible-verses-about-gratitude/zh-cn/  # 期�
 curl -I https://grace-word.com/blog/bible-verses-about-gratitude/zh-tw/  # 期望 200
 curl -I https://www.grace-word.com/blog/                               # 期望 301 → 非 www
 curl -s https://grace-word.com/blog/sitemap.xml | head                 # 检查 sitemap
-curl -I "https://cdn.grace-word.com/blog/style.css?v=a5b4bb83"         # 期望 200 + immutable
+curl -I "https://cdn.grace-word.com/blog/style.css?v=af192f38"         # 期望 200 + immutable
 curl -I https://cdn.grace-word.com/home/logo.webp                      # 期望 200 + image/webp
 ```
 
