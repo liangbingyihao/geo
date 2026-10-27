@@ -73,6 +73,7 @@ const QUIZ_ASSETS = ['enoch', 'shalom', 'moses', 'joshua', 'elijah', 'peter', 'p
 
 const APP_NAME = { en: 'GraceWord', 'zh-CN': '恩语', 'zh-TW': '恩語' };
 const SITE_NAME = 'GraceWord';
+const GA_ID = 'G-7CEHJHLWK1';
 
 function esc(s) {
   return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -102,17 +103,21 @@ ${alts}
 <meta property="og:url" content="${canonical}">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="${SITE_NAME}">
-<meta property="og:image" content="${LOGO_URL}">
+<meta property="og:image" content="${CDN}/home/og-cover.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${esc(title)}">
 <meta name="twitter:description" content="${esc(description)}">
-<meta name="twitter:image" content="${LOGO_URL}">
+<meta name="twitter:image" content="${CDN}/home/og-cover.jpg">
 <link rel="icon" type="image/webp" href="${LOGO_URL}">
 <link rel="apple-touch-icon" href="${LOGO_URL}">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Literata:opsz,wght@7..72,400;7..72,500;7..72,700;7..72,900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/style.css">
+<script async src="https://www.googletagmanager.com/gtag/js?id=${GA_ID}"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_ID}');</script>
 ${jsonLd}`;
 }
 
@@ -123,10 +128,16 @@ function headerHtml(page, lang) {
 
 function homeJsonLd(lang) {
   const appName = APP_NAME[lang.code];
+  const reviews = (C[lang.code].home.testimonials || []).map((t) => ({
+    '@type': 'Review',
+    author: { '@type': 'Person', name: 'GraceWord User' },
+    reviewBody: t.text,
+    reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5' },
+  }));
   return `<script type="application/ld+json">${JSON.stringify([
     { '@context': 'https://schema.org', '@type': 'Organization', name: SITE_NAME, url: 'https://grace-word.com/', logo: { '@type': 'ImageObject', url: LOGO_URL } },
     { '@context': 'https://schema.org', '@type': 'WebSite', name: SITE_NAME, url: 'https://grace-word.com/', inLanguage: lang.hreflang },
-    { '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: appName, applicationCategory: 'LifestyleApplication', operatingSystem: 'iOS, Android', url: 'https://grace-word.com/', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' } },
+    { '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: appName, applicationCategory: 'LifestyleApplication', operatingSystem: 'iOS, Android', url: 'https://grace-word.com/', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' }, brand: { '@type': 'Brand', name: SITE_NAME, logo: LOGO_URL }, review: reviews },
     { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: C[lang.code].home.faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
   ])}</script>`;
 }
@@ -485,6 +496,49 @@ ${urls.join('\n')}
   fs.writeFileSync(path.join(DIST, 'sitemap.xml'), xml);
 }
 
+function buildLlmsTxt() {
+  const domain = 'https://grace-word.com';
+  let arts = [];
+  let cats = {};
+  try {
+    const data = JSON.parse(fs.readFileSync(path.join(ROOT, '..', 'blog', 'build', 'articles.json'), 'utf8'));
+    arts = data.articles || [];
+    cats = data.categories || {};
+  } catch (e) {
+    console.warn('llms.txt: articles.json 读取失败，跳过文章列表：', e.message);
+  }
+  const lines = [
+    '# GraceWord',
+    '',
+    '> Daily devotion & Bible study app for Christians — Bible quiz, gratitude journal, verse wallpapers, and worship music. Available in English, 简体中文 (zh-CN), and 繁體中文 (zh-TW).',
+    '',
+    '## Primary URLs',
+    '',
+    '- [Home (English)](' + domain + '/)',
+    '- [Home (简体中文)](' + domain + '/zh-cn/)',
+    '- [Home (繁體中文)](' + domain + '/zh-tw/)',
+    '- [Features](' + domain + '/features/)',
+    '- [About / Our Story](' + domain + '/about/)',
+    '- [Pricing](' + domain + '/pricing/)',
+    '- [Bible Quiz](' + domain + '/bibleti)',
+    '- [Podcast](' + domain + '/podcast/)',
+    '- [Blog](' + domain + '/blog/)',
+    '',
+  ];
+  if (arts.length) {
+    lines.push('## Blog Articles');
+    lines.push('');
+    for (const a of arts) {
+      const catLabel = cats[a.category] ? cats[a.category].labelEn : '';
+      lines.push('- [' + esc(a.titleEn) + '](' + domain + '/blog/' + a.slug + '/) — ' + catLabel +
+        ' · [简体](' + domain + '/blog/' + a.slug + '/zh-cn/)' +
+        ' · [繁體](' + domain + '/blog/' + a.slug + '/zh-tw/)');
+    }
+  }
+  lines.push('');
+  fs.writeFileSync(path.join(DIST, 'llms.txt'), lines.join('\n'));
+}
+
 function copyAssets() {
   const contentCss = fs.readFileSync(path.join(ASSETS_DIR, 'style.css'), 'utf8');
   fs.writeFileSync(path.join(DIST, 'style.css'), shared.HEADER_CSS + '\n' + contentCss);
@@ -498,6 +552,7 @@ function main() {
   copyAssets();
   buildPages();
   buildSitemap();
+  buildLlmsTxt();
   console.log('Site build complete →', DIST);
 }
 

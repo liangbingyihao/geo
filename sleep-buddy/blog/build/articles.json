@@ -1,0 +1,129 @@
+{
+  "site": {
+    "name": "SleepBuddy",
+    "domain": "https://sleep-buddy.com",
+    "datePublished": "2026-09-08",
+    "dateModified": "2026-10-20",
+    "version": "20260908"
+  },
+  "categories": {
+    "a": { "labelEn": "Sleep Science", "labelZh": "睡眠科学", "color": "#3b82f6" },
+    "b": { "labelEn": "How-To", "labelZh": "教程指南", "color": "#22c55e" },
+    "c": { "labelEn": "App Comparisons", "labelZh": "App 对比", "color": "#f59e0b" },
+    "d": { "labelEn": "Challenges", "labelZh": "挑战计划", "color": "#ec4899" },
+    "e": { "labelEn": "Faith & Rest", "labelZh": "信仰与安息", "color": "#8b5cf6" }
+  },
+  "articles": [
+    {
+      "id": "SB01",
+      "slug": "30-day-no-phone-before-bed-challenge",
+      "category": "d",
+      "titleEn": "30-Day No-Phone-Before-Bed Challenge: Rules, Timeline & Real Results",
+      "titleZh": "30 天睡前不碰手机挑战：规则、时间表与真实成果",
+      "datePublished": "2026-09-05",
+      "crossLinks": [
+        { "slug": "how-to-set-bedtime-lock-screen-iphone", "en": "bedtime lock screen", "zh": "睡前锁屏" },
+        { "slug": "sleep-accountability-partners-how-to", "en": "accountability partner", "zh": "问责伙伴" },
+        { "slug": "does-locking-phone-before-bed-improve-sleep", "en": "melatonin", "zh": "褪黑素" }
+      ]
+    },
+    {
+      "id": "SB02",
+      "slug": "best-apps-stop-scrolling-before-bed-2026",
+      "category": "c",
+      "titleEn": "Best Apps to Stop Scrolling Before Bed in 2026 (Compared)",
+      "titleZh": "2026 年睡前戒刷手机 App 大盘点（横向对比）",
+      "datePublished": "2026-09-07",
+      "crossLinks": [
+        { "slug": "how-to-set-bedtime-lock-screen-iphone", "en": "Apple Screen Time", "zh": "屏幕使用时间" },
+        { "slug": "science-of-social-accountability-sleep", "en": "social accountability", "zh": "社交问责" },
+        { "slug": "does-locking-phone-before-bed-improve-sleep", "en": "blue light", "zh": "蓝光" }
+      ]
+    },
+    {
+      "id": "SB03",
+      "slug": "christian-accountability-apps-phone-before-bed",
+      "category": "e",
+      "titleEn": "Christian Accountability Apps: Staying Off Your Phone Before Bed (Faith-Based Guide)",
+      "titleZh": "基督徒问责类应用：睡前远离手机（信仰视角指南）",
+      "datePublished": "2026-09-06",
+      "crossLinks": [
+        { "slug": "sleep-accountability-partners-how-to", "en": "accountability partner", "zh": "问责伙伴" },
+        { "slug": "science-of-social-accountability-sleep", "en": "Lally et al. (2010)", "zh": "Lally et al. (2010)" }
+      ]
+    },
+    {
+      "id": "SB04",
+      "slug": "complete-guide-sleeping-early-with-friends",
+      "category": "b",
+      "titleEn": "The Complete Guide to Sleeping Early With Friends (2026 Accountability Playbook)",
+      "titleZh": "与朋友一起早睡完全指南（2026 问责行动手册）",
+      "datePublished": "2026-09-10",
+      "crossLinks": [
+        { "slug": "30-day-no-phone-before-bed-challenge", "en": "30-day", "zh": "30 天" },
+        { "slug": "christian-accountability-apps-phone-before-bed", "en": "faith community", "zh": "信仰社群" },
+        { "slug": "sleep-accountability-partners-how-to", "en": "sleep buddy", "zh": "睡眠伙伴" }
+      ]
+    },
+    {
+      "id": "SB05",
+      "slug": "does-locking-phone-before-bed-improve-sleep",
+      "category": "a",
+      "titleEn": "Does Locking Your Phone Before Bed Actually Improve Sleep? (What Research Says)",
+      "titleZh": "睡前锁住手机真的能改善睡眠吗？（研究怎么说）",
+      "datePublished": "2026-09-08",
+      "crossLinks": [
+        { "slug": "30-day-no-phone-before-bed-challenge", "en": "screen-free wind-down", "zh": "无屏幕的睡前缓冲" },
+        { "slug": "science-of-social-accountability-sleep", "en": "social accountability", "zh": "社交问责" }
+      ]
+    },
+    {
+      "id": "SB06",
+      "slug": "how-to-set-bedtime-lock-screen-iphone",
+      "category": "b",
+      "titleEn": "How to Set a Bedtime Lock Screen on iPhone (Step-by-Step)",
+      "titleZh": "如何在 iPhone 上设置睡前锁屏（分步教程）",
+      "datePublished": "2026-09-09",
+      "howTo": {
+        "name": "How to Set a Bedtime Lock Screen with SleepBuddy",
+        "steps": [
+          { "name": "Download SleepBuddy", "text": "Download SleepBuddy from the App Store (apps.apple.com/app/id6773677490)." },
+          { "name": "Create your free account", "text": "Open the app and create your free account." },
+          { "name": "Set your bedtime and wake time", "text": "Set your bedtime (for example, 10:30 PM) and your wake time." },
+          { "name": "Enable the Bedtime Lock Screen", "text": "Enable the Bedtime Lock Screen so SleepBuddy automatically locks your phone at your set bedtime." },
+          { "name": "Pair with a friend", "text": "Optionally pair with a friend for social accountability; you'll both see whether you stuck to bedtime." },
+          { "name": "Review your progress", "text": "Each morning, open SleepBuddy to review your progress and adjust your schedule." }
+        ]
+      },
+      "crossLinks": [
+        { "slug": "best-apps-stop-scrolling-before-bed-2026", "en": "Apple Screen Time", "zh": "屏幕使用时间" },
+        { "slug": "science-of-social-accountability-sleep", "en": "social accountability", "zh": "社交问责" },
+        { "slug": "complete-guide-sleeping-early-with-friends", "en": "healthy sleep", "zh": "健康的睡眠" }
+      ]
+    },
+    {
+      "id": "SB07",
+      "slug": "science-of-social-accountability-sleep",
+      "category": "a",
+      "titleEn": "The Science of Social Accountability: Why a Sleep Buddy Helps You Sleep Earlier",
+      "titleZh": "社交问责的科学：为什么睡眠伙伴能帮你更早入睡",
+      "datePublished": "2026-09-11",
+      "crossLinks": [
+        { "slug": "sleep-accountability-partners-how-to", "en": "sleep buddy", "zh": "睡眠伙伴" },
+        { "slug": "how-to-set-bedtime-lock-screen-iphone", "en": "locks your phone at bedtime", "zh": "在就寝时间锁住你的手机" }
+      ]
+    },
+    {
+      "id": "SB08",
+      "slug": "sleep-accountability-partners-how-to",
+      "category": "b",
+      "titleEn": "Sleep Accountability Partners: How to Find One and Make It Work",
+      "titleZh": "睡眠问责伙伴：如何找到一位并让它真正生效",
+      "datePublished": "2026-09-12",
+      "crossLinks": [
+        { "slug": "science-of-social-accountability-sleep", "en": "Dominican University", "zh": "多米尼加大学" },
+        { "slug": "how-to-set-bedtime-lock-screen-iphone", "en": "lock screen", "zh": "锁屏" }
+      ]
+    }
+  ]
+}

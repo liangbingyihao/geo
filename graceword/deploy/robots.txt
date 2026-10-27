@@ -1,77 +1,113 @@
 # ============================================================
-# 1. 允许传统搜索引擎与 AI 实时搜索/引用爬虫
+# GraceWord robots.txt — 三级策略（引用+训练放行 / 封杀带宽爬虫）
+# 参考：FaithGPT（faithgpt.io）GEO-first 策略，见 FAITHGPT-GEO-PLAN.md §4
 # ============================================================
+
 User-agent: *
-Content-Signal: search=yes,ai-train=no,use=reference
+Content-Signal: search=yes,ai-train=yes,use=reference
 Allow: /
 Disallow: /share/
 Disallow: /r/
 
-# 显式允许 OpenAI 实时搜索与引用爬虫（ChatGPT 检索/引用）
+# ============================================================
+# 1. AI 爬虫 — 显式放行（LLM 引用 + 训练存在感）
+# ============================================================
+User-agent: GPTBot
+Allow: /
+Disallow: /share/
+Disallow: /r/
+
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /share/
+Disallow: /r/
+
 User-agent: OAI-SearchBot
 Allow: /
 Disallow: /share/
 Disallow: /r/
 
-# 显式允许 Anthropic 实时搜索与用户触发爬虫（Claude 检索/引用）
+User-agent: Google-Extended
+Allow: /
+Disallow: /share/
+Disallow: /r/
+
+User-agent: anthropic-ai
+Allow: /
+Disallow: /share/
+Disallow: /r/
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /share/
+Disallow: /r/
+
 User-agent: Claude-SearchBot
 Allow: /
 Disallow: /share/
 Disallow: /r/
+
 User-agent: claude-user
 Allow: /
 Disallow: /share/
 Disallow: /r/
 
-# 显式允许 Perplexity 检索与引用
-User-agent: PerplexityBot
-Allow: /
-Disallow: /share/
-Disallow: /r/
-User-agent: Perplexity-User
-Allow: /
-Disallow: /share/
-Disallow: /r/
-
-# Common Crawl 放行（用于检索/搜索/RAG 数据集发现）
 User-agent: CCBot
 Allow: /
 Disallow: /share/
 Disallow: /r/
 
+User-agent: PerplexityBot
+Allow: /
+Disallow: /share/
+Disallow: /r/
+
+User-agent: Perplexity-User
+Allow: /
+Disallow: /share/
+Disallow: /r/
+
+User-agent: cohere-ai
+Allow: /
+Disallow: /share/
+Disallow: /r/
+
 # ============================================================
-# 2. 禁止 AI 模型训练爬虫（防训练，保护原创内容）
+# 2. 封杀纯带宽爬虫（无流量价值，省 CDN 成本）
 # ============================================================
-# OpenAI 模型训练
-User-agent: GPTBot
-Disallow: /
-
-# 谷歌 Gemini 训练/知识库注入（不影响 Google 搜索与 AI Overviews）
-User-agent: Google-Extended
-Disallow: /
-
-# Anthropic 模型训练
-User-agent: ClaudeBot
-Disallow: /
-
-# 苹果 AI 模型训练
-User-agent: Applebot-Extended
-Disallow: /
-
-# 字节跳动爬虫
 User-agent: Bytespider
 Disallow: /
 
-# Meta AI 训练
-User-agent: meta-externalagent
+User-agent: AhrefsBot
 Disallow: /
 
-# 其他不需要的爬虫
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: DataForSeoBot
+Disallow: /
+
+User-agent: BLEXBot
+Disallow: /
+
+User-agent: PetalBot
+Disallow: /
+
 User-agent: Amazonbot
 Disallow: /
-User-agent: CloudflareBrowserRenderingCrawler
+
+User-agent: Bytedance
 Disallow: /
 
+# ============================================================
+# Sitemap
+# ============================================================
+Sitemap: https://grace-word.com/sitemap.xml
 Sitemap: https://grace-word.com/blog/sitemap.xml
 Sitemap: https://grace-word.com/podcast/sitemap.xml
-Sitemap: https://grace-word.com/sitemap.xml
