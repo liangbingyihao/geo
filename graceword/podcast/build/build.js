@@ -45,6 +45,11 @@ const UI = {
     transcript: '展開完整逐字稿',
     sourceLink: '在 Soooradio 收聽原文',
     video: '觀看影片',
+    faq: '常見問題',
+    seriesFaq: '系列常見問題',
+    verses: '本集經文',
+    sortNew: '最新在前',
+    sortOld: '由第 1 集開始',
     hosts: '主持人', duration: '時長', published: '發布日期',
     subscribe: '訂閱播客', listen: '收聽本集',
     backToPodcast: '返回播客首頁', backToSeries: '返回節目系列',
@@ -63,6 +68,11 @@ const UI = {
     transcript: '展开完整逐字稿',
     sourceLink: '在 Soooradio 收听原文',
     video: '观看视频',
+    faq: '常见问题',
+    seriesFaq: '系列常见问题',
+    verses: '本集经文',
+    sortNew: '最新在前',
+    sortOld: '由第 1 集开始',
     hosts: '主持人', duration: '时长', published: '发布日期',
     subscribe: '订阅播客', listen: '收听本集',
     backToPodcast: '返回播客首页', backToSeries: '返回节目系列',
@@ -99,15 +109,34 @@ function formatTranscript(txt) {
   const lines = txt.split('\n');
   let html = '';
   let para = [];
+  let table = [];
 
   const flushPara = () => {
     if (para.length) { html += '<p>' + para.map(esc).join('<br>') + '</p>\n'; para = []; }
+  };
+  const flushTable = () => {
+    if (!table.length) return;
+    const head = table[0].map((c) => `<th>${esc(c)}</th>`).join('');
+    const body = table.slice(1)
+      .map((r) => `<tr>${r.map((c) => `<td>${esc(c)}</td>`).join('')}</tr>`)
+      .join('\n');
+    html += `<div class="table-scroll"><table><thead><tr>${head}</tr></thead><tbody>\n${body}\n</tbody></table></div>\n`;
+    table = [];
   };
 
   for (const raw of lines) {
     const line = raw.replace(/\s+$/, '');
     const t = line.trim();
-    if (!t) { flushPara(); continue; }
+    if (!t) { flushPara(); flushTable(); continue; }
+
+    if (t.startsWith('|') && t.endsWith('|')) {
+      flushPara();
+      const cells = t.slice(1, -1).split('|').map((s) => s.trim());
+      if (!cells.every((c) => /^:?-{2,}:?$/.test(c))) table.push(cells);
+      continue;
+    }
+
+    flushTable();
 
     const sec = t.match(/^【(.+?)】\s*$/);
     if (sec) { flushPara(); html += '<h3>' + esc(t.replace(/^【/, '').replace(/】$/, '')) + '</h3>\n'; continue; }
@@ -121,6 +150,7 @@ function formatTranscript(txt) {
     para.push(line);
   }
   flushPara();
+  flushTable();
   return html;
 }
 
@@ -146,8 +176,9 @@ function epOutline(ep, lang) { return lang === 'zh-TW' ? ep.outlineTw : ep.outli
 function epDurLabel(ep, lang) { return lang === 'zh-TW' ? ep.durationLabelTw : ep.durationLabelCn; }
 
 /* ---- head ---- */
-function head({ lang, title, description, canonical, ogImage, isEpisode, jsonLd, alternates, xDefault, youtube }) {
+function head({ lang, title, description, canonical, ogImage, isEpisode, jsonLd, alternates, xDefault, youtube, ogDescription }) {
   const alts = alternates.map((a) => `<link rel="alternate" hreflang="${a.code}" href="${a.url}">`).join('\n');
+  const ogDesc = ogDescription || description;
   const videoMeta = youtube
     ? `<meta property="og:video:url" content="https://www.youtube.com/embed/${youtube}">
 <meta property="og:video:type" content="text/html">
@@ -166,14 +197,14 @@ function head({ lang, title, description, canonical, ogImage, isEpisode, jsonLd,
 ${alts}
 <link rel="alternate" hreflang="x-default" href="${DOMAIN}${xDefault}">
 <meta property="og:title" content="${esc(title)}">
-<meta property="og:description" content="${esc(description)}">
+<meta property="og:description" content="${esc(ogDesc)}">
 <meta property="og:url" content="${canonical}">
 <meta property="og:type" content="${isEpisode ? 'article' : 'website'}">
 <meta property="og:site_name" content="GraceWord">
 <meta property="og:image" content="${ogImage}">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="${esc(title)}">
-<meta name="twitter:description" content="${esc(description)}">
+<meta name="twitter:description" content="${esc(ogDesc)}">
 <meta name="twitter:image" content="${ogImage}">
 ${videoMeta}
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -230,6 +261,24 @@ function bodyScripts() {
     else sticky.classList.add('visible');
   }
 })();
+(function () {
+  var bar = document.querySelector('.sort-control');
+  if (!bar) return;
+  var list = document.querySelector('.episode-list');
+  if (!list) return;
+  bar.addEventListener('click', function (e) {
+    var btn = e.target.closest('.sort-btn');
+    if (!btn) return;
+    var order = btn.getAttribute('data-sort');
+    bar.querySelectorAll('.sort-btn').forEach(function (b) { b.classList.toggle('active', b === btn); });
+    var cards = Array.prototype.slice.call(list.querySelectorAll('.episode-card'));
+    cards.sort(function (a, b) {
+      var d = (parseInt(a.getAttribute('data-ep'), 10) || 0) - (parseInt(b.getAttribute('data-ep'), 10) || 0);
+      return order === 'old' ? d : -d;
+    });
+    cards.forEach(function (c) { list.appendChild(c); });
+  });
+})();
 </script>`;
 }
 
@@ -261,7 +310,9 @@ function seriesJsonLd(s, lang, url) {
   const persons = hosts.map((h) => ({
     '@type': 'Person',
     name: h.name,
-    ...(h.link ? { url: h.link } : {}),
+    ...(h.link ? { url: h.link, sameAs: h.link } : {}),
+    ...(h.avatar ? { image: h.avatar } : {}),
+    ...(h.bioTw && h.bioCn ? { description: lang === 'zh-TW' ? h.bioTw : h.bioCn } : {}),
   }));
   const author = persons.length === 1 ? persons[0] : persons;
   return JSON.stringify({
@@ -312,23 +363,117 @@ function episodeJsonLd(s, ep, lang) {
       isFamilyFriendly: true,
     };
   }
-  if (ep.hosts && ep.hosts.length) o.producer = { '@type': 'Person', name: ep.hosts.join(', ') };
+  if (ep.hosts && ep.hosts.length) {
+    const hostObjs = (s.hosts || []).filter((h) => ep.hosts.includes(h.name));
+    o.producer = hostObjs.map((h) => ({
+      '@type': 'Person',
+      name: h.name,
+      ...(h.link ? { url: h.link, sameAs: h.link } : {}),
+      ...(h.avatar ? { image: h.avatar } : {}),
+      ...(h.bioTw && h.bioCn ? { description: lang === 'zh-TW' ? h.bioTw : h.bioCn } : {}),
+    }));
+  }
   return JSON.stringify(o);
+}
+
+function seriesFaq(s, lang) {
+  return lang === 'zh-TW' ? (s.faqTw || null) : (s.faqCn || null);
+}
+
+function seriesFaqJsonLd(s, lang) {
+  const items = seriesFaq(s, lang);
+  if (!items || !items.length) return null;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    inLanguage: s.language,
+    mainEntity: items.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  };
+}
+
+function epVerses(s, ep, lang) {
+  return lang === 'zh-TW' ? (ep.versesTw || null) : (ep.versesCn || null);
+}
+
+function seriesFaqHtml(s, lang) {
+  const items = seriesFaq(s, lang);
+  if (!items || !items.length) return '';
+  const fallback = lang === 'zh-TW' ? '其他' : '其他';
+  const groups = {};
+  items.forEach((f) => {
+    const g = f.g || fallback;
+    (groups[g] = groups[g] || []).push(f);
+  });
+  return Object.keys(groups).map((g) => `
+  <div class="faq-group">
+    <h3 class="faq-group-title">${esc(g)}</h3>
+    <div class="faq-grid">
+      ${groups[g].map((f) => `<details class="faq-item"><summary>${esc(f.q)}</summary><p>${esc(f.a)}</p></details>`).join('\n      ')}
+    </div>
+  </div>`).join('\n');
+}
+
+function epFaq(s, ep, lang) {
+  return lang === 'zh-TW' ? (ep.faqTw || null) : (ep.faqCn || null);
+}
+
+function epFaqJsonLd(s, ep, lang) {
+  const items = epFaq(s, ep, lang);
+  if (!items || !items.length) return null;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    inLanguage: s.language,
+    mainEntity: items.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  };
+}
+
+function episodeBreadcrumbJsonLd(s, ep, lang) {
+  const crumbs = [
+    { position: 1, name: podcastName(lang), item: DOMAIN + homePath(lang) },
+    { position: 2, name: seriesName(s, lang), item: DOMAIN + (SINGLE_SERIES ? homePath(lang) : seriesPath(s, lang)) },
+    { position: 3, name: epTitle(ep, lang), item: DOMAIN + epPath(s, ep, lang) },
+  ];
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    inLanguage: s.language,
+    itemListElement: crumbs.map((c) => ({ '@type': 'ListItem', position: c.position, name: c.name, item: c.item })),
+  };
+}
+
+function episodeItemListJsonLd(s, ep, lang) {
+  const items = epKp(ep, lang) || [];
+  if (!items.length) return null;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    inLanguage: s.language,
+    name: epTitle(ep, lang) + ' — ' + UI[lang].keypoints,
+    itemListElement: items.map((k, i) => ({ '@type': 'ListItem', position: i + 1, name: k })),
+  };
 }
 
 /* ---- card builders ---- */
 function episodeCard(s, ep, lang) {
-  const listen = UI[lang].listen;
   const clock = isoDurationToClock(ep.duration);
-  return `<a class="episode-card" href="${epPath(s, ep, lang)}">
-    <img class="e-thumb" src="${ep.cover}" alt="${esc(epTitle(ep, lang))}">
+  const durLabel = epDurLabel(ep, lang) || clock;
+  return `<a class="episode-card" href="${epPath(s, ep, lang)}" data-ep="${ep.episodeNumber}" data-date="${ep.datePublished || ''}">
+    <div class="e-cover-wrap">
+      <img class="e-cover" src="${ep.cover}" alt="${esc(epTitle(ep, lang))}" loading="lazy">
+      <span class="e-ep-badge">EP ${ep.episodeNumber}</span>
+    </div>
     <div class="e-body">
-      <div class="e-head">
-        <h3>${esc(epTitle(ep, lang))}</h3>
-        <span class="e-meta-wrap"><span class="e-ep">Ep. ${ep.episodeNumber}</span><span class="e-meta">${clock}</span></span>
-      </div>
-      <p class="e-excerpt">${esc(epIntro(ep, lang))}</p>
-      <span class="e-listen">${esc(listen)}</span>
+      <h3>${esc(epTitle(ep, lang))}</h3>
+      <span class="e-meta">${durLabel}</span>
     </div>
   </a>`;
 }
@@ -379,6 +524,11 @@ function seriesBody(s, lang, withTabs) {
     : '';
   const tagline = lang === 'zh-TW' ? (s.taglineTw || '') : (s.taglineCn || '');
   const taglineLine = tagline ? `<p class="hero-tagline">${esc(tagline)}</p>` : '';
+  const faqSection = (seriesFaq(s, lang) && seriesFaq(s, lang).length) ? `
+<div class="container-wide" style="padding: 0 24px 60px;">
+  <h2 class="section-title">${esc(UI[lang].seriesFaq)}</h2>
+  ${seriesFaqHtml(s, lang)}
+</div>` : '';
   return `<section class="hero">
   <div class="hero-inner">
     ${s.artwork ? `<img class="hero-artwork" src="${s.artwork}" alt="${esc(seriesName(s, lang))}">` : ''}
@@ -392,11 +542,16 @@ function seriesBody(s, lang, withTabs) {
 <div class="container-wide" style="padding: 40px 24px 60px;">
   ${tabsBlock}
   <h2 class="section-title" style="font-family:var(--font-serif);color:var(--primary);margin-bottom:20px;">${esc(UI[lang].episodes)}</h2>
+  <div class="sort-control" role="group" aria-label="排序">
+    <button type="button" class="sort-btn active" data-sort="new">${esc(UI[lang].sortNew)}</button>
+    <button type="button" class="sort-btn" data-sort="old">${esc(UI[lang].sortOld)}</button>
+  </div>
   <div class="episode-list">
     ${cards}
   </div>
 </div>
 
+${faqSection}
 ${hostHtml(s, lang)}`;
 }
 
@@ -415,7 +570,11 @@ function buildHome() {
       title = `${seriesName(s, lang)} — ${podcastName(lang)}`;
       desc = seriesDesc(s, lang);
       ogImage = s.cover;
-      jsonLd = `<script type="application/ld+json">${seriesJsonLd(s, lang, canonical)}</script>`;
+      const faqLd = seriesFaqJsonLd(s, lang);
+      jsonLd = [
+        `<script type="application/ld+json">${seriesJsonLd(s, lang, canonical)}</script>`,
+        faqLd ? `<script type="application/ld+json">${JSON.stringify(faqLd)}</script>` : '',
+      ].filter(Boolean).join('\n');
       body = seriesBody(s, lang, false);
     } else {
       title = podcastName(lang);
@@ -470,7 +629,11 @@ function buildSeriesPages() {
       const desc = seriesDesc(s, lang);
       const canonical = DOMAIN + seriesPath(s, lang);
       const alternates = altUrls((k) => seriesPath(s, k));
-      const jsonLd = `<script type="application/ld+json">${seriesJsonLd(s, lang)}</script>`;
+      const faqLd = seriesFaqJsonLd(s, lang);
+      const jsonLd = [
+        `<script type="application/ld+json">${seriesJsonLd(s, lang)}</script>`,
+        faqLd ? `<script type="application/ld+json">${JSON.stringify(faqLd)}</script>` : '',
+      ].filter(Boolean).join('\n');
       const headHtml = head({ lang, title, description: desc, canonical, ogImage: s.cover, isEpisode: false, jsonLd, alternates, xDefault: seriesPath(s, 'zh-TW') });
 
       const html = `<!DOCTYPE html>
@@ -506,11 +669,18 @@ function buildEpisodePages() {
 
       for (const lang of LANG_KEYS) {
         const title = `${epTitle(ep, lang)} — ${seriesName(s, lang)}`;
-        const desc = epIntro(ep, lang).slice(0, 160);
+        const fullIntro = epIntro(ep, lang);
+        const desc = fullIntro.slice(0, 160);
         const canonical = DOMAIN + epPath(s, ep, lang);
         const alternates = altUrls((k) => epPath(s, ep, k));
-        const jsonLd = `<script type="application/ld+json">${episodeJsonLd(s, ep, lang)}</script>`;
-        const headHtml = head({ lang, title, description: desc, canonical, ogImage: ep.cover, isEpisode: true, jsonLd, alternates, xDefault: epPath(s, ep, 'zh-TW'), youtube: ep.youtube });
+        const faqLd = epFaqJsonLd(s, ep, lang);
+        const jsonLd = [
+          `<script type="application/ld+json">${episodeJsonLd(s, ep, lang)}</script>`,
+          faqLd ? `<script type="application/ld+json">${JSON.stringify(faqLd)}</script>` : '',
+          `<script type="application/ld+json">${JSON.stringify(episodeBreadcrumbJsonLd(s, ep, lang))}</script>`,
+          (() => { const il = episodeItemListJsonLd(s, ep, lang); return il ? `<script type="application/ld+json">${JSON.stringify(il)}</script>` : ''; })(),
+        ].filter(Boolean).join('\n');
+        const headHtml = head({ lang, title, description: desc, ogDescription: fullIntro, canonical, ogImage: ep.cover, isEpisode: true, jsonLd, alternates, xDefault: epPath(s, ep, 'zh-TW'), youtube: ep.youtube });
 
         const transcriptText = lang === 'zh-TW' ? twTranscript : cnTranscript;
         const transcriptHtml = formatTranscript(transcriptText);
@@ -575,6 +745,18 @@ ${nav(lang, (k) => epPath(s, ep, k))}
   <ul class="keypoints">
     ${kp}
   </ul>
+
+  ${epFaq(s, ep, lang) ? `
+  <h2 class="section-title">${UI[lang].faq}</h2>
+  <div class="faq-list">
+    ${epFaq(s, ep, lang).map((f) => `<details class="faq-item"><summary>${esc(f.q)}</summary><p>${esc(f.a)}</p></details>`).join('\n    ')}
+  </div>` : ''}
+
+  ${epVerses(s, ep, lang) ? `
+  <h2 class="section-title">${UI[lang].verses}</h2>
+  <div class="verses-list">
+    ${epVerses(s, ep, lang).map((v) => `<blockquote class="verse-block"><p>${esc(v.text)}</p><cite>${esc(v.ref)}</cite></blockquote>`).join('\n    ')}
+  </div>` : ''}
 
   <details class="transcript">
     <summary>${UI[lang].transcript}</summary>
@@ -660,6 +842,12 @@ function videoSitemapEntry(s, ep) {
 }
 
 /* ---- per-series RSS feed ---- */
+function feedShownotes(s, ep) {
+  const kp = (ep.keyPointsTw || []).map((k) => `<li>${esc(k)}</li>`).join('');
+  const faq = (ep.faqTw || []).map((f) => `<p><strong>${esc(f.q)}</strong><br>${esc(f.a)}</p>`).join('');
+  return `<h3>${esc(ep.titleTw)}</h3><p>${esc(ep.introTw)}</p>${kp ? `<h4>本集重點</h4><ul>${kp}</ul>` : ''}${faq ? `<h4>常見問題</h4>${faq}` : ''}`;
+}
+
 function buildFeeds() {
   for (const s of seriesList) {
     const items = episodesOrdered(s).map((ep) => {
@@ -670,20 +858,25 @@ function buildFeeds() {
       <guid isPermaLink="true">${DOMAIN + epPath(s, ep, 'zh-TW')}</guid>
       <pubDate>${date}</pubDate>
       <description>${esc(ep.introTw)}</description>
+      <itunes:subtitle>${esc(ep.introTw.slice(0, 120))}</itunes:subtitle>
       <itunes:duration>${isoDurationToClock(ep.duration)}</itunes:duration>
       <itunes:image href="${ep.cover}"/>
       <itunes:episode>${ep.episodeNumber}</itunes:episode>
+      <content:encoded><![CDATA[${feedShownotes(s, ep)}]]></content:encoded>
+      <podcast:transcript url="${DOMAIN + epPath(s, ep, 'zh-TW')}" type="text/html"/>
       <enclosure url="${ep.audio}" length="${ep.audioSize}" type="audio/mpeg"/>
     </item>`;
     }).join('\n');
 
     const rss = `<?xml version="1.0" encoding="UTF-8"?>
-<rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0">
+<rss xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:podcast="https://podcastindex.org/namespace/1.0" version="2.0">
   <channel>
     <title>${esc(s.nameTw)}</title>
     <link>${DOMAIN + seriesPath(s, 'zh-TW')}</link>
     <language>${s.language}</language>
     <description>${esc(s.descTw)}</description>
+    <itunes:subtitle>${esc(s.taglineTw || '')}</itunes:subtitle>
+    <itunes:keywords>信仰, AI, 科技, 靈修, 耶穌, 福音, 查經, 敬拜, 安息</itunes:keywords>
     <itunes:image href="${s.cover}"/>
     <itunes:author>GraceWord</itunes:author>
     <itunes:explicit>no</itunes:explicit>

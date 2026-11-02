@@ -9,7 +9,7 @@ const C = {
   en: {
     home: {
       heroTitle: 'GraceWord Everyday',
-      heroDesc: 'Your all-in-one platform for Scripture, worship, and devotions — making your faith life simpler.',
+      heroDesc: 'Your all-in-one platform for Scripture, worship, and devotions — enriching your daily walk with God.',
       qrLabel: 'Scan to Download',
       appStore: 'App Store',
       googlePlay: 'Google Play',
@@ -186,7 +186,7 @@ const C = {
   'zh-CN': {
     home: {
       heroTitle: '恩语每一天',
-      heroDesc: '您的一站式平台，包含经文、敬拜和灵修，让您的信仰生活更简单。',
+      heroDesc: '您的一站式平台，包含经文、敬拜和灵修，丰富您与神同行的旅程。',
       qrLabel: '扫码下载',
       appStore: 'App Store',
       googlePlay: 'Google Play',
@@ -363,7 +363,7 @@ const C = {
   'zh-TW': {
     home: {
       heroTitle: '恩語每一天',
-      heroDesc: '您的一站式平台，包含經文、敬拜和靈修，讓您的信仰生活更簡單。',
+      heroDesc: '您的一站式平台，包含經文、敬拜和靈修，豐富您與神同行的旅程。',
       qrLabel: '掃碼下載',
       appStore: 'App Store',
       googlePlay: 'Google Play',

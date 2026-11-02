@@ -72,6 +72,19 @@ audio { width: 100%; margin-top: 12px; }
 .keypoints { margin: 0 0 12px 22px; list-style: decimal; }
 .keypoints li { margin-bottom: 10px; }
 
+.faq-list { margin: 0 0 24px; }
+.faq-group { margin: 0 0 22px; }
+.faq-group-title { font-family: var(--font-serif); font-size: 1.05rem; color: var(--primary); margin: 0 0 10px; }
+.faq-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 10px; align-items: start; }
+.faq-item { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); margin-bottom: 10px; overflow: visible; }
+.faq-item summary { cursor: pointer; padding: 14px 18px; font-family: var(--font-serif); font-weight: 600; color: var(--text); }
+.faq-item p { padding: 2px 18px 16px; color: var(--text-light); }
+
+.verses-list { margin: 0 0 24px; }
+.verse-block { background: var(--white); border-left: 3px solid var(--primary); border-radius: 4px; padding: 14px 18px; margin: 10px 0; box-shadow: var(--shadow); }
+.verse-block p { font-family: var(--font-serif); font-style: italic; color: var(--text); margin: 0 0 6px; }
+.verse-block cite { display: block; font-style: normal; font-size: 0.82rem; color: var(--primary); font-weight: 600; }
+
 .outline { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); padding: 8px 20px; margin-bottom: 24px; }
 .outline li { padding: 10px 0; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; gap: 12px; font-size: 0.95rem; }
 .outline li:last-child { border-bottom: none; }
@@ -82,6 +95,12 @@ details.transcript summary { cursor: pointer; padding: 16px 20px; font-family: v
 details.transcript .transcript-body { padding: 4px 20px 20px; border-top: 1px solid var(--border); }
 details.transcript h3 { font-family: var(--font-serif); font-size: 1.1rem; color: var(--text); margin: 18px 0 8px; }
 details.transcript p { margin: 8px 0; color: var(--text-light); }
+
+.table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 16px 0 20px; border-radius: var(--radius); box-shadow: var(--shadow); background: var(--white); }
+.table-scroll table { border-collapse: collapse; width: 100%; min-width: 760px; font-size: 0.82rem; line-height: 1.55; }
+.table-scroll th, .table-scroll td { border: 1px solid var(--border); padding: 10px 12px; text-align: left; vertical-align: top; }
+.table-scroll thead th { background: rgba(153,27,27,0.08); color: var(--primary); font-family: var(--font-serif); font-weight: 700; }
+.table-scroll tbody td:first-child { font-weight: 600; white-space: nowrap; background: var(--bg-soft); }
 
 /* Episode prev/next nav */
 .episode-nav { display: flex; gap: 16px; margin: 32px 0 12px; }
@@ -96,23 +115,28 @@ details.transcript p { margin: 8px 0; color: var(--text-light); }
   .episode-nav { flex-direction: column; }
   .ep-nav { max-width: 100%; }
   .ep-nav.next { margin-left: 0; }
-  .episode-card .e-head { flex-direction: column; align-items: flex-start; gap: 6px; }
-  .episode-card .e-meta-wrap { flex-wrap: wrap; }
 }
 
-/* Episode list (single-column compact card) */
-.episode-list { display: grid; grid-template-columns: 1fr; gap: 16px; }
-.episode-card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); padding: 20px; display: flex; gap: 16px; align-items: flex-start; transition: box-shadow 0.2s ease, transform 0.2s ease; }
+/* Episode list (cover grid) */
+.episode-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
+.episode-card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; display: flex; flex-direction: column; transition: box-shadow 0.2s ease, transform 0.2s ease; }
 .episode-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); }
-.episode-card .e-thumb { width: 80px; height: 80px; border-radius: 8px; object-fit: cover; flex-shrink: 0; }
-.episode-card .e-body { flex: 1; min-width: 0; display: flex; flex-direction: column; }
-.episode-card .e-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 8px; }
-.episode-card h3 { flex: 1; font-family: var(--font-serif); font-size: 1.05rem; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-.episode-card .e-meta-wrap { flex-shrink: 0; display: flex; align-items: center; gap: 8px; }
+.episode-card .e-cover-wrap { position: relative; }
+.episode-card .e-cover { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; display: block; }
+.episode-card .e-ep-badge { position: absolute; top: 10px; left: 10px; font-size: 0.85rem; font-weight: 700; color: var(--white); background: rgba(153,27,27,0.88); border: 1px solid rgba(255,255,255,0.35); padding: 3px 10px; border-radius: 8px; letter-spacing: 0.03em; }
+.episode-card .e-body { padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
+.episode-card h3 { font-family: var(--font-serif); font-size: 0.98rem; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.episode-card .e-meta-wrap { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 .episode-card .e-ep { font-size: 0.72rem; font-weight: 700; color: var(--primary); background: rgba(153,27,27,0.08); border: 1px solid var(--primary); padding: 2px 9px; border-radius: 20px; }
 .episode-card .e-meta { font-size: 0.8rem; color: var(--text-muted); }
-.episode-card .e-excerpt { font-size: 0.9rem; color: var(--text-light); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 14px; }
-.episode-card .e-listen { align-self: flex-start; margin-top: auto; display: inline-flex; align-items: center; gap: 6px; padding: 8px 18px; border-radius: 50px; background: var(--primary); color: var(--white); font-size: 0.85rem; font-weight: 600; }
+.episode-card .e-excerpt { font-size: 0.8rem; color: var(--text-light); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+@media (min-width: 768px) { .episode-card .e-excerpt { display: none; } }
+
+/* Sort control */
+.sort-control { display: flex; gap: 8px; margin-bottom: 20px; }
+.sort-btn { padding: 7px 16px; border-radius: 50px; background: var(--white); border: 1.5px solid var(--border); font-family: var(--font-serif); font-size: 0.85rem; font-weight: 600; color: var(--text-light); cursor: pointer; transition: all 0.2s ease; }
+.sort-btn:hover { border-color: var(--primary); color: var(--primary); }
+.sort-btn.active { background: var(--primary); border-color: var(--primary); color: var(--white); }
 
 /* Podcast homepage */
 .container-wide { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
