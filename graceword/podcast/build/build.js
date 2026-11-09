@@ -33,7 +33,10 @@ const DOWNLOAD_URL = '/action/download';
 const LANGS = {
   'zh-TW': { htmlLang: 'zh-Hant', hreflang: 'zh-TW', dir: '', label: '繁體', other: 'zh-CN' },
   'zh-CN': { htmlLang: 'zh-Hans', hreflang: 'zh-CN', dir: 'zh-cn', label: '简体', other: 'zh-TW' },
+  'en': { htmlLang: 'en', hreflang: 'en', dir: 'en', label: 'EN', other: 'zh-TW' },
 };
+// Languages the section-level pages (home/series) are generated for.
+const BASE_LANGS = ['zh-TW', 'zh-CN'];
 
 const UI = {
   'zh-TW': {
@@ -81,6 +84,29 @@ const UI = {
     followTitle: '保持联系', followDesc: '关注我们获取每日灵感',
     appIntro: 'GraceWord 致力于帮助信徒每日与圣经相交——通过个性化灵修、AI 辅助查经，以及将感恩与神的话连接的感恩日记。App 可在 {url} 免费获取。',
     copyright: '© 2026 恩语',
+  },
+  'en': {
+    appName: 'GraceWord', home: 'Home', blog: 'Articles', podcast: 'Podcast',
+    series: 'Series', allSeries: 'All', hostIntro: 'Hosts',
+    seriesSection: 'Series', episodes: 'Episodes', latestEpisodes: 'Latest episode',
+    episodesCount: '{n} episodes',
+    keypoints: 'Key takeaways', outline: 'Episode outline',
+    transcript: 'Show full transcript',
+    sourceLink: 'Listen to the original on Soooradio',
+    video: 'Watch the video',
+    faq: 'Frequently asked questions',
+    seriesFaq: 'Series FAQ',
+    verses: 'Scripture in this episode',
+    sortNew: 'Newest first',
+    sortOld: 'Start from Ep. 1',
+    hosts: 'Hosts', duration: 'Duration', published: 'Published',
+    subscribe: 'Subscribe', listen: 'Listen to this episode',
+    backToPodcast: 'Back to podcast', backToSeries: 'Back to series',
+    prevEpisode: 'Previous', nextEpisode: 'Next',
+    stickyTagline: 'Scripture · Worship · Devotion', stickyBtn: 'Get GraceWord free →',
+    followTitle: 'Stay in touch', followDesc: 'Follow us for daily inspiration',
+    appIntro: 'GraceWord helps believers meet Scripture every day—through personalized devotions, AI-assisted Bible study, and a gratitude journal that connects thanks with God’s Word. The app is free at {url}.',
+    copyright: '© 2026 GraceWord',
   },
 };
 
@@ -141,7 +167,7 @@ function formatTranscript(txt) {
     const sec = t.match(/^【(.+?)】\s*$/);
     if (sec) { flushPara(); html += '<h3>' + esc(t.replace(/^【/, '').replace(/】$/, '')) + '</h3>\n'; continue; }
 
-    if (/^(主持人|嘉賓|嘉賓|Sandy|Jacky)\s*[：:]\s*$/.test(t)) {
+    if (/^(主持人|Host|Guest|嘉賓|Sandy|Jacky)\s*[：:]\s*$/.test(t)) {
       flushPara();
       html += '<p><strong>' + esc(t) + '</strong></p>\n';
       continue;
@@ -160,20 +186,63 @@ function seriesPath(s, lang) { return LANGS[lang].dir ? `/podcast/${s.slug}/${LA
 function epPath(s, ep, lang) { return LANGS[lang].dir ? `/podcast/${s.slug}/${ep.slug}/${LANGS[lang].dir}/` : `/podcast/${s.slug}/${ep.slug}/`; }
 function feedPath(s) { return `/podcast/${s.slug}/feed.xml`; }
 
-function altUrls(pathFor) {
-  return LANG_KEYS.map((k) => ({ code: LANGS[k].hreflang, url: DOMAIN + pathFor(k) }));
+// Section-level link targets. English section pages are not generated (English
+// is a per-episode translation pilot), so link back to the zh-TW section.
+function linkHome(lang) { return lang === 'en' ? homePath('zh-TW') : homePath(lang); }
+function linkSeries(s, lang) { return lang === 'en' ? seriesPath(s, 'zh-TW') : seriesPath(s, lang); }
+
+function altUrls(pathFor, langs) {
+  return (langs || LANG_KEYS).map((k) => ({ code: LANGS[k].hreflang, url: DOMAIN + pathFor(k) }));
 }
 
 /* ---- per-language text ---- */
-function podcastName(lang) { return lang === 'zh-TW' ? podcast.titleTw : podcast.titleCn; }
-function podcastDesc(lang) { return lang === 'zh-TW' ? podcast.descTw : podcast.descCn; }
-function seriesName(s, lang) { return lang === 'zh-TW' ? s.nameTw : s.nameCn; }
-function seriesDesc(s, lang) { return lang === 'zh-TW' ? s.descTw : s.descCn; }
-function epTitle(ep, lang) { return lang === 'zh-TW' ? ep.titleTw : ep.titleCn; }
-function epIntro(ep, lang) { return lang === 'zh-TW' ? ep.introTw : ep.introCn; }
-function epKp(ep, lang) { return lang === 'zh-TW' ? ep.keyPointsTw : ep.keyPointsCn; }
-function epOutline(ep, lang) { return lang === 'zh-TW' ? ep.outlineTw : ep.outlineCn; }
-function epDurLabel(ep, lang) { return lang === 'zh-TW' ? ep.durationLabelTw : ep.durationLabelCn; }
+function podcastName(lang) {
+  if (lang === 'en') return podcast.titleEn || podcast.titleTw;
+  return lang === 'zh-TW' ? podcast.titleTw : podcast.titleCn;
+}
+function podcastDesc(lang) {
+  if (lang === 'en') return podcast.descEn || podcast.descTw;
+  return lang === 'zh-TW' ? podcast.descTw : podcast.descCn;
+}
+function seriesName(s, lang) {
+  if (lang === 'en') return s.nameEn || s.nameTw;
+  return lang === 'zh-TW' ? s.nameTw : s.nameCn;
+}
+function seriesDesc(s, lang) {
+  if (lang === 'en') return s.descEn || s.descTw;
+  return lang === 'zh-TW' ? s.descTw : s.descCn;
+}
+function epTitle(ep, lang) {
+  if (lang === 'en') return ep.titleEn || ep.titleTw;
+  return lang === 'zh-TW' ? ep.titleTw : ep.titleCn;
+}
+function epIntro(ep, lang) {
+  if (lang === 'en') return ep.introEn || ep.introTw;
+  return lang === 'zh-TW' ? ep.introTw : ep.introCn;
+}
+function epKp(ep, lang) {
+  if (lang === 'en') return ep.keyPointsEn || ep.keyPointsTw;
+  return lang === 'zh-TW' ? ep.keyPointsTw : ep.keyPointsCn;
+}
+function epOutline(ep, lang) {
+  if (lang === 'en') return ep.outlineEn || ep.outlineTw;
+  return lang === 'zh-TW' ? ep.outlineTw : ep.outlineCn;
+}
+function epDurLabel(ep, lang) {
+  if (lang === 'en') return ep.durationLabelEn || ep.durationLabelTw;
+  return lang === 'zh-TW' ? ep.durationLabelTw : ep.durationLabelCn;
+}
+
+// Episode-level language availability: zh always; en only when translated.
+function epLangs(s, ep) {
+  const hasEn = ep.titleEn && ep.introEn && fs.existsSync(path.join(CONTENT, ep.slug, 'transcript.en.txt'));
+  return hasEn ? ['zh-TW', 'zh-CN', 'en'] : ['zh-TW', 'zh-CN'];
+}
+
+function hostBio(h, lang) {
+  if (lang === 'en') return h.bioEn || h.bioTw || h.bioCn || '';
+  return lang === 'zh-TW' ? h.bioTw : h.bioCn;
+}
 
 /* ---- head ---- */
 function head({ lang, title, description, canonical, ogImage, isEpisode, jsonLd, alternates, xDefault, youtube, ogDescription }) {
@@ -217,8 +286,8 @@ ${jsonLd}`;
 }
 
 /* ---- layout ---- */
-function nav(lang, urlFor) {
-  const langs = LANG_KEYS.map((k) => ({ code: k, label: LANGS[k].label, hreflang: LANGS[k].hreflang }));
+function nav(lang, urlFor, pageLangs) {
+  const langs = (pageLangs || LANG_KEYS).map((k) => ({ code: k, label: LANGS[k].label, hreflang: LANGS[k].hreflang }));
   return site.header({ lang, active: 'podcast', langHref: (code) => urlFor(code), langs });
 }
 
@@ -312,7 +381,7 @@ function seriesJsonLd(s, lang, url) {
     name: h.name,
     ...(h.link ? { url: h.link, sameAs: h.link } : {}),
     ...(h.avatar ? { image: h.avatar } : {}),
-    ...(h.bioTw && h.bioCn ? { description: lang === 'zh-TW' ? h.bioTw : h.bioCn } : {}),
+    ...(hostBio(h, lang) ? { description: hostBio(h, lang) } : {}),
   }));
   const author = persons.length === 1 ? persons[0] : persons;
   return JSON.stringify({
@@ -339,7 +408,7 @@ function episodeJsonLd(s, ep, lang) {
     datePublished: ep.datePublished,
     timeRequired: ep.duration,
     episodeNumber: ep.episodeNumber,
-    partOfSeries: { '@type': 'PodcastSeries', name: seriesName(s, lang), url: DOMAIN + seriesPath(s, lang) },
+    partOfSeries: { '@type': 'PodcastSeries', name: seriesName(s, lang), url: DOMAIN + (SINGLE_SERIES ? linkHome(lang) : linkSeries(s, lang)) },
     associatedMedia: {
       '@type': 'AudioObject',
       name: epTitle(ep, lang),
@@ -370,13 +439,14 @@ function episodeJsonLd(s, ep, lang) {
       name: h.name,
       ...(h.link ? { url: h.link, sameAs: h.link } : {}),
       ...(h.avatar ? { image: h.avatar } : {}),
-      ...(h.bioTw && h.bioCn ? { description: lang === 'zh-TW' ? h.bioTw : h.bioCn } : {}),
+      ...(hostBio(h, lang) ? { description: hostBio(h, lang) } : {}),
     }));
   }
   return JSON.stringify(o);
 }
 
 function seriesFaq(s, lang) {
+  if (lang === 'en') return s.faqEn || null;
   return lang === 'zh-TW' ? (s.faqTw || null) : (s.faqCn || null);
 }
 
@@ -396,6 +466,7 @@ function seriesFaqJsonLd(s, lang) {
 }
 
 function epVerses(s, ep, lang) {
+  if (lang === 'en') return ep.versesEn || null;
   return lang === 'zh-TW' ? (ep.versesTw || null) : (ep.versesCn || null);
 }
 
@@ -418,6 +489,7 @@ function seriesFaqHtml(s, lang) {
 }
 
 function epFaq(s, ep, lang) {
+  if (lang === 'en') return ep.faqEn || null;
   return lang === 'zh-TW' ? (ep.faqTw || null) : (ep.faqCn || null);
 }
 
@@ -427,7 +499,7 @@ function epFaqJsonLd(s, ep, lang) {
   return {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    inLanguage: s.language,
+    inLanguage: LANGS[lang].hreflang,
     mainEntity: items.map((f) => ({
       '@type': 'Question',
       name: f.q,
@@ -438,14 +510,14 @@ function epFaqJsonLd(s, ep, lang) {
 
 function episodeBreadcrumbJsonLd(s, ep, lang) {
   const crumbs = [
-    { position: 1, name: podcastName(lang), item: DOMAIN + homePath(lang) },
-    { position: 2, name: seriesName(s, lang), item: DOMAIN + (SINGLE_SERIES ? homePath(lang) : seriesPath(s, lang)) },
+    { position: 1, name: podcastName(lang), item: DOMAIN + linkHome(lang) },
+    { position: 2, name: seriesName(s, lang), item: DOMAIN + (SINGLE_SERIES ? linkHome(lang) : linkSeries(s, lang)) },
     { position: 3, name: epTitle(ep, lang), item: DOMAIN + epPath(s, ep, lang) },
   ];
   return {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
-    inLanguage: s.language,
+    inLanguage: LANGS[lang].hreflang,
     itemListElement: crumbs.map((c) => ({ '@type': 'ListItem', position: c.position, name: c.name, item: c.item })),
   };
 }
@@ -456,7 +528,7 @@ function episodeItemListJsonLd(s, ep, lang) {
   return {
     '@context': 'https://schema.org',
     '@type': 'ItemList',
-    inLanguage: s.language,
+    inLanguage: LANGS[lang].hreflang,
     name: epTitle(ep, lang) + ' — ' + UI[lang].keypoints,
     itemListElement: items.map((k, i) => ({ '@type': 'ListItem', position: i + 1, name: k })),
   };
@@ -559,9 +631,9 @@ ${hostHtml(s, lang)}`;
 const LANG_KEYS = Object.keys(LANGS);
 
 function buildHome() {
-  for (const lang of LANG_KEYS) {
+  for (const lang of BASE_LANGS) {
     const canonical = DOMAIN + homePath(lang);
-    const alternates = altUrls((k) => homePath(k));
+    const alternates = altUrls((k) => homePath(k), BASE_LANGS);
     const xDefault = homePath('zh-TW');
 
     let title, desc, ogImage, jsonLd, body;
@@ -607,7 +679,7 @@ function buildHome() {
 ${headHtml}
 </head>
 <body>
-${nav(lang, (k) => homePath(k))}
+${nav(lang, (k) => homePath(k), BASE_LANGS)}
 ${body}
 ${footer(lang)}
 ${stickyBarHtml(lang)}
@@ -624,11 +696,11 @@ ${bodyScripts()}
 function buildSeriesPages() {
   if (SINGLE_SERIES) return;
   for (const s of seriesList) {
-    for (const lang of LANG_KEYS) {
+    for (const lang of BASE_LANGS) {
       const title = `${seriesName(s, lang)} — ${podcastName(lang)}`;
       const desc = seriesDesc(s, lang);
       const canonical = DOMAIN + seriesPath(s, lang);
-      const alternates = altUrls((k) => seriesPath(s, k));
+      const alternates = altUrls((k) => seriesPath(s, k), BASE_LANGS);
       const faqLd = seriesFaqJsonLd(s, lang);
       const jsonLd = [
         `<script type="application/ld+json">${seriesJsonLd(s, lang)}</script>`,
@@ -642,7 +714,7 @@ function buildSeriesPages() {
 ${headHtml}
 </head>
 <body>
-${nav(lang, (k) => seriesPath(s, k))}
+${nav(lang, (k) => seriesPath(s, k), BASE_LANGS)}
 ${seriesBody(s, lang, true)}
 ${footer(lang)}
 ${stickyBarHtml(lang)}
@@ -666,13 +738,17 @@ function buildEpisodePages() {
       const nextEp = epsOrdered[epsIdx - 1];
       const twTranscript = fs.readFileSync(path.join(CONTENT, ep.slug, 'transcript.txt'), 'utf8');
       const cnTranscript = t2s(twTranscript);
+      const langs = epLangs(s, ep);
+      const enTranscript = langs.includes('en')
+        ? fs.readFileSync(path.join(CONTENT, ep.slug, 'transcript.en.txt'), 'utf8')
+        : null;
 
-      for (const lang of LANG_KEYS) {
+      for (const lang of langs) {
         const title = `${epTitle(ep, lang)} — ${seriesName(s, lang)}`;
         const fullIntro = epIntro(ep, lang);
         const desc = fullIntro.slice(0, 160);
         const canonical = DOMAIN + epPath(s, ep, lang);
-        const alternates = altUrls((k) => epPath(s, ep, k));
+        const alternates = altUrls((k) => epPath(s, ep, k), langs);
         const faqLd = epFaqJsonLd(s, ep, lang);
         const jsonLd = [
           `<script type="application/ld+json">${episodeJsonLd(s, ep, lang)}</script>`,
@@ -682,14 +758,16 @@ function buildEpisodePages() {
         ].filter(Boolean).join('\n');
         const headHtml = head({ lang, title, description: desc, ogDescription: fullIntro, canonical, ogImage: ep.cover, isEpisode: true, jsonLd, alternates, xDefault: epPath(s, ep, 'zh-TW'), youtube: ep.youtube });
 
-        const transcriptText = lang === 'zh-TW' ? twTranscript : cnTranscript;
+        const transcriptText = lang === 'en' ? enTranscript : (lang === 'zh-TW' ? twTranscript : cnTranscript);
         const transcriptHtml = formatTranscript(transcriptText);
 
         const kp = epKp(ep, lang).map((k) => `<li>${esc(k)}</li>`).join('\n');
         const outline = epOutline(ep, lang).map((o) => `<li><span>${esc(o.title)}</span><span class="o-time">${esc(o.time)}</span></li>`).join('\n');
 
-        const epNavPrev = prevEp ? `<a class="ep-nav prev" href="${epPath(s, prevEp, lang)}"><img class="ep-nav-cover" src="${prevEp.cover}" alt="${esc(epTitle(prevEp, lang))}"><span class="ep-nav-text"><small>← ${UI[lang].prevEpisode} · Ep. ${prevEp.episodeNumber}</small><strong>${esc(epTitle(prevEp, lang))}</strong></span></a>` : '';
-        const epNavNext = nextEp ? `<a class="ep-nav next" href="${epPath(s, nextEp, lang)}"><span class="ep-nav-text"><small>${UI[lang].nextEpisode} · Ep. ${nextEp.episodeNumber} →</small><strong>${esc(epTitle(nextEp, lang))}</strong></span><img class="ep-nav-cover" src="${nextEp.cover}" alt="${esc(epTitle(nextEp, lang))}"></a>` : '';
+        const prevOk = prevEp && (lang !== 'en' || epLangs(s, prevEp).includes('en'));
+        const nextOk = nextEp && (lang !== 'en' || epLangs(s, nextEp).includes('en'));
+        const epNavPrev = prevOk ? `<a class="ep-nav prev" href="${epPath(s, prevEp, lang)}"><img class="ep-nav-cover" src="${prevEp.cover}" alt="${esc(epTitle(prevEp, lang))}"><span class="ep-nav-text"><small>← ${UI[lang].prevEpisode} · Ep. ${prevEp.episodeNumber}</small><strong>${esc(epTitle(prevEp, lang))}</strong></span></a>` : '';
+        const epNavNext = nextOk ? `<a class="ep-nav next" href="${epPath(s, nextEp, lang)}"><span class="ep-nav-text"><small>${UI[lang].nextEpisode} · Ep. ${nextEp.episodeNumber} →</small><strong>${esc(epTitle(nextEp, lang))}</strong></span><img class="ep-nav-cover" src="${nextEp.cover}" alt="${esc(epTitle(nextEp, lang))}"></a>` : '';
         const epNav = (epNavPrev || epNavNext) ? `<nav class="episode-nav" aria-label="${esc(UI[lang].episodes)}">${epNavPrev}${epNavNext}</nav>` : '';
 
         const html = `<!DOCTYPE html>
@@ -698,11 +776,11 @@ function buildEpisodePages() {
 ${headHtml}
 </head>
 <body>
-${nav(lang, (k) => epPath(s, ep, k))}
+${nav(lang, (k) => epPath(s, ep, k), langs)}
 
 <section class="episode-hero">
   <div class="episode-hero-inner">
-    <nav class="breadcrumbs"><a href="${homePath(lang)}">${esc(UI[lang].podcast)}</a> / <a href="${SINGLE_SERIES ? homePath(lang) : seriesPath(s, lang)}">${esc(seriesName(s, lang))}</a> / <span>${esc(epTitle(ep, lang))}</span></nav>
+    <nav class="breadcrumbs"><a href="${linkHome(lang)}">${esc(UI[lang].podcast)}</a> / <a href="${SINGLE_SERIES ? linkHome(lang) : linkSeries(s, lang)}">${esc(seriesName(s, lang))}</a> / <span>${esc(epTitle(ep, lang))}</span></nav>
     <h1>${esc(epTitle(ep, lang))}</h1>
     <div class="episode-meta">
       <span>${UI[lang].hosts}：${esc(ep.hosts.join(' · '))}</span>
@@ -768,7 +846,7 @@ ${nav(lang, (k) => epPath(s, ep, k))}
   ${epNav}
 
   <div style="margin-top:28px;">
-    <a href="${SINGLE_SERIES ? homePath(lang) : seriesPath(s, lang)}" style="font-family:var(--font-serif);font-weight:600;">← ${UI[lang].backToSeries}</a>
+    <a href="${SINGLE_SERIES ? linkHome(lang) : linkSeries(s, lang)}" style="font-family:var(--font-serif);font-weight:600;">← ${UI[lang].backToSeries}</a>
   </div>
 
   ${appIntroHtml(lang)}
@@ -793,17 +871,18 @@ function buildSitemap() {
   const urls = [];
   const add = (loc, alts, video) => urls.push({ loc, alts, video: video || '' });
 
-  for (const lang of LANG_KEYS) add(DOMAIN + homePath(lang), altUrls((k) => homePath(k)));
+  for (const lang of BASE_LANGS) add(DOMAIN + homePath(lang), altUrls((k) => homePath(k), BASE_LANGS));
   for (const s of seriesList) {
     if (!SINGLE_SERIES) {
-      for (const lang of LANG_KEYS) add(DOMAIN + seriesPath(s, lang), altUrls((k) => seriesPath(s, k)));
+      for (const lang of BASE_LANGS) add(DOMAIN + seriesPath(s, lang), altUrls((k) => seriesPath(s, k), BASE_LANGS));
     }
     for (const ep of episodesOrdered(s)) {
-      for (const lang of LANG_KEYS) {
+      const langs = epLangs(s, ep);
+      for (const lang of langs) {
         const video = (lang === 'zh-TW' && ep.youtube)
           ? videoSitemapEntry(s, ep)
           : '';
-        add(DOMAIN + epPath(s, ep, lang), altUrls((k) => epPath(s, ep, k)), video);
+        add(DOMAIN + epPath(s, ep, lang), altUrls((k) => epPath(s, ep, k), langs), video);
       }
     }
   }

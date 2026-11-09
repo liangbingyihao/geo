@@ -3,8 +3,10 @@
   "podcast": {
     "titleTw": "恩語播客",
     "titleCn": "恩语播客",
+    "titleEn": "GraceWord Podcast",
     "descTw": "一檔關於「信仰 × 科技」的對話節目，探討信徒如何在數位時代與神同行——拆解對 AI 的疑惑與焦慮，建立「人主導工具」的屬靈觀念。",
     "descCn": "一档关于「信仰 × 科技」的对话节目，探讨信徒如何在数字时代与神同行——拆解对 AI 的疑惑与焦虑，建立「人主导工具」的属灵观念。",
+    "descEn": "A conversation show about faith × technology—exploring how believers can walk with God in the digital age, untangling our questions and anxieties about AI, and building a biblical vision of 'people leading tools.'",
     "cover": "https://cdn.grace-word.com/podcast/sojdai/sojdai01.jpg"
   },
   "series": [
@@ -12,10 +14,13 @@
       "slug": "ai-era-jesus",
       "nameTw": "A.I.時代講耶穌",
       "nameCn": "AI时代讲耶稣",
+      "nameEn": "A.I. Era Jesus",
       "descTw": "本輯節目聚焦AI時代基督徒的處境，透過探討AI查經、職場生存、親子教養、靈修安息、福音傳播與教會事工等議題，拆解AI帶來的便利與陷阱，通過實際例子，講解如何善用工具，同時守住信仰底線，明白AI只係輔助，不能取代人與神真實的關係，幫助信徒在科技浪潮中紮根真理，抓住與神同行這個AI無法替代的生命經歷！",
+      "descEn": "This series focuses on the situation of Christians in the AI era. Through topics such as AI-assisted Bible study, surviving the workplace, parenting, devotional rest, evangelism, and church ministry, it unpacks both the convenience and the traps AI brings. With real examples, it explains how to use tools well while holding the line of faith—understanding that AI is only a helper and can never replace a real relationship between people and God. It helps believers take root in the truth amid the waves of technology and hold on to walking with God—a life experience AI cannot replace.",
       "descCn": "本辑节目聚焦AI时代基督徒的处境，透过探讨AI查经、职场生存、亲子教养、灵修安息、福音传播与教会事工等议题，拆解AI带来的便利与陷阱，通过实际例子，讲解如何善用工具，同时守住信仰底线，明白AI只系辅助，不能取代人与神真实的关系，帮助信徒在科技浪潮中扎根真理，抓住与神同行这个AI无法替代的生命经历！",
       "taglineTw": "❤ 在科技浪潮中與神同行 ❤",
       "taglineCn": "❤ 在科技浪潮中与神同行 ❤",
+      "taglineEn": "❤ Walking with God through the waves of technology ❤",
       "language": "yue",
       "cover": "https://cdn.grace-word.com/podcast/sojdai/sojdai01.jpg",
       "artwork": "https://cdn.grace-word.com/podcast/sojdai/sojdai.jpg",
@@ -26,6 +31,7 @@
           "roleCn": "主持人",
           "bioTw": "Sandy 曾於北上廣深港工作，擁有超十年互聯網行業經驗。歷經傳統媒體、互聯網、AI 三個時代，先後任職跨國廣告公司、互聯網大廠、金融業等。用上帝帶領走過的經驗，結合最新的 AI 科技，開發了基督教正統框架內的靈修工具「恩語」，希望能用最新的科技，幫助基督徒更親近神，看到上帝每天同在的恩典。分享內容兼具行業實戰與基督徒真實信仰生活的雙重視角。",
           "bioCn": "Sandy 曾于北上广深港工作，拥有超十年互联网行业经验。历经传统媒体、互联网、AI 三个时代，先后任职跨国广告公司、互联网大厂、金融业等。用上帝带领走过的经验，结合最新的 AI 科技，开发了基督教正统框架内的灵修工具「恩语」，希望能用最新的科技，帮助基督徒更亲近神，看到上帝每天同在的恩典。分享内容兼具行业实战与基督徒真实信仰生活的双重视角。",
+          "bioEn": "Sandy has worked across Beijing, Shanghai, Guangzhou, Shenzhen and Hong Kong, with over ten years in the internet industry across traditional media, the internet, and the AI era—at multinational ad agencies, major internet companies, and in finance. Drawing on that experience, she built GraceWord, a devotional tool grounded in orthodox Christian teaching, hoping to help Christians draw nearer to God and see His everyday grace. Her sharing brings together industry experience and the perspective of everyday Christian faith.",
           "avatar": ""
         },
         {
@@ -34,6 +40,7 @@
           "roleCn": "主持人",
           "bioTw": "《A.I.時代講耶穌》主持人，Soooradio 電台主持。Soooradio 事工始於 2017 年，是一家建基於基督教價值觀、以信仰為視野的電台（香港遠東廣播屬下），立志服侍香港教會與社會，成為「香港人的基督教電台」；至今已培訓逾 300 位信徒、製作超過 300 個節目、共 6,000 多集。2022 年更創立 Sooopodcast，在全球十多個 Podcast 平台每週播放節目——每一個都是「有故事的聲音」。",
           "bioCn": "《AI时代讲耶稣》主持人，Soooradio 电台主持。Soooradio 事工始于 2017 年，是一家建基于基督教价值观、以信仰为视野的电台（香港远东广播属下），立志服侍香港教会与社会，成为「香港人的基督教电台」；至今已培训逾 300 位信徒、制作超过 300 个节目、共 6,000 多集。2022 年更创立 Sooopodcast，在全球十多个 Podcast 平台每周播放节目——每一个都是「有故事的声音」。",
+          "bioEn": "Host of A.I. Era Jesus and a presenter at Soooradio, a Christian radio ministry founded in 2017 under Far East Broadcasting (Hong Kong). Soooradio serves Hong Kong's churches and society; it has trained over 300 believers and produced more than 300 programs and 6,000+ episodes, and in 2022 launched Sooopodcast, airing weekly on more than a dozen podcast platforms—'every one a voice with a story.'",
           "link": "https://soooradio.net/info/",
           "avatar": "https://soooradio.net/wp-content/uploads/2019/01/cropped-cropped-Soooradio_logo_app-6-192x192.png"
         }
@@ -775,6 +782,7 @@
           "audio": "https://cdn.grace-word.com/podcast/sojdai/sojdai05.mp3",
           "audioSize": 18956373,
           "cover": "https://cdn.grace-word.com/podcast/sojdai/sojdai05.jpg",
+          "sourceUrl": "https://soooradio.net/blog/ai%e6%99%82%e4%bb%a3%e8%ac%9b%e8%80%b6%e7%a9%8c05/",
           "introTw": "靈修時明明很有感動，一轉頭卻忘記得差不多；想記錄又不知從何寫起，寫了又找不回——這是很多弟兄姊妹的共鳴。寫靈修筆記、感恩記錄，對信仰成長究竟有什麼作用？用 AI 或 App 記錄靈修，會不會不夠虔誠、變成冷冰冰的數據？本集 Sandy 以她做恩語的實戰經驗，分享如何用 AI 高效地「恩典留痕」：寫下來的過程如何逼自己默想、消化神的話語，對抗人性容易遺忘恩典的弱點，留存禱告與神應允的見證，並守住「AI 負責整理、你負責注入生命情感」的原則。",
           "introCn": "灵修时明明很有感动，一转头却忘记得差不多；想记录又不知从何写起，写了又找不回——这是很多弟兄姊妹的共鸣。写灵修笔记、感恩记录，对信仰成长究竟有什么作用？用 AI 或 App 记录灵修，会不会不够虔诚、变成冷冰冰的数据？本集 Sandy 以她做恩语的实战经验，分享如何用 AI 高效地「恩典留痕」：写下来的过程如何逼自己默想、消化神的话语，对抗人性容易遗忘恩典的弱点，留存祷告与神应允的见证，并守住「AI 负责整理、你负责注入生命情感」的原则。",
           "keyPointsTw": [
@@ -918,6 +926,7 @@
           "slug": "ai-anxiety-to-rest",
           "episodeNumber": 6,
           "published": true,
+          "youtube": "PYKdMnZ9kaU",
           "titleTw": "從「焦慮」到「安息」——AI 能幫我們「卸下重擔」嗎？",
           "titleCn": "从「焦虑」到「安息」——AI 能帮我们「卸下重担」吗？",
           "hosts": [
@@ -1083,6 +1092,85 @@
             {
               "ref": "马太福音 11:28",
               "text": "凡劳苦担重担的人，可以到我这里来，我就使你们得安息。"
+            }
+          ],
+          "titleEn": "From Anxiety to Rest — Can AI Help Us Lay Down Our Burdens?",
+          "durationLabelEn": "26 min",
+          "introEn": "Anxiety is not just a feeling—it's a burden many carry every day: lying awake at night, a weight on the chest, and in the age of AI even the question “will my job still be here tomorrow?” adds to the worry. AI can help us organize our thoughts and break problems down, but it will never pray for us. In this episode Sandy shares—from big-tech to startup life—how to use AI to sort through anxiety without spiralling, and how to move from “breaking it down with AI” to “surrendering it to God,” recovering true rest for the AI age: quiet prayer, counting grace, and walking with brothers and sisters.",
+          "keyPointsEn": [
+            "AI can help you “dump” your worries by voice and break them down item by item, helping you step back objectively—much of our anxiety comes from blowing things up in our minds when we already have a budget and a backup plan.",
+            "After breaking things down, the most important step is prayerful surrender: “Casting all your care upon him; for he careth for you.” (1 Peter 5:7) AI will never pray for you.",
+            "Don't use AI to numb yourself: endlessly asking for “a few more options” is really procrastination. After using AI to organize, always take the non-skippable step of prayerful surrender.",
+            "The foundation of rest is the spiritual disciplines AI cannot take away: daily quiet prayer, counting God's grace, and gathering with brothers and sisters at church—and when anxiety is overwhelming, reach out instead of isolating yourself."
+          ],
+          "outlineEn": [
+            {
+              "title": "Introduction",
+              "time": "00:00–02:00"
+            },
+            {
+              "title": "Topic 1　Can AI help organize our thoughts and break down problems?",
+              "time": "~6–7 min"
+            },
+            {
+              "title": "Topic 2　AI helps you “step back,” but only God can receive your surrender",
+              "time": "~6–7 min"
+            },
+            {
+              "title": "Topic 3　Don't use AI to numb yourself—always pray afterward",
+              "time": "~4–5 min"
+            },
+            {
+              "title": "Topic 4　When anxiety overwhelms, reach out to brothers and sisters",
+              "time": "~3–4 min"
+            },
+            {
+              "title": "Topic 5　The spiritual disciplines AI cannot take away (quiet prayer / counting grace / church)",
+              "time": "~3–4 min"
+            },
+            {
+              "title": "Conclusion & blessing",
+              "time": "—"
+            }
+          ],
+          "faqEn": [
+            {
+              "q": "Can AI help with anxiety from a Christian perspective?",
+              "a": "Yes—AI can help you dump your worries by voice and break them down item by item, helping you step back and see the problem objectively. But after breaking things down, the most important step is prayerful surrender: “Casting all your care upon him; for he careth for you” (1 Peter 5:7). AI can make a list, but it will never pray for you."
+            },
+            {
+              "q": "Is it wrong for Christians to use AI to process their emotions or worries?",
+              "a": "No. AI is only a tool—like a calculator or a notebook. The problem is not using it, but using it to numb yourself or to avoid facing reality. Keep the order right: use AI to organize your thoughts, then pray and surrender to God, and act according to His leading."
+            },
+            {
+              "q": "What does the Bible mean by “casting all your care upon him” (1 Peter 5:7)?",
+              "a": "It is an act of faith: you consciously hand over what you cannot control to a God who cares for you. AI can help with the part you can control (data, plans, risks), but the part you cannot control can only be held by God."
+            },
+            {
+              "q": "How do I stop using AI as an emotional escape or to avoid facing problems?",
+              "a": "Set a rule: after using AI to sort out your thoughts, there must be a step of prayerful surrender that you do not skip. Endlessly asking AI for “a few more options” is really procrastination. AI is a helper, not an emotional safe haven; our security comes from God, not from AI's perfect plan."
+            },
+            {
+              "q": "What should I do when anxiety is so heavy that even prayer feels impossible?",
+              "a": "Reach out to brothers and sisters. “Two are better than one” (Ecclesiastes 4:9). Anxiety fears being trapped by yourself; once you speak it out, the burden is already half as light. AI, plans, and even your own wisdom have limits, but God's grace has no limit."
+            },
+            {
+              "q": "Which spiritual disciplines can AI never replace?",
+              "a": "Three foundations of rest: (1) a fixed daily quiet time of prayer—turn off your phone and sit before God; (2) counting God's grace—write down one thing you are thankful for each day; (3) going to church to worship and surrender together with brothers and sisters. Rest is not “being alone for a while,” but knowing God is in control and that you have companions."
+            }
+          ],
+          "versesEn": [
+            {
+              "ref": "1 Peter 5:7 (KJV)",
+              "text": "Casting all your care upon him; for he careth for you."
+            },
+            {
+              "ref": "Matthew 11:28 (KJV)",
+              "text": "Come unto me, all ye that labour and are heavy laden, and I will give you rest."
+            },
+            {
+              "ref": "Ecclesiastes 4:9 (KJV)",
+              "text": "Two are better than one; because they have a good reward for their labour."
             }
           ]
         },
