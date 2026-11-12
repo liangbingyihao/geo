@@ -1,0 +1,18 @@
+import type { Metadata } from "next";
+import HomePage from "@/components/pages/HomePage";
+import { getUiText } from "@/data/i18n";
+import { buildMetadata } from "@/lib/seo";
+
+const text = getUiText("en");
+
+export const metadata: Metadata = buildMetadata({
+  locale: "en",
+  path: "/",
+  title: text.meta.homeTitle,
+  description: text.meta.homeDescription,
+  siteName: text.meta.siteName,
+});
+
+export default function Page() {
+  return <HomePage locale="en" />;
+}

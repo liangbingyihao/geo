@@ -1,0 +1,662 @@
+{
+  "annunciation": {
+    "hint": {
+      "zh-Hant": {
+        "ref": "路加福音 1:38",
+        "text": "馬利亞說：「我是主的使女，情願照你的話成就在我身上。」天使就離開她去了。"
+      },
+      "en": {
+        "ref": "Luke 1:38",
+        "text": "Mary said, “Behold, the handmaid of the Lord; be it to me according to your word.” The angel departed from her."
+      }
+    },
+    "key": {
+      "zh-Hant": {
+        "ref": "路加福音 1:31",
+        "text": "你要懷孕生子，可以給他起名叫耶穌。"
+      },
+      "en": {
+        "ref": "Luke 1:31",
+        "text": "Behold, you will conceive in your womb, and give birth to a son, and will call his name ‘Jesus.’"
+      }
+    }
+  },
+  "visitation": {
+    "hint": {
+      "zh-Hant": {
+        "ref": "路加福音 1:42",
+        "text": "高聲喊著說：「你在婦女中是有福的！你所懷的胎也是有福的！"
+      },
+      "en": {
+        "ref": "Luke 1:42",
+        "text": "She called out with a loud voice, and said, “Blessed are you among women, and blessed is the fruit of your womb!"
+      }
+    },
+    "key": {
+      "zh-Hant": {
+        "ref": "路加福音 1:45",
+        "text": "這相信的女子是有福的！因為主對她所說的話都要應驗。」"
+      },
+      "en": {
+        "ref": "Luke 1:45",
+        "text": "Blessed is she who believed, for there will be a fulfillment of the things which have been spoken to her from the Lord!”"
+      }
+    }
+  },
+  "nativity": {
+    "hint": {
+      "zh-Hant": {
+        "ref": "路加福音 2:7",
+        "text": "就生了頭胎的兒子，用布包起來，放在馬槽裡，因為客店裡沒有地方。"
+      },
+      "en": {
+        "ref": "Luke 2:7",
+        "text": "She gave birth to her firstborn son. She wrapped him in bands of cloth, and laid him in a feeding trough, because there was no room for them in the inn."
+      }
+    },
+    "key": {
+      "zh-Hant": {
+        "ref": "路加福音 2:11",
+        "text": "因今天在大衛的城裡，為你們生了救主，就是主基督。"
+      },
+      "en": {
+        "ref": "Luke 2:11",
+        "text": "For there is born to you, this day, in the city of David, a Savior, who is Christ the Lord."
+      }
+    }
+  },
+  "magi": {
+    "hint": {
+      "zh-Hant": {
+        "ref": "馬太福音 2:2",
+        "text": "「那生下來作猶太人之王的在哪裡？我們在東方看見他的星，特來拜他。」"
+      },
+      "en": {
+        "ref": "Matthew 2:2",
+        "text": "“Where is he who is born King of the Jews? For we saw his star in the east, and have come to worship him.”"
+      }
+    },
+    "key": {
+      "zh-Hant": {
+        "ref": "馬太福音 2:11",
+        "text": "進了房子，看見小孩子和他母親馬利亞，就俯伏拜那小孩子，揭開寶盒，拿黃金、乳香、沒藥為禮物獻給他。"
+      },
+      "en": {
+        "ref": "Matthew 2:11",
+        "text": "They came into the house and saw the young child with Mary, his mother, and they fell down and worshiped him. Opening their treasures, they offered to him gifts: gold, frankincense, and myrrh."
+      }
+    }
+  },
+  "flight_egypt": {
+    "hint": {
+      "zh-Hant": {
+        "ref": "馬太福音 2:13",
+        "text": "他們去後，有主的使者向約瑟夢中顯現，說：「起來！帶著小孩子同他母親逃往埃及，住在那裡，等我吩咐你；因為希律必尋找小孩子，要除滅他。」"
+      },
+      "en": {
+        "ref": "Matthew 2:13",
+        "text": "Now when they had departed, behold, an angel of the Lord appeared to Joseph in a dream, saying, “Arise and take the young child and his mother, and flee into Egypt, and stay there until I tell you, for Herod will seek the young child to destroy him.”"
+      }
+    },
+    "key": {
+      "zh-Hant": {
+        "ref": "馬太福音 2:15",
+        "text": "住在那裡，直到希律死了。這是要應驗主藉先知所說的話，說：「我從埃及召出我的兒子來。」"
+      },
+      "en": {
+        "ref": "Matthew 2:15",
+        "text": "and was there until the death of Herod; that it might be fulfilled which was spoken by the Lord through the prophet, saying, “Out of Egypt I called my son.”"
+      }
+    }
+  },
+  "baptism": {
+    "hint": {
+      "zh-Hant": {
+        "ref": "馬太福音 3:16",
+        "text": "耶穌受了洗，隨即從水裡上來。天忽然為他開了，他就看見神的靈彷彿鴿子降下，落在他身上。"
+      },
+      "en": {
+        "ref": "Matthew 3:16",
+        "text": "Jesus, when he was baptized, went up directly from the water: and behold, the heavens were opened to him. He saw the Spirit of God descending as a dove, and coming on him."
+      }
+    },
+    "key": {
+      "zh-Hant": {
+        "ref": "馬太福音 3:17",
+        "text": "從天上有聲音說：「這是我的愛子，我所喜悅的。」"
+      },
+      "en": {
+        "ref": "Matthew 3:17",
+        "text": "Behold, a voice out of the heavens said, “This is my beloved Son, with whom I am well pleased.”"
+      }
+    }
+  },
+  "temptation": {
+    "hint": {
+      "zh-Hant": {
+        "ref": "馬太福音 4:4",
+        "text": "耶穌卻回答說：「經上記著說：人活著，不是單靠食物，乃是靠神口裡所出的一切話。」"
+      },
+      "en": {
+        "ref": "Matthew 4:4",
+        "text": "But he answered, “It is written, ‘Man shall not live by bread alone, but by every word that proceeds out of the mouth of God.’”"
+      }
+    },
+    "key": {
+      "zh-Hant": {
+        "ref": "馬太福音 4:10",
+        "text": "耶穌說：「撒但（就是抵擋的意思，乃魔鬼的別名），退去吧！因為經上記著說：當拜主－你的神，單要事奉他。」"
+      },
+      "en": {
+        "ref": "Matthew 4:10",
+        "text": "Then Jesus said to him, “Get behind me,Satan! For it is written, ‘You shall worship the Lord your God, and you shall serve him only.’”"
+      }
+    }
+  },
+  "cana": {
+    "hint": {
+      "zh-Hant": {
+        "ref": "約翰福音 2:7",
+        "text": "耶穌對用人說：「把缸倒滿了水。」他們就倒滿了，直到缸口。"
+      },
+      "en": {
+        "ref": "John 2:7",
+        "text": "Jesus said to them, “Fill the water pots with water.” They filled them up to the brim."
+      }
+    },
+    "key": {
+      "zh-Hant": {
+        "ref": "約翰福音 2:11",
+        "text": "這是耶穌所行的頭一件神蹟，是在加利利的迦拿行的，顯出他的榮耀來；他的門徒就信他了。"
+      },
+      "en": {
+        "ref": "John 2:11",
+        "text": "This beginning of his signs Jesus did in Cana of Galilee, and revealed his glory; and his disciples believed in him."
+      }
+    }
+  },
+  "calling_peter": {
+    "hint": {
+      "zh-Hant": {
+        "ref": "馬太福音 4:19",
+        "text": "耶穌對他們說：「來跟從我，我要叫你們得人如得魚一樣。」"
+      },
+      "en": {
+        "ref": "Matthew 4:19",
+        "text": "He said to them, “Come after me, and I will make you fishers for men.”"
+      }
+    },
+    "key": {
+      "zh-Hant": {
+        "ref": "馬太福音 4:20",
+        "text": "他們就立刻捨了網，跟從了他。"
+      },
+      "en": {
+        "ref": "Matthew 4:20",
+        "text": "They immediately left their nets and followed him."
+      }
+    }
+  },
+  "calling_matthew": {
+    "hint": {
+      "zh-Hant": {
+        "ref": "馬太福音 9:9",
+        "text": "耶穌從那裡往前走，看見一個人名叫馬太，坐在稅關上，就對他說：「你跟從我來。」他就起來跟從了耶穌。"
+      },
+      "en": {
+        "ref": "Matthew 9:9",
+        "text": "As Jesus passed by from there, he saw a man called Matthew sitting at the tax collection office. He said to him, “Follow me.” He got up and followed him."
+      }
+    },
+    "key": {
+      "zh-Hant": {
+        "ref": "馬太福音 9:13",
+        "text": "經上說：『我喜愛憐恤，不喜愛祭祀。』這句話的意思，你們且去揣摩。我來本不是召義人，乃是召罪人。」"
+      },
+      "en": {
+        "ref": "Matthew 9:13",
+        "text": "But you go and learn what this means: ‘I desire mercy, and not sacrifice,’for I came not to call the righteous, but sinners to repentance.”"
+      }
+    }
+  },
+  "sermon": {
+    "hint": {
+      "zh-Hant": {
+        "ref": "馬太福音 5:3",
+        "text": "虛心的人有福了！因為天國是他們的。"
+      },
+      "en": {
+        "ref": "Matthew 5:3",
+        "text": "“Blessed are the poor in spirit, for theirs is the Kingdom of Heaven."
+      }
+    },
+    "key": {
+      "zh-Hant": {
+        "ref": "馬太福音 5:16",
+        "text": "你們的光也當這樣照在人前，叫他們看見你們的好行為，便將榮耀歸給你們在天上的父。」"
+      },
+      "en": {
+        "ref": "Matthew 5:16",
+        "text": "Even so, let your light shine before men; that they may see your good works, and glorify your Father who is in heaven."
+      }
+    }
+  },
+  "good_samaritan": {
+    "hint": {
+      "zh-Hant": {
+        "ref": "路加福音 10:33",
+        "text": "惟有一個撒馬利亞人行路來到那裡，看見他就動了慈心，"
+      },
+      "en": {
+        "ref": "Luke 10:33",
+        "text": "But a certain Samaritan, as he traveled, came where he was. When he saw him, he was moved with compassion,"
+      }
+    },
+    "key": {
+      "zh-Hant": {
+        "ref": "路加福音 10:37",
+        "text": "他說：「是憐憫他的。」耶穌說：「你去照樣行吧。」"
+      },
+      "en": {
+        "ref": "Luke 10:37",
+        "text": "He said, “He who showed mercy on him.” Then Jesus said to him, “Go and do likewise.”"
+      }
+    }
+  },
+  "storm": {
+    "hint": {
+      "zh-Hant": {
+        "ref": "馬可福音 4:39",
+        "text": "耶穌醒了，斥責風，向海說：「住了吧！靜了吧！」風就止住，大大地平靜了。"
+      },
+      "en": {
+        "ref": "Mark 4:39",
+        "text": "He awoke, and rebuked the wind, and said to the sea, “Peace! Be still!” The wind ceased, and there was a great calm."
+      }
+    },
+    "key": {
+      "zh-Hant": {
+        "ref": "馬可福音 4:41",
+        "text": "他們就大大地懼怕，彼此說：「這到底是誰，連風和海也聽從他了。」"
+      },
+      "en": {
+        "ref": "Mark 4:41",
+        "text": "They were greatly afraid, and said to one another, “Who then is this, that even the wind and the sea obey him?”"
+      }
+    }
+  },
+  "feed5000": {
+    "hint": {
+      "zh-Hant": {
+        "ref": "約翰福音 6:11",
+        "text": "耶穌拿起餅來，祝謝了，就分給那坐著的人；分魚也是這樣，都隨著他們所要的。"
+      },
+      "en": {
+        "ref": "John 6:11",
+        "text": "Jesus took the loaves; and having given thanks, he distributed to the disciples, and the disciples to those who were sitting down; likewise also of the fish as much as they desired."
+      }
+    },
+    "key": {
+      "zh-Hant": {
+        "ref": "約翰福音 6:14",
+        "text": "眾人看見耶穌所行的神蹟，就說：「這真是那要到世間來的先知！」"
+      },
+      "en": {
+        "ref": "John 6:14",
+        "text": "When therefore the people saw the sign which Jesus did, they said, “This is truly the prophet who comes into the world.”"
+      }
+    }
+  },
+  "walk_water": {
+    "hint": {
+      "zh-Hant": {
+        "ref": "馬太福音 14:29",
+        "text": "耶穌說：「你來吧。」彼得就從船上下去，在水面上走，要到耶穌那裡去；"
+      },
+      "en": {
+        "ref": "Matthew 14:29",
+        "text": "He said, “Come!” Peter stepped down from the boat, and walked on the waters to come to Jesus."
+      }
+    },
+    "key": {
+      "zh-Hant": {
+        "ref": "馬太福音 14:31",
+        "text": "耶穌趕緊伸手拉住他，說：「你這小信的人哪，為甚麼疑惑呢？」"
+      },
+      "en": {
+        "ref": "Matthew 14:31",
+        "text": "Immediately Jesus stretched out his hand, took hold of him, and said to him, “You of little faith, why did you doubt?”"
+      }
+    }
+  },
+  "blind": {
+    "hint": {
+      "zh-Hant": {
+        "ref": "約翰福音 9:7",
+        "text": "對他說：「你往西羅亞池子裡去洗。」（西羅亞翻出來就是「奉差遣」。）他去一洗，回頭就看見了。"
+      },
+      "en": {
+        "ref": "John 9:7",
+        "text": "and said to him, “Go, wash in the pool of Siloam” (which means “Sent”). So he went away, washed, and came back seeing."
+      }
+    },
+    "key": {
+      "zh-Hant": {
+        "ref": "約翰福音 9:25",
+        "text": "他說：「他是個罪人不是，我不知道；有一件事我知道，從前我是眼瞎的，如今能看見了。」"
+      },
+      "en": {
+        "ref": "John 9:25",
+        "text": "He therefore answered, “I don’t know if he is a sinner. One thing I do know: that though I was blind, now I see.”"
+      }
+    }
+  },
+  "lazarus": {
+    "hint": {
+      "zh-Hant": {
+        "ref": "約翰福音 11:43",
+        "text": "說了這話，就大聲呼叫說：「拉撒路出來！」"
+      },
+      "en": {
+        "ref": "John 11:43",
+        "text": "When he had said this, he cried with a loud voice, “Lazarus, come out!”"
+      }
+    },
+    "key": {
+      "zh-Hant": {
+        "ref": "約翰福音 11:25",
+        "text": "耶穌對她說：「復活在我，生命也在我。信我的人雖然死了，也必復活；"
+      },
+      "en": {
+        "ref": "John 11:25",
+        "text": "Jesus said to her, “I am the resurrection and the life. He who believes in me will still live, even if he dies."
+      }
+    }
+  },
+  "last_supper": {
+    "hint": {
+      "zh-Hant": {
+        "ref": "路加福音 22:19",
+        "text": "又拿起餅來，祝謝了，就擘開，遞給他們，說：「這是我的身體，為你們捨的，你們也應當如此行，為的是記念我。」"
+      },
+      "en": {
+        "ref": "Luke 22:19",
+        "text": "He took bread, and when he had given thanks, he broke it, and gave to them, saying, “This is my body which is given for you. Do this in memory of me.”"
+      }
+    },
+    "key": {
+      "zh-Hant": {
+        "ref": "路加福音 22:20",
+        "text": "飯後也照樣拿起杯來，說：「這杯是用我血所立的新約，是為你們流出來的。"
+      },
+      "en": {
+        "ref": "Luke 22:20",
+        "text": "Likewise, he took the cup after supper, saying, “This cup is the new covenant in my blood, which is poured out for you."
+      }
+    }
+  },
+  "gethsemane": {
+    "hint": {
+      "zh-Hant": {
+        "ref": "馬太福音 26:39",
+        "text": "他就稍往前走，俯伏在地，禱告說：「我父啊，倘若可行，求你叫這杯離開我。然而，不要照我的意思，只要照你的意思。」"
+      },
+      "en": {
+        "ref": "Matthew 26:39",
+        "text": "He went forward a little, fell on his face, and prayed, saying, “My Father, if it is possible, let this cup pass away from me; nevertheless, not what I desire, but what you desire.”"
+      }
+    },
+    "key": {
+      "zh-Hant": {
+        "ref": "馬太福音 26:42",
+        "text": "第二次又去禱告說：「我父啊，這杯若不能離開我，必要我喝，就願你的意旨成全。」"
+      },
+      "en": {
+        "ref": "Matthew 26:42",
+        "text": "Again, a second time he went away, and prayed, saying, “My Father, if this cup can’t pass away from me unless I drink it, your desire be done.”"
+      }
+    }
+  },
+  "crucifixion": {
+    "hint": {
+      "zh-Hant": {
+        "ref": "路加福音 23:46",
+        "text": "耶穌大聲喊著說：「父啊！我將我的靈魂交在你手裡。」說了這話，氣就斷了。"
+      },
+      "en": {
+        "ref": "Luke 23:46",
+        "text": "Jesus, crying with a loud voice, said, “Father, into your hands I commit my spirit!” Having said this, he breathed his last."
+      }
+    },
+    "key": {
+      "zh-Hant": {
+        "ref": "約翰福音 19:30",
+        "text": "耶穌嘗（原文是受）了那醋，就說：「成了！」便低下頭，將靈魂交付神了。"
+      },
+      "en": {
+        "ref": "John 19:30",
+        "text": "When Jesus therefore had received the vinegar, he said, “It is finished.” He bowed his head, and gave up his spirit."
+      }
+    }
+  },
+  "resurrection": {
+    "hint": {
+      "zh-Hant": {
+        "ref": "路加福音 24:6",
+        "text": "他不在這裡，已經復活了。當記念他還在加利利的時候怎樣告訴你們，"
+      },
+      "en": {
+        "ref": "Luke 24:6",
+        "text": "He isn’t here, but is risen. Remember what he told you when he was still in Galilee,"
+      }
+    },
+    "key": {
+      "zh-Hant": {
+        "ref": "馬太福音 28:6",
+        "text": "他不在這裡，照他所說的，已經復活了。你們來看安放主的地方。"
+      },
+      "en": {
+        "ref": "Matthew 28:6",
+        "text": "He is not here, for he has risen, just like he said. Come, see the place where the Lord was lying."
+      }
+    }
+  },
+  "thomas": {
+    "hint": {
+      "zh-Hant": {
+        "ref": "約翰福音 20:27",
+        "text": "就對多馬說：「伸過你的指頭來，摸（原文是看）我的手；伸出你的手來，探入我的肋旁。不要疑惑，總要信！」"
+      },
+      "en": {
+        "ref": "John 20:27",
+        "text": "Then he said to Thomas, “Reach here your finger, and see my hands. Reach here your hand, and put it into my side. Don’t be unbelieving, but believing.”"
+      }
+    },
+    "key": {
+      "zh-Hant": {
+        "ref": "約翰福音 20:29",
+        "text": "耶穌對他說：「你因看見了我才信；那沒有看見就信的有福了。」"
+      },
+      "en": {
+        "ref": "John 20:29",
+        "text": "Jesus said to him, “Because you have seen me,you have believed. Blessed are those who have not seen, and have believed.”"
+      }
+    }
+  },
+  "emmaus": {
+    "hint": {
+      "zh-Hant": {
+        "ref": "路加福音 24:30",
+        "text": "到了坐席的時候，耶穌拿起餅來，祝謝了，擘開，遞給他們。"
+      },
+      "en": {
+        "ref": "Luke 24:30",
+        "text": "When he had sat down at the table with them, he took the bread and gave thanks. Breaking it, he gave to them."
+      }
+    },
+    "key": {
+      "zh-Hant": {
+        "ref": "路加福音 24:31",
+        "text": "他們的眼睛明亮了，這才認出他來。忽然耶穌不見了。"
+      },
+      "en": {
+        "ref": "Luke 24:31",
+        "text": "Their eyes were opened, and they recognized him, and he vanished out of their sight."
+      }
+    }
+  },
+  "ascension": {
+    "hint": {
+      "zh-Hant": {
+        "ref": "使徒行傳 1:9",
+        "text": "說了這話，他們正看的時候，他就被取上升，有一朵雲彩把他接去，便看不見他了。"
+      },
+      "en": {
+        "ref": "Acts 1:9",
+        "text": "When he had said these things, as they were looking, he was taken up, and a cloud received him out of their sight."
+      }
+    },
+    "key": {
+      "zh-Hant": {
+        "ref": "使徒行傳 1:11",
+        "text": "「加利利人哪，你們為甚麼站著望天呢？這離開你們被接升天的耶穌，你們見他怎樣往天上去，他還要怎樣來。」"
+      },
+      "en": {
+        "ref": "Acts 1:11",
+        "text": "who also said, “You men of Galilee, why do you stand looking into the sky? This Jesus, who was received up from you into the sky will come back in the same way as you saw him going into the sky.”"
+      }
+    }
+  },
+  "pentecost": {
+    "hint": {
+      "zh-Hant": {
+        "ref": "使徒行傳 2:2",
+        "text": "忽然，從天上有響聲下來，好像一陣大風吹過，充滿了他們所坐的屋子，"
+      },
+      "en": {
+        "ref": "Acts 2:2",
+        "text": "Suddenly there came from the sky a sound like the rushing of a mighty wind, and it filled all the house where they were sitting."
+      }
+    },
+    "key": {
+      "zh-Hant": {
+        "ref": "使徒行傳 2:4",
+        "text": "他們就都被聖靈充滿，按著聖靈所賜的口才說起別國的話來。"
+      },
+      "en": {
+        "ref": "Acts 2:4",
+        "text": "They were all filled with the Holy Spirit, and began to speak with other languages, as the Spirit gave them the ability to speak."
+      }
+    }
+  },
+  "saul": {
+    "hint": {
+      "zh-Hant": {
+        "ref": "使徒行傳 9:4",
+        "text": "他就仆倒在地，聽見有聲音對他說：「掃羅！掃羅！你為甚麼逼迫我？」"
+      },
+      "en": {
+        "ref": "Acts 9:4",
+        "text": "He fell on the earth, and heard a voice saying to him, “Saul, Saul, why do you persecute me?”"
+      }
+    },
+    "key": {
+      "zh-Hant": {
+        "ref": "使徒行傳 9:15",
+        "text": "主對亞拿尼亞說：「你只管去！他是我所揀選的器皿，要在外邦人和君王，並以色列人面前宣揚我的名。"
+      },
+      "en": {
+        "ref": "Acts 9:15",
+        "text": "But the Lord said to him, “Go your way, for he is my chosen vessel to bear my name before the nations and kings, and the children of Israel."
+      }
+    }
+  },
+  "athens": {
+    "hint": {
+      "zh-Hant": {
+        "ref": "使徒行傳 17:23",
+        "text": "我遊行的時候，觀看你們所敬拜的，遇見一座壇，上面寫著『未識之神』。你們所不認識而敬拜的，我現在告訴你們。"
+      },
+      "en": {
+        "ref": "Acts 17:23",
+        "text": "For as I passed along, and observed the objects of your worship, I found also an altar with this inscription: ‘TO AN UNKNOWN GOD.’ What therefore you worship in ignorance, this I announce to you."
+      }
+    },
+    "key": {
+      "zh-Hant": {
+        "ref": "使徒行傳 17:31",
+        "text": "因為他已經定了日子，要藉著他所設立的人按公義審判天下，並且叫他從死裡復活，給萬人作可信的憑據。」"
+      },
+      "en": {
+        "ref": "Acts 17:31",
+        "text": "because he has appointed a day in which he will judge the world in righteousness by the man whom he has ordained; of which he has given assurance to all men, in that he has raised him from the dead.”"
+      }
+    }
+  },
+  "patmos": {
+    "hint": {
+      "zh-Hant": {
+        "ref": "啟示錄 1:9",
+        "text": "我─約翰就是你們的弟兄，和你們在耶穌的患難、國度、忍耐裡一同有分，為神的道，並為給耶穌作的見證，曾在那名叫拔摩的海島上。"
+      },
+      "en": {
+        "ref": "Revelation of John 1:9",
+        "text": "I John, your brother and partner with you in oppression, Kingdom, and perseverance in Christ Jesus, was on the isle that is called Patmos because of God’s Word and the testimony of Jesus Christ."
+      }
+    },
+    "key": {
+      "zh-Hant": {
+        "ref": "啟示錄 1:19",
+        "text": "所以你要把所看見的，和現在的事，並將來必成的事，都寫出來。"
+      },
+      "en": {
+        "ref": "Revelation of John 1:19",
+        "text": "Write therefore the things which you have seen, and the things which are, and the things which will happen hereafter;"
+      }
+    }
+  },
+  "peter_commission": {
+    "hint": {
+      "zh-Hant": {
+        "ref": "約翰福音 21:15",
+        "text": "他們吃完了早飯，耶穌對西門•彼得說：「約翰（在馬太十六章十七節稱約拿）的兒子西門，你愛我比這些更深嗎？」彼得說：「主啊，是的，你知道我愛你。」耶穌對他說：「你餵養我的小羊。」"
+      },
+      "en": {
+        "ref": "John 21:15",
+        "text": "So when they had eaten their breakfast, Jesus said to Simon Peter, “Simon, son of Jonah, do you love me more than these?” He said to him, “Yes, Lord; you know that I have affection for you.” He said to him, “Feed my lambs.”"
+      }
+    },
+    "key": {
+      "zh-Hant": {
+        "ref": "約翰福音 21:17",
+        "text": "第三次對他說：「約翰的兒子西門，你愛我嗎？」彼得因為耶穌第三次對他說「你愛我嗎」，就憂愁，對耶穌說：「主啊，你是無所不知的；你知道我愛你。」耶穌說：「你餵養我的羊。"
+      },
+      "en": {
+        "ref": "John 21:17",
+        "text": "He said to him the third time, “Simon, son of Jonah, do you have affection for me?” Peter was grieved because he asked him the third time, “Do you have affection for me?” He said to him, “Lord, you know everything. You know that I have affection for you.” Jesus said to him, “Feed my sheep."
+      }
+    }
+  },
+  "peter_prison": {
+    "hint": {
+      "zh-Hant": {
+        "ref": "使徒行傳 12:7",
+        "text": "忽然，有主的一個使者站在旁邊，屋裡有光照耀，天使拍彼得的肋旁，拍醒了他，說：「快快起來！」那鐵鍊就從他手上脫落下來。"
+      },
+      "en": {
+        "ref": "Acts 12:7",
+        "text": "And behold, an angel of the Lord stood by him, and a light shone in the cell. He struck Peter on the side, and woke him up, saying, “Stand up quickly!” His chains fell off from his hands."
+      }
+    },
+    "key": {
+      "zh-Hant": {
+        "ref": "使徒行傳 12:11",
+        "text": "彼得醒悟過來，說：「我現在真知道主差遣他的使者，救我脫離希律的手和猶太百姓一切所盼望的。」"
+      },
+      "en": {
+        "ref": "Acts 12:11",
+        "text": "When Peter had come to himself, he said, “Now I truly know that the Lord has sent out his angel and delivered me out of the hand of Herod, and from everything the Jewish people were expecting.”"
+      }
+    }
+  }
+}
